@@ -1,0 +1,11 @@
+services:
+  icecast:
+    # image: tlis/icecast:dev
+    build: ./icecast # build image from directory
+    ports: 
+      - "8000:8000"
+    volumes:
+      - icecast-logs:/var/log/icecast/
+
+volumes:
+  icecast-logs:
