@@ -6,6 +6,12 @@ services:
       - "8000:8000"
     volumes:
       - icecast-logs:/var/log/icecast/
+    env_file:
+      - ./icecast/auth.env
+    environment:
+      - ICECAST_MAX_SOURCES=3
+      - ICECAST_MAX_CLIENTS=420
+      - ICECAST_HOSTNAME=stream.tlis.sk
 
 volumes:
   icecast-logs:
