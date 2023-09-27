@@ -16,6 +16,15 @@ First, it is **necessary** to open the fileserver web interface, login as `admin
 
 **NOTE: Do not change the folder structure!** Only upload/modify/delete music files in the existing directories. There is a single directory for jingles and 4 directories for different time segments of the day.
 
+## Exposed ports
+
+- 8000: icecast web interface, also used for publishing audio (streaming from studio)
+- 8080: filebrowser
+
+## Notes
+
+- `fallback-music` volume is shared between liquidsoap and filebrowser
+
 # TODO
 
 - [ ] explore better ways to manage icecast passwords in this project
