@@ -29,7 +29,7 @@ radio = rotate(weights=[1,3],[jingles, radio])
 radio = nrj(radio)
 
 #if playlist sources fail, play white noise
-radio_or_noise = fallback([radio, amplify(0.1, add([noise(), sine()]) )] )
+radio_or_noise = fallback(track_sensitive=false, [radio, amplify(0.1, add([noise(), sine()]) )] )
 
 #stream silence if audio sources fail
 outstream = mksafe(radio_or_noise)
