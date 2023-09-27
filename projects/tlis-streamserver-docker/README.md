@@ -31,4 +31,7 @@ First, it is **necessary** to open the fileserver web interface, login as `admin
 
 - [ ] explore better ways to manage icecast passwords in this project
 - [ ] idea for a v2: for switching between studio and fallback, use the liquidsoap script. This should result in smoother changeovers, also there would always be exactly 1 public-facing active icecast mountpoint. This would also simplify listener count logging.
+    - current icecast mountpoint order: tlis > studio > fallback
+    - proposed mountpoint order: tlis > mix > live > studio
+        - liquidsoap takes live and studio as inputs, 
  
