@@ -7,12 +7,12 @@ set("log.stdout", true)
 set("server.telnet", false)
 
 #playlist definitions
-jingles = playlist(mode = "random",reload = 300, reload_mode = "seconds", "/music/jingles/")
+jingles = playlist(mode = "random",reload = 60, reload_mode = "seconds", "/music/jingles/")
 
-play0006 = playlist(mode = "randomize", reload = 1800, reload_mode = "seconds", "/music/00h-06h")
-play0612 = playlist(mode = "randomize", reload = 1800, reload_mode = "seconds", "/music/06h-12h")
-play1218 = playlist(mode = "randomize", reload = 1800, reload_mode = "seconds", "/music/12h-18h")
-play1824 = playlist(mode = "randomize", reload = 1800, reload_mode = "seconds", "/music/18h-24h")
+play0006 = playlist(mode = "randomize", reload = 60, reload_mode = "seconds", "/music/00h-06h")
+play0612 = playlist(mode = "randomize", reload = 60, reload_mode = "seconds", "/music/06h-12h")
+play1218 = playlist(mode = "randomize", reload = 60, reload_mode = "seconds", "/music/12h-18h")
+play1824 = playlist(mode = "randomize", reload = 60, reload_mode = "seconds", "/music/18h-24h")
 
 
 #select tracks from playlists based on time of day
