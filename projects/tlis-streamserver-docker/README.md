@@ -16,7 +16,7 @@ First, it is **necessary** to open the fileserver web interface, login as `admin
 
 **NOTE: Do not change the folder structure!** Only upload/modify/delete music files in the existing directories. There is a single directory for jingles and 4 directories for different time segments of the day.
 
-**NOTE:** Until you upload some music files, the fallback stream will be up, but silent.
+**NOTE:** Until you upload some music files, the fallback stream will be up but you will only hear a test tone and white noise.
 
 ## Exposed ports
 
