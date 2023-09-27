@@ -1,6 +1,5 @@
 services:
   icecast:
-    # image: tlis/icecast:dev
     build: ./icecast # build image from directory
     ports: 
       - "8000:8000"
@@ -18,8 +17,19 @@ services:
     volumes:
       - fallback-music:/music
 
+  music-filebrowser:
+    image: filebrowser/filebrowser:s6
+    ports:
+      - "8080:80"
+    volumes:
+      - fallback-music:/srv:rw
+      - filebrowser-db:/database:rw
+      - filebrowser-config:/config:rw
+
 volumes:
   icecast-logs:
     # name: "icecast-logs"
   fallback-music:
     # name: "fallback-music"
+  filebrowser-db:
+  filebrowser-config:
