@@ -26,7 +26,6 @@ RUN chown -R walkman:walkman /music*
 
 COPY . /
 RUN chmod 444 /fallback-stream.liq
-RUN chmod 777 /start.sh
 
 USER walkman
 CMD liquidsoap ./fallback-stream.liq

@@ -32,4 +32,4 @@ radio = nrj(radio)
 outstream = mksafe(radio)
 
 #stream to icecast server
-output.icecast(%mp3, host="icecast", port=8000, password=getenv("ICECAST_SOURCE_PASSWORD"), mount="fallback.mp3", outstream)
+output.icecast(%mp3(bitrate=192), host="icecast", port=8000, password=getenv("ICECAST_SOURCE_PASSWORD"), mount="fallback.mp3", outstream)
