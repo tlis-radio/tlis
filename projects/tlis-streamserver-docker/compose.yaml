@@ -10,5 +10,16 @@ services:
       - ./auth.env
       - ./.env
 
+  fallback-stream:
+    build: ./liquidsoap
+    env_file:
+      - ./auth.env
+      - ./.env
+    volumes:
+      - fallback-music:/music
+
 volumes:
   icecast-logs:
+    # name: "icecast-logs"
+  fallback-music:
+    # name: "fallback-music"
