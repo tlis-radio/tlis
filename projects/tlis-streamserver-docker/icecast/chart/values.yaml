@@ -1,0 +1,11 @@
+spec:
+  replicas: 1
+  imagePullSecrets: ""
+config:
+  maxSources: 3
+  maxClients: 420
+  hostname: ""
+  sourcePassword: ""
+  adminPassword: ""
+  adminUsername: ""
+  replayPassword: ""

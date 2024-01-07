@@ -1,0 +1,9 @@
+apiVersion: v2
+name: stream-liquidsoap
+version: 1.0.0
+description: liquidsoap
+type: application
+keywords:
+  - stream
+  - liquidsoap
+home: www.tlis.sk

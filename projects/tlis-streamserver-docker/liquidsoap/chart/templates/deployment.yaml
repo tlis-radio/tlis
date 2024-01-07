@@ -1,0 +1,41 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ .Release.Name }}
+  labels:
+    app: {{ .Release.Name }}
+spec:
+  replicas: {{ .Values.spec.replicas }}
+  selector:
+    matchLabels:
+      service: {{ .Release.Name }}
+  template:
+    metadata:
+      labels:
+        app: {{ .Release.Name }}
+        service: {{ .Release.Name }}
+    spec:
+      securityContext:
+        fsGroup: 2000
+      containers:
+        - name: {{ .Release.Name }}
+          image: tliscr.azurecr.io/stream-liquidsoap:{{ .Chart.AppVersion }}
+          imagePullPolicy: IfNotPresent
+          volumeMounts:
+          - mountPath: /music
+            name: music
+          env:
+            - name: ICECAST_SOURCE_PASSWORD
+              value: {{ .Values.config.sourcePassword | quote }}
+      {{ if .Values.spec.imagePullSecrets }}
+      imagePullSecrets:
+        - name: {{ .Values.spec.imagePullSecrets | quote }}
+      {{ end }}
+      volumes:
+      - name: logs
+        persistentVolumeClaim:
+          claimName: icecast-logs-volume-claim
+      - name: music
+        persistentVolumeClaim:
+          claimName: liquidsoap-music-volume-claim
+          

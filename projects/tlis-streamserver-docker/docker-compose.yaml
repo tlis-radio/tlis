@@ -1,5 +1,5 @@
 services:
-  icecast:
+  stream-icecast:
     build: ./icecast # build image from directory
     ports: 
       - "8000:8000"

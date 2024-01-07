@@ -1,0 +1,9 @@
+apiVersion: v2
+name: stream-icecast
+version: 1.0.0
+description: icecast
+type: application
+keywords:
+  - stream
+  - icecast
+home: www.tlis.sk

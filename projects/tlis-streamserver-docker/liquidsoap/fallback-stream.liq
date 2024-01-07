@@ -35,4 +35,4 @@ radio_or_noise = fallback(track_sensitive=false, [radio, amplify(0.1, add([noise
 outstream = mksafe(radio_or_noise)
 
 #stream to icecast server
-output.icecast(%mp3(bitrate=192), host="icecast", port=8000, password=getenv("ICECAST_SOURCE_PASSWORD"), mount="fallback.mp3", outstream)
+output.icecast(%mp3(bitrate=192), host="stream-icecast", port=8000, password=getenv("ICECAST_SOURCE_PASSWORD"), mount="fallback.mp3", outstream)

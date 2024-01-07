@@ -1,0 +1,194 @@
+name: 'Build & Upload Dev Image'
+
+on:
+  push:
+    branches: [ "develop" ]
+
+env:
+  AZURE_CONTAINER_REGISTRY: tliscr
+
+jobs:
+  build-icecast-container-and-push-to-acr:
+    name: 'Build icecast container and push to ACR'
+    environment: 'development'
+    runs-on: ubuntu-latest
+    steps:
+    # checkout the repo
+    - name: 'Checkout Github Action'
+      uses: actions/checkout@v3
+    # login to Azure Container Registry
+    - uses: azure/docker-login@v1
+      with:
+        login-server: ${{ env.AZURE_CONTAINER_REGISTRY }}.azurecr.io
+        username: ${{ secrets.CONTAINER_REGISTRY_USERNAME }}
+        password: ${{ secrets.CONTAINER_REGISTRY_PASSWORD }}
+    # build and push the image
+    - run: |
+        cd ./icecast && docker build . --file Dockerfile --tag ${{ env.AZURE_CONTAINER_REGISTRY }}.azurecr.io/stream-icecast:${{ github.sha }}
+        docker push ${{ env.AZURE_CONTAINER_REGISTRY }}.azurecr.io/stream-icecast:${{ github.sha }}
+  build-liquidsoap-container-and-push-to-acr:
+    name: 'Build liquidsoap container and push to ACR'
+    environment: 'development'
+    runs-on: ubuntu-latest
+    steps:
+    # checkout the repo
+    - name: 'Checkout Github Action'
+      uses: actions/checkout@v3
+    # login to Azure Container Registry
+    - uses: azure/docker-login@v1
+      with:
+        login-server: ${{ env.AZURE_CONTAINER_REGISTRY }}.azurecr.io
+        username: ${{ secrets.CONTAINER_REGISTRY_USERNAME }}
+        password: ${{ secrets.CONTAINER_REGISTRY_PASSWORD }}
+    # build and push the image
+    - run: |
+        cd ./liquidsoap && docker build . --file Dockerfile --tag ${{ env.AZURE_CONTAINER_REGISTRY }}.azurecr.io/stream-liquidsoap:${{ github.sha }}
+        docker push ${{ env.AZURE_CONTAINER_REGISTRY }}.azurecr.io/stream-liquidsoap:${{ github.sha }}
+  build-icecast-helm-chart-and-push-to-acr:
+    name: 'Build icecast helm chart and push to ACR'
+    environment: 'development'
+    runs-on: ubuntu-latest
+    steps:
+    # checkout the repo
+    - name: 'Checkout Github Action'
+      uses: actions/checkout@v3
+    # install helm
+    - name: 'Install helm'
+      uses: Azure/setup-helm@v3
+      with:
+        token: ${{ secrets.GITHUB_TOKEN }}
+    # login to Azure Container Registry
+    - name: 'Login to acr using helm'
+      run: |
+        echo $ | helm registry login ${{ env.AZURE_CONTAINER_REGISTRY }}.azurecr.io --username ${{ secrets.CONTAINER_REGISTRY_USERNAME }} --password ${{ secrets.CONTAINER_REGISTRY_PASSWORD }}
+    # package and push the chart
+    - name: 'Package charts'
+      run: cd ./icecast/chart && helm package . --app-version ${{ github.sha }}
+    # push the chart
+    - name: 'Push charts to acr'
+      run: cd ./icecast/chart && helm push stream-icecast-* oci://${{ env.AZURE_CONTAINER_REGISTRY }}.azurecr.io/helm
+  build-liquidsoap-helm-chart-and-push-to-acr:
+    name: 'Build liquidsoap helm chart and push to ACR'
+    environment: 'development'
+    runs-on: ubuntu-latest
+    steps:
+    # checkout the repo
+    - name: 'Checkout Github Action'
+      uses: actions/checkout@v3
+    # install helm
+    - name: 'Install helm'
+      uses: Azure/setup-helm@v3
+      with:
+        token: ${{ secrets.GITHUB_TOKEN }}
+    # login to Azure Container Registry
+    - name: 'Login to acr using helm'
+      run: |
+        echo $ | helm registry login ${{ env.AZURE_CONTAINER_REGISTRY }}.azurecr.io --username ${{ secrets.CONTAINER_REGISTRY_USERNAME }} --password ${{ secrets.CONTAINER_REGISTRY_PASSWORD }}
+    # package and push the chart
+    - name: 'Package charts'
+      run: cd ./liquidsoap/chart && helm package . --app-version ${{ github.sha }}
+    # push the chart
+    - name: 'Push charts to acr'
+      run: cd ./liquidsoap/chart && helm push stream-liquidsoap-* oci://${{ env.AZURE_CONTAINER_REGISTRY }}.azurecr.io/helm
+  icecast-helm-chart-upgrade:
+    environment: 'development'
+    name: 'Upgrade icecast helm chart'
+    permissions:
+      actions: read
+      contents: read
+      id-token: write
+    runs-on: ubuntu-latest
+    needs: [build-icecast-container-and-push-to-acr, build-icecast-helm-chart-and-push-to-acr]
+    steps:
+    # install helm
+    - name: 'Install helm'
+      uses: Azure/setup-helm@v3
+      with:
+        token: ${{ secrets.GITHUB_TOKEN }}
+    # login to Azure
+    - name: 'Azure login'
+      uses: azure/login@v1.4.6
+      with:
+        client-id: ${{ secrets.AZURE_CLIENT_ID }}
+        tenant-id: ${{ secrets.AZURE_TENANT_ID }}
+        subscription-id: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
+    # set up kubelogin for non-interactive login
+    - name: 'Set up kubelogin for non-interactive login'
+      uses: azure/use-kubelogin@v1
+      with:
+        kubelogin-version: 'v0.0.25'
+    # get the k8s context
+    - name: 'Get K8s context'
+      uses: azure/aks-set-context@v3
+      with:
+        resource-group: K8s
+        cluster-name: tlis-k8s
+        admin: 'false'
+        use-kubelogin: 'true'
+    # login to Azure Container Registry
+    - name: 'Login to acr using helm'
+      run: |
+        echo $ | helm registry login ${{ env.AZURE_CONTAINER_REGISTRY }}.azurecr.io --username ${{ secrets.CONTAINER_REGISTRY_USERNAME }} --password ${{ secrets.CONTAINER_REGISTRY_PASSWORD }}
+    # upgrade the chart
+    - name: 'Upgrade icecast chart'
+      run: |
+        helm upgrade stream-icecast oci://${{ env.AZURE_CONTAINER_REGISTRY }}.azurecr.io/helm/stream-icecast \
+        --kube-context tlis-k8s \
+        --version 1.0.0 \
+        --install \
+        --create-namespace --namespace stream-staging \
+        --set config.maxSources=${{ vars.ICECAST_MAX_SOURCES }} \
+        --set config.maxClients=${{ vars.ICECAST_MAX_CLIENTS }} \
+        --set config.hostname=${{ secrets.ICECAST_HOSTNAME }} \
+        --set config.sourcePassword=${{ secrets.ICECAST_SOURCE_PASSWORD }} \
+        --set config.adminPassword=${{ secrets.ICECAST_ADMIN_PASSWORD }} \
+        --set config.adminUsername=${{ secrets.ICECAST_ADMIN_USERNAME }} \
+        --set config.replayPassword=${{ secrets.ICECAST_RELAY_PASSWORD }}
+  liquidsoap-helm-chart-upgrade:
+    environment: 'development'
+    name: 'Upgrade liquidsoap helm chart'
+    permissions:
+      actions: read
+      contents: read
+      id-token: write
+    runs-on: ubuntu-latest
+    needs: [build-liquidsoap-container-and-push-to-acr, build-liquidsoap-helm-chart-and-push-to-acr]
+    steps:
+    # install helm
+    - name: 'Install helm'
+      uses: Azure/setup-helm@v3
+      with:
+        token: ${{ secrets.GITHUB_TOKEN }}
+    # login to Azure
+    - name: 'Azure login'
+      uses: azure/login@v1.4.6
+      with:
+        client-id: ${{ secrets.AZURE_CLIENT_ID }}
+        tenant-id: ${{ secrets.AZURE_TENANT_ID }}
+        subscription-id: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
+    # set up kubelogin for non-interactive login
+    - name: 'Set up kubelogin for non-interactive login'
+      uses: azure/use-kubelogin@v1
+      with:
+        kubelogin-version: 'v0.0.25'
+    # get the k8s context
+    - name: 'Get K8s context'
+      uses: azure/aks-set-context@v3
+      with:
+        resource-group: K8s
+        cluster-name: tlis-k8s
+        admin: 'false'
+        use-kubelogin: 'true'
+    # login to Azure Container Registry
+    - name: 'Login to acr using helm'
+      run: |
+        echo $ | helm registry login ${{ env.AZURE_CONTAINER_REGISTRY }}.azurecr.io --username ${{ secrets.CONTAINER_REGISTRY_USERNAME }} --password ${{ secrets.CONTAINER_REGISTRY_PASSWORD }}
+    # upgrade the chart
+    - name: 'Upgrade chart'
+      run: |
+        helm upgrade stream-liquidsoap oci://${{ env.AZURE_CONTAINER_REGISTRY }}.azurecr.io/helm/stream-liquidsoap \
+        --kube-context tlis-k8s \
+        --version 1.0.0 \
+        --install \
+        --create-namespace --namespace stream-staging \
+        --set config.sourcePassword=${{ secrets.ICECAST_SOURCE_PASSWORD }}

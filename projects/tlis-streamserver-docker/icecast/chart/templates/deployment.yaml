@@ -1,0 +1,58 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ .Release.Name }}
+  labels:
+    app: {{ .Release.Name }}
+spec:
+  replicas: {{ .Values.spec.replicas }}
+  selector:
+    matchLabels:
+      service: {{ .Release.Name }}
+  template:
+    metadata:
+      labels:
+        app: {{ .Release.Name }}
+        service: {{ .Release.Name }}
+    spec:
+      securityContext:
+        fsGroup: 2000
+      containers:
+        - name: {{ .Release.Name }}
+          image: tliscr.azurecr.io/stream-icecast:{{ .Chart.AppVersion }}
+          imagePullPolicy: IfNotPresent
+          volumeMounts:
+          - mountPath: /var/log/icecast/
+            name: logs
+          # - mountPath: /usr/share/icecast/web/
+          #   name: webroot
+          ports:
+            - containerPort: 8000
+              protocol: TCP
+          env:
+            - name: ICECAST_MAX_SOURCES
+              value: {{ .Values.config.maxSources | quote }}
+            - name: ICECAST_MAX_CLIENTS
+              value: {{ .Values.config.maxClients | quote }}
+            - name: ICECAST_HOSTNAME
+              value: {{ .Values.config.hostname | quote }}
+            - name: ICECAST_SOURCE_PASSWORD
+              value: {{ .Values.config.sourcePassword | quote }}
+            - name: ICECAST_ADMIN_PASSWORD
+              value: {{ .Values.config.adminPassword | quote }}
+            - name: ICECAST_ADMIN_USERNAME
+              value: {{ .Values.config.adminUsername | quote }}
+            - name: ICECAST_RELAY_PASSWORD
+              value: {{ .Values.config.replayPassword | quote }}
+      {{ if .Values.spec.imagePullSecrets }}
+      imagePullSecrets:
+        - name: {{ .Values.spec.imagePullSecrets | quote }}
+      {{ end }}
+      volumes:
+      - name: logs
+        persistentVolumeClaim:
+          claimName: icecast-logs-volume-claim
+      # - name: webroot
+      #   persistentVolumeClaim:
+      #     claimName: icecast-webroot-volume-claim
+          
