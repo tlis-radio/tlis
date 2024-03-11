@@ -26,6 +26,11 @@ services:
       - filebrowser-db:/database:rw
       - filebrowser-config:/config:rw
 
+  nginx:
+    build: ./nginx
+    ports: 
+      - "80:80"
+
 volumes:
   icecast-logs:
     # name: "icecast-logs"

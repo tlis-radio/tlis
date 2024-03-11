@@ -11,4 +11,6 @@ USER icecast
 # CMD icecast -c /etc/icecast.xml
 # CMD ls -la && ls -la ./log
 CMD /start.sh
-EXPOSE 8000
+# EXPOSE 8000
+
+# CMD ["ls", "-la", "/"]
