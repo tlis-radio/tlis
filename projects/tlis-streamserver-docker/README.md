@@ -34,4 +34,5 @@ First, it is **necessary** to open the fileserver web interface, login as `admin
     - current icecast mountpoint order: tlis > studio > fallback
     - proposed mountpoint order: tlis > mix > live > studio
         - liquidsoap takes live and studio as inputs, generates fallback and outputs to mix. If liquidsoap (mix) fails, icecast will automatically switch to live or studio, if they're up.
+          
  
