@@ -1,5 +1,5 @@
 import { getDirectusInstance } from "@/services/cms-api-service";
-import { readItem, updateItem } from "@directus/sdk";
+import { createItem, readItem, updateItem } from "@directus/sdk";
 import { NextResponse } from "next/server";
 
 const viewTrackingMap = new Map<string, Set<string>>();
@@ -21,7 +21,6 @@ export async function POST(
         const ip = request.headers.get('x-forwarded-for') || 
                    request.headers.get('x-real-ip') || 
                    'unknown';
-        console.log(`Received view count request for ID: ${id} from IP: ${ip}`);
         
         const today = new Date().toISOString().split('T')[0];
         const trackingKey = `${id}_${today}`;
@@ -44,6 +43,9 @@ export async function POST(
         const episode = await getDirectusInstance().request(readItem("Episodes", id));
         await getDirectusInstance().request(updateItem("Episodes", id, { 
             Views: (episode.Views || 0) + 1 
+        }));
+        await getDirectusInstance().request(createItem("track_views", { 
+            episode: id
         }));
         
         return NextResponse.json({ success: true });
