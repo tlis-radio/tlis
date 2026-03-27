@@ -1,0 +1,15 @@
+services:
+  videostream:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: videostream-server
+    env_file:
+      - .env
+    ports:
+      - "1935:1935"
+      - "8000:8000"
+      - "3001:3001"
+    volumes:
+      - ./media:/app/media
+    restart: unless-stopped
