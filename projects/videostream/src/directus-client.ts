@@ -73,12 +73,4 @@ export class DirectusClient {
       }),
     );
   }
-
-  async markStreamError(streamId: string | number, errorText: string): Promise<void> {
-    await this.api.request(
-      updateItem(this.streamsCollection, streamId, {
-        last_error: errorText.slice(0, 512),
-      }),
-    );
-  }
 }

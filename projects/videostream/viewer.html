@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Live Stream</title>
+    <script src="https://cdn.jsdelivr.net/npm/mpegts.js@1.7.3/dist/mpegts.min.js"></script>
+    <style>
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+
+        body {
+            font-family: system-ui, -apple-system, sans-serif;
+            background: #0f0f0f;
+            color: #fff;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .video-wrapper { width: 100%; max-width: 1080px; }
+
+        /* Fixed 16:9 — never jumps */
+        .video-container {
+            position: relative;
+            width: 100%;
+            padding-top: 56.25%;
+            background: #000;
+            border-radius: 8px;
+            overflow: hidden;
+        }
+
+        .video-container video {
+            position: absolute;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            object-fit: contain;
+        }
+
+        .offline-overlay {
+            position: absolute;
+            inset: 0;
+            background: #111;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 12px;
+            z-index: 2;
+            transition: opacity 0.4s;
+        }
+        .offline-overlay.hidden { opacity: 0; pointer-events: none; }
+
+        .dot {
+            width: 12px; height: 12px;
+            border-radius: 50%;
+            background: #ef4444;
+            animation: pulse 1.5s infinite;
+        }
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50%       { opacity: 0.2; }
+        }
+
+        .status-bar {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin-top: 12px;
+            font-size: 13px;
+            color: #6b7280;
+        }
+
+        .live-badge {
+            background: #ef4444;
+            color: white;
+            font-size: 11px;
+            font-weight: 700;
+            padding: 2px 8px;
+            border-radius: 4px;
+            display: none;
+        }
+        .live-badge.visible { display: inline-block; }
+
+        button {
+            background: #6366f1;
+            color: white;
+            border: none;
+            padding: 8px 18px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 14px;
+        }
+        button:hover { background: #4f46e5; }
+    </style>
+</head>
+<body>
+
+<div class="video-wrapper">
+    <div class="video-container">
+        <video id="videoElement" muted playsinline controls></video>
+        <div class="offline-overlay" id="overlay">
+            <div class="dot"></div>
+            <span style="color:#9ca3af; font-size:14px;" id="overlayText">Waiting for stream...</span>
+            <button onclick="startPlayer()">Reconnect</button>
+        </div>
+    </div>
+    <div class="status-bar">
+        <span class="live-badge" id="liveBadge">● LIVE</span>
+        <span id="statusText">Connecting...</span>
+    </div>
+</div>
+
+<script>
+    const STREAM_URL      = 'http://localhost:8000/live/1.flv';
+    const RETRY_INTERVAL  = 5000;
+
+    const videoEl    = document.getElementById('videoElement');
+    const overlay    = document.getElementById('overlay');
+    const overlayTxt = document.getElementById('overlayText');
+    const statusEl   = document.getElementById('statusText');
+    const liveBadge  = document.getElementById('liveBadge');
+
+    let player     = null;
+    let retryTimer = null;
+    // Guard flag — prevents any event handler from acting during teardown
+    let destroying = false;
+
+    function setStatus(msg) { statusEl.textContent = msg; }
+
+    function setLive(isLive) {
+        overlay.classList.toggle('hidden', isLive);
+        liveBadge.classList.toggle('visible', isLive);
+        if (!isLive) overlayTxt.textContent = 'Stream offline. Retrying...';
+    }
+
+    function destroyPlayer() {
+        destroying = true;
+        clearTimeout(retryTimer);
+
+        if (player) {
+            // Detach first so internal pause/unload don't bubble to our video listeners
+            player.detachMediaElement();
+            player.unload();
+            player.destroy();
+            player = null;
+        }
+
+        destroying = false;
+    }
+
+    function startPlayer() {
+        destroyPlayer();
+        setStatus('Connecting...');
+        setLive(false);
+        overlayTxt.textContent = 'Connecting...';
+
+        if (!mpegts.getFeatureList().mseLivePlayback) {
+            setStatus('Browser does not support MSE live playback.');
+            return;
+        }
+
+        player = mpegts.createPlayer(
+            {
+                type: 'flv',
+                isLive: true,
+                url: STREAM_URL,
+                hasAudio: true,
+                hasVideo: true
+            },
+            {
+                enableWorker: true,
+                enableStashBuffer: true,
+                stashInitialSize: 512,
+
+                // Keeps playback glued to the live edge
+                liveBufferLatencyChasing: true,
+                liveBufferLatencyMaxLatency: 2.0,
+                liveBufferLatencyMinRemain: 0.5,
+
+                // Prevents source buffer bloat on long streams
+                autoCleanupSourceBuffer: true,
+                autoCleanupMinBackwardDuration: 10,
+                autoCleanupMaxBackwardDuration: 20
+            }
+        );
+
+        player.on(mpegts.Events.ERROR, (errorType, errorDetail) => {
+            if (destroying) return;
+            console.warn('[mpegts] Error:', errorType, errorDetail);
+            setStatus(`Stream error — retrying in ${RETRY_INTERVAL / 1000}s...`);
+            setLive(false);
+            destroyPlayer();
+            retryTimer = setTimeout(startPlayer, RETRY_INTERVAL);
+        });
+
+        // STATISTICS_INFO fires repeatedly while playing — only act on first fire
+        let wentLive = false;
+        player.on(mpegts.Events.STATISTICS_INFO, () => {
+            if (destroying || wentLive) return;
+            wentLive = true;
+            setLive(true);
+            setStatus('Stream is live');
+        });
+
+        player.attachMediaElement(videoEl);
+        player.load();
+
+        videoEl.play().catch(() => {
+            // Autoplay blocked — user must click the native controls play button
+            setStatus('Click play to start watching.');
+        });
+    }
+
+    window.addEventListener('DOMContentLoaded', startPlayer);
+</script>
+
+</body>
+</html>

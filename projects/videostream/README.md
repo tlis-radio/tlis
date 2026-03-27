@@ -1,83 +1,73 @@
-# Videostream Server (TypeScript + Directus + Node Media Server)
+# Videostream Server
 
-RTMP ingest service with stream-key authentication against Directus, automatic stream lifecycle updates, and Docker deployment.
+Minimal TypeScript streaming service with Directus auth.
 
-## Features
+## Scope
 
-- TypeScript implementation
-- Node Media Server RTMP ingest
-- Directus stream-key authentication on publish
-- Required stream-to-episode linkage validation
-- Stream status transitions (`idle/scheduled` -> `live` -> `ended`)
-- Archive URL writeback to Directus when MP4 file is available
-- Docker and docker-compose setup
+1. Stream ingest from OBS
+2. Live output
+3. Public archive by stream id (no key in archive URL)
+
+## Ports
+
+- `1935`: RTMP ingest
+- `8000`: Live FLV + public archive files
 
 ## Environment
 
-Copy `.env.example` to `.env` and fill values.
+Copy `.env.example` to `.env`.
 
 Required:
 
-- `DIRECTUS_URL`: Directus base URL (example: `https://cms.example.com`)
-- `DIRECTUS_TOKEN`: static token or service token with `streams` read/update permissions
-- `MEDIA_SERVER_PUBLIC_URL`: public HTTP URL for media playback files (example: `https://stream.example.com:8000`)
+- `DIRECTUS_URL`
+- `DIRECTUS_TOKEN`
+- `MEDIA_SERVER_PUBLIC_URL`
 
 Optional:
 
-- `STREAMS_COLLECTION` (default: `streams`)
-- `MEDIA_ROOT` (default: `./media`)
-- `RTMP_PORT` (default: `1935`)
-- `HTTP_MEDIA_PORT` (default: `8000`)
-- `API_PORT` (default: `3001`)
-- `FFMPEG_PATH` (default in Docker: `/usr/bin/ffmpeg`)
-- `STREAM_APP` (default: `live`)
+- `STREAMS_COLLECTION` default `streams`
+- `STREAM_APP` default `live`
+- `MEDIA_ROOT` default `./media`
+- `RTMP_PORT` default `1935`
+- `HTTP_MEDIA_PORT` default `8000`
+- `FFMPEG_PATH` default `/usr/bin/ffmpeg`
 
-## Directus data model
+## Directus stream model
 
-See [docs/directus-streams-model.md](docs/directus-streams-model.md).
+Collection: `streams`
 
-## Local development
+- `id` primary key
+- `stream_key` unique key used by OBS
+- `episode` relation to `Episodes.id` (required)
+- `status` (`scheduled` | `idle` | `live` | `ended` | `disabled`)
+- `archive_url` string nullable
+- `started_at` datetime nullable
+- `ended_at` datetime nullable
+
+## Connection flow
+
+1. OBS pushes `rtmp://<host>:1935/live` with `stream_key`.
+2. Server validates key in Directus and checks `episode` is linked.
+3. If valid, stream is marked `live`.
+4. Server creates id-based live route for viewers.
+5. On end, recorded FLV is finalized to MP4 and published by stream id.
+
+## URLs
+
+Live while stream is active:
+
+- `http://localhost:8000/live/<stream_id>.flv`
+
+Archive by stream id:
+
+- `http://localhost:8000/media/archive/<stream_id>.mp4`
+
+Viewer never needs the private OBS stream key.
+
+## Commands
 
 ```bash
 npm install
-npm run dev
-```
-
-## Build and run
-
-```bash
 npm run build
-npm start
-```
-
-## Docker
-
-```bash
 docker compose up --build -d
 ```
-
-Exposed ports:
-
-- `1935` RTMP ingest
-- `8000` media HTTP output
-- `3001` health API (`GET /health`)
-
-## OBS publish URL
-
-Use this in OBS:
-
-- Server: `rtmp://<host>:1935/live`
-- Stream key: value from `streams.stream_key` in Directus
-
-## Directus integration details
-
-- On publish (`prePublish`):
-  - validates stream key in Directus
-  - requires stream row with non-null `episode`
-  - rejects publish if not found or already live
-  - updates stream `status=live` and `started_at`
-
-- On stream end (`donePublish`):
-  - sets `status=ended` and `ended_at`
-  - attempts to locate newest MP4 archive under `MEDIA_ROOT/STREAM_APP/<streamKey>/`
-  - writes `archive_url` when found
