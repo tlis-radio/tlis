@@ -1,0 +1,33 @@
+name: Build and Deploy to Production
+
+on:
+  push:
+    branches: [ "main" ]
+
+jobs:
+  build:
+    if: ${{ github.event_name == 'push' && github.ref == 'refs/heads/main' }}
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      packages: write
+
+    steps:
+    - uses: actions/checkout@v4
+
+    - name: Log in to GitHub Container Registry
+      run: echo "${{ secrets.GITHUB_TOKEN }}" | docker login ghcr.io -u ${{ github.actor }} --password-stdin
+
+
+    - name: Build and Push Docker Image
+      run: |
+        IMAGE_NAME=ghcr.io/${{ github.repository_owner }}/tlis-web:latest
+        docker build . \
+        --file Dockerfile \
+        --tag $IMAGE_NAME \
+        docker push $IMAGE_NAME
+        
+    - name: Deploy to production
+      run: |
+        curl -X GET "${{ secrets.DEPLOY_URL }}?uuid=${{ secrets.PROD_DEPLOY_ID }}&force=false" \
+          -H "Authorization: Bearer ${{ secrets.DEPLOY_SECRET }}"
