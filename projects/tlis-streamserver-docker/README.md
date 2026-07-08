@@ -12,9 +12,9 @@ Start the server using `docker compose up`.
 
 The Icecast web interface is exposed on host port 8000. On port 8080, you will find a simple web-based fileserver which you can use to upload music and jingles for the fallback stream.
 
-First, it is **necessary** to open the fileserver web interface, login as `admin:admin` and change the default admin password. It is also recommended to create a non-admin user, which should then be used to manage the audio files.
+First, it is **necessary** to open the fileserver web interface, login as `admin` with the `password` generated and printed to the CLI by the filebrowser conteiner, and change the default admin password. It is also recommended to create a non-admin user, which should then be used to manage the audio files.
 
-**NOTE: Do not change the folder structure!** Only upload/modify/delete music files in the existing directories. There is a single directory for jingles and 4 directories for different time segments of the day.
+**NOTE: Do not change the folder structure!** Only upload/modify/delete music files in the existing directories. There is a single directory for jingles and 4 directories for different time segments of the day and 1 directory for specific audio files that are scheduled.
 
 **NOTE:** Until you upload some music files, the fallback stream will be up but you will only hear a test tone and white noise.
 
