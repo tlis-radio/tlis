@@ -2,6 +2,7 @@
 
 # music and jingles root folder
 audio_root = "/music"
+schedule_file = "scheduled.json"
 
 # icecast server parameters for final audio output
 icecast_hostname = "icecast"
@@ -32,27 +33,44 @@ play0612 = playlist(mode = "randomize", reload = 1800, reload_mode = "seconds", 
 play1218 = playlist(mode = "randomize", reload = 1800, reload_mode = "seconds", "#{audio_root}/12h-18h")
 play1824 = playlist(mode = "randomize", reload = 1800, reload_mode = "seconds", "#{audio_root}/18h-24h")
 
-tliskalendar_queue = request.queue(id="tliskalendar_queue")
+schedule_queue = request.queue(id="schedule_queue")
 
-def queue_tliskalendar()
-    current_time = time.local()
-    next_hour = current_time.hour 
-    print("Current hour is #{next_hour}")
+def queue_scheduled_audio()
+    try
+        current_date_time = time.string("%Y-%m-%dT%H:%M")
+        print("Current hour is #{current_date_time}")
 
-    if (next_hour == 9 or next_hour == 12 or next_hour == 15) then
-        try
-            date_string = time.string("%Y_%m_%d")
-            request_path = "#{audio_root}/tliskalendar/#{date_string}.wav"
-            req = request.create(request_path)
-            tliskalendar_queue.push(req)
-            print("Loaded #{request_path} into queue")
-        catch err do
-            print("Failed to load tliskalendar: #{err.kind}: #{err.message}")
+        file_content = file.contents("#{audio_root}/planovane_relacie/#{schedule_file}")
+
+        if file_content == "" or file_content == "[]" then
+            print("Nič neni naplanovane.")
+        else
+            let json.parse (shows : [{"date_times" as date_times: [string], "audio" as audio: string}]) = file_content
+
+            list.iter(
+                fun(show) ->
+                    list.iter(
+                        fun(date_time)->
+                            if date_time == current_date_time then
+                                request_path = "#{audio_root}/planovane_relacie/#{show.audio}"
+                                req = request.create(request_path)
+                                schedule_queue.push(req)
+                                print("Queued scheduled audio: #{request_path}")
+                            end
+                    ,
+                    show.date_times
+                    )
+                , 
+                shows
+            )
         end
+
+    catch err do
+        print("Scheduler error: #{err.kind}: #{err.message}")
     end
 end
 
-thread.when({00m}, queue_tliskalendar)
+thread.run(every=60., queue_scheduled_audio)
 
 # select tracks from playlists based on time of day
 fallback_music = switch([
@@ -65,11 +83,11 @@ fallback_music = switch([
 # add jingles
 fallback_rotation = rotate(weights=[1,3],[jingles, fallback_music])
 
-# add tliskalendar
+# add scheduled audio to fallback rotation
 fallback_rotation = fallback(
     track_sensitive=true,
     [
-        tliskalendar_queue,
+        schedule_queue,
         fallback_rotation
     ]
 )
