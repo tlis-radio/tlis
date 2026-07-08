@@ -18,6 +18,31 @@ First, it is **necessary** to open the fileserver web interface, login as `admin
 
 **NOTE:** Until you upload some music files, the fallback stream will be up but you will only hear a test tone and white noise.
 
+**Note:** All scheduled `date_times` must use the ISO-like format:
+
+`yyyy-mm-ddThh:mm`
+
+You can schedule the **same audio file multiple times** by including multiple date/time values in the `date_times` array of a single entry. There is no need to create separate objects for the same audio.
+
+ *example:*
+ ```json
+ [
+   {
+     "date_times": [
+       "2026-07-08T10:30",
+       "2026-07-08T22:30"
+     ],
+     "audio": "A.mp3"
+   },
+   {
+     "date_times": [
+       "2026-07-09T19:00"
+     ],
+     "audio": "B.mp3"
+   }
+ ]
+ ```
+
 ## Exposed ports
 
 - 8000: icecast web interface, also used for publishing audio (streaming from studio)
