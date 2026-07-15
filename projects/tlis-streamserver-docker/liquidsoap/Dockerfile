@@ -8,7 +8,7 @@ RUN mkdir /music \
     /music/06h-12h \
     /music/12h-18h \
     /music/18h-24h \
-    /music/tliskalendar
+    /music/planovane_relacie
 
 RUN chmod 2777 /music \
     /music/jingles \
@@ -16,7 +16,9 @@ RUN chmod 2777 /music \
     /music/06h-12h \
     /music/12h-18h \
     /music/18h-24h \
-    /music/tliskalendar
+    /music/planovane_relacie
+
+COPY scheduled.json /music/planovane_relacie/
 
 RUN chmod -R a+r /music*
 
