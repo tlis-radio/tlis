@@ -19,13 +19,6 @@
         <client-timeout>30</client-timeout>
         <header-timeout>15</header-timeout>
         <source-timeout>10</source-timeout>
-        <!-- If enabled, this will provide a burst of data when a client
-             first connects, thereby significantly reducing the startup
-             time for listeners that do substantial buffering. However,
-             it also significantly increases latency between the source
-             client and listening client.  For low-latency setups, you
-             might want to disable this. -->
-        <burst-on-connect>1</burst-on-connect>
         <!-- same as burst-on-connect, but this allows for being more
              specific on how much to burst. Most people won't need to
              change from the default 64k. Applies to all mountpoints  -->
@@ -187,7 +180,7 @@
     </mount>
     -->
 
-    <mount type="normal">
+    <!-- <mount type="normal">
         <mount-name>/tlis.mp3</mount-name>
         <fallback-mount>/studio.mp3</fallback-mount>
         <fallback-override>1</fallback-override>
@@ -201,7 +194,7 @@
 
     <mount type="normal">
         <mount-name>/fallback.mp3</mount-name>
-    </mount>
+    </mount> -->
 
 
     <fileserve>1</fileserve>
