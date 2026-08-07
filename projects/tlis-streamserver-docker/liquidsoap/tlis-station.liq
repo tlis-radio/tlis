@@ -176,13 +176,13 @@ output.icecast(
 
 # save stream to file (generate replay files)
 output.file(%mp3(bitrate=replay_bitrate_kbps),
-    "#{replay_root}/tlis-replay-%Y-%m-%dT%H-%M-%S.mp3",
+    {time.string("#{replay_root}/tlis-replay-%Y-%m-%dT%H-%M-%S.mp3")},
     output_stream,
     reopen_when={0m}
 )
 
 output.file(%mp3(bitrate=replay_bitrate_kbps),
-    "#{replay_root}/tlis-replay-raw-%Y-%m-%dT%H-%M-%S.mp3",
+    {time.string("#{replay_root}/tlis-replay-raw-%Y-%m-%dT%H-%M-%S.mp3")},
     output_stream_uncompressed,
     reopen_when={0m}
 )
