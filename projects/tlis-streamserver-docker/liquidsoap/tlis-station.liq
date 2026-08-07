@@ -13,6 +13,7 @@ output_bitrate_kbps = 256
 
 # parameters for receiving stream from studio
 harbor_mountpoint_name = "studio.mp3"
+harbor_external_mountpoint_name = "extra.mp3"
 harbor_port = 8100
 harbor_source_password = environment.get("HARBOR_SOURCE_PASSWORD")
 
@@ -118,6 +119,10 @@ def to_fallback(_, b)
 end
 
 main_stream = fallback(track_sensitive=false, transition_length=5.0, transitions=[to_studio, to_fallback], [studio, fallback_rotation])
+
+# additional harbor input for out-of-studio streaming (on events etc.)
+exterior_stream = input.harbor(harbor_external_mountpoint_name, port=harbor_port, password=harbor_source_password, buffer=15.0)
+main_stream = fallback(track_sensitive=false, [exterior_stream, main_stream])
 
 # generate sinewave + noise as backup sound when no fallback playlists are available
 offline_sound = add(normalize=false, weights=[0.5, 0.05], [sine(440.0), noise()])
