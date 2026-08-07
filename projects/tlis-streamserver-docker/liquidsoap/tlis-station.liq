@@ -19,7 +19,6 @@ harbor_source_password = environment.get("HARBOR_SOURCE_PASSWORD")
 # parameters for dumping stream to files
 replay_bitrate_kbps = 256
 replay_root = "/replay"
-replay_keep_days = "2"
 
 # end of configuration options --------------------------------
 
@@ -142,6 +141,16 @@ output.icecast(
     port=icecast_port,
     password=icecast_source_password,
     mount=icecast_mountpoint, 
+    output_stream
+)
+
+# stream to password-protected endpoint on the icecast server
+output.icecast(
+    %mp3(bitrate=output_bitrate_kbps),
+    host=icecast_hostname,
+    port=icecast_port,
+    password=icecast_source_password,
+    mount="/tlis-private.mp3",
     output_stream
 )
 
