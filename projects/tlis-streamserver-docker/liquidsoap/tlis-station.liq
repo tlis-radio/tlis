@@ -8,13 +8,13 @@ schedule_file = "scheduled.json"
 icecast_hostname = "icecast"
 icecast_port = 8000
 icecast_mountpoint = "tlis.mp3"
-icecast_source_password = "devSourcePassword" # TODO fix getenv
+icecast_source_password = environment.get("ICECAST_SOURCE_PASSWORD")
 output_bitrate_kbps = 256
 
 # parameters for receiving stream from studio
 harbor_mountpoint_name = "studio.mp3"
 harbor_port = 8100
-harbor_source_password = getenv("HARBOR_SOURCE_PASSWORD", "")
+harbor_source_password = environment.get("HARBOR_SOURCE_PASSWORD")
 
 # parameters for dumping stream to files
 replay_bitrate_kbps = 256
