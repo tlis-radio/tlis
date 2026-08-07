@@ -38,6 +38,13 @@ services:
     volumes:
       - replay:/replay:ro
 
+  replay-cleanup:
+    build: ./replay_cleanup
+    restart: unless-stopped
+    volumes:
+      - replay:/replay:rw
+    command: crond -f -l 2
+
 volumes:
   fallback-music:
     # name: "fallback-music"
