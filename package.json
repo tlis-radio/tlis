@@ -1,0 +1,21 @@
+{
+  "name": "tlis",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "engines": {
+    "node": ">=24.12 <25"
+  },
+  "scripts": {
+    "tool": "node tools/src/cli.ts",
+    "check": "tsc --noEmit",
+    "test": "node --test tools/tests/*.test.ts tools/deploy/*.test.ts",
+    "verify:architecture": "node tools/src/cli.ts architecture check",
+    "verify:history": "node tools/src/cli.ts history verify"
+  },
+  "devDependencies": {
+    "@types/node": "24.19.2",
+    "typescript": "7.0.2",
+    "yaml": "2.9.1"
+  }
+}

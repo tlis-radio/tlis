@@ -1,0 +1,64 @@
+name: Videostream - production deployment (manual)
+
+on:
+  workflow_dispatch:
+    inputs:
+      dry_run:
+        description: Show the deployment plan without building, publishing, or deploying
+        type: boolean
+        default: false
+  # Optional automatic deployment; intentionally disabled.
+  # push:
+  #   branches: [main]
+  #   paths:
+  #     - 'projects/videostream/**'
+  #     - 'tools/deploy/**'
+  #     - '.github/workflows/videostream-prod.yml'
+
+permissions:
+  contents: read
+
+jobs:
+  validate-ref:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Require the main branch
+        run: |
+          if [ "$GITHUB_REF" != 'refs/heads/main' ]; then
+            echo '::error::Select the main branch when running this workflow.'
+            exit 1
+          fi
+
+  deploy:
+    needs: validate-ref
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    environment: videostream-production
+    concurrency:
+      group: deploy-videostream-production
+      cancel-in-progress: false
+    permissions:
+      contents: read
+      packages: write
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          persist-credentials: false
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '24'
+      - name: Log in to GitHub Container Registry
+        if: ${{ !inputs.dry_run }}
+        uses: docker/login-action@v3
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+      - name: Build, publish, and request production deployment
+        run: node tools/deploy/deploy.ts videostream-prod
+        env:
+          DEPLOY_DRY_RUN: ${{ inputs.dry_run && 'true' || 'false' }}
+          DEPLOY_URL: ${{ secrets.DEPLOY_URL }}
+          PROD_DEPLOY_ID: ${{ secrets.PROD_DEPLOY_ID }}
+          DEPLOY_SECRET: ${{ secrets.DEPLOY_SECRET }}

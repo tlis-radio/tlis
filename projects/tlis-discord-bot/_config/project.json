@@ -1,0 +1,6 @@
+{
+  "name": "tlis-discord-bot",
+  "checks": [
+    { "command": "npm", "args": ["run", "check"] }
+  ]
+}

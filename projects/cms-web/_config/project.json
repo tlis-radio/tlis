@@ -1,0 +1,12 @@
+{
+  "name": "cms-web",
+  "checks": [
+    {
+      "command": "node",
+      "args": [
+        "node_modules/typescript/bin/tsc",
+        "--noEmit"
+      ]
+    }
+  ]
+}

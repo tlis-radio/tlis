@@ -1,0 +1,64 @@
+name: Repository - verify architecture, tooling, and history (manual)
+
+on:
+  workflow_dispatch:
+  # Optional automatic verification; intentionally disabled.
+  # push:
+  #   branches: [main, dev, 'feature/**']
+  #   paths:
+  #     - 'AGENTS.md'
+  #     - 'CLAUDE.md'
+  #     - 'CONTEXT.md'
+  #     - '.agents/**'
+  #     - '.claude/**'
+  #     - '_config/**'
+  #     - 'tools/**'
+  #     - 'workflows/**'
+  #     - 'prompts/**'
+  #     - 'shared/**'
+  #     - 'docs/migration/**'
+  #     - 'projects/**/AGENTS.md'
+  #     - 'projects/**/CLAUDE.md'
+  #     - 'projects/**/CONTEXT.md'
+  #     - 'package.json'
+  #     - 'package-lock.json'
+  #     - 'tsconfig.json'
+  #     - '.github/workflows/**'
+
+permissions:
+  contents: read
+
+concurrency:
+  group: verify-${{ github.ref }}
+  cancel-in-progress: false
+
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          persist-credentials: false
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '24'
+          cache: npm
+      - run: npm ci
+      - run: npm run check
+      - run: npm test
+      - run: npm run verify:architecture
+      - run: npm run verify:history
+      - name: Lint GitHub Actions workflow syntax
+        env:
+          ACTIONLINT_SHA256: 023070a287cd8cccd71515fedc843f1985bf96c436b7effaecce67290e7e0757
+        run: |
+          curl --fail --silent --show-error --location \
+            --output "$RUNNER_TEMP/actionlint.tar.gz" \
+            https://github.com/rhysd/actionlint/releases/download/v1.7.7/actionlint_1.7.7_linux_amd64.tar.gz
+          printf '%s  %s\n' "$ACTIONLINT_SHA256" "$RUNNER_TEMP/actionlint.tar.gz" | sha256sum --check
+          tar -xzf "$RUNNER_TEMP/actionlint.tar.gz" -C "$RUNNER_TEMP" actionlint
+          "$RUNNER_TEMP/actionlint" -shellcheck= -pyflakes=
+      - name: Check Git object integrity
+        run: git fsck --full --no-reflogs
