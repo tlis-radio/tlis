@@ -1,0 +1,35 @@
+services:
+  icecast:
+    build: ./icecast # build image from directory
+    ports: 
+      - "8000:8000"
+    env_file:
+      - ./auth.env
+      - ./.env
+
+  liquidsoap:
+    build: ./liquidsoap
+    ports:
+      - "8100:8100"
+    env_file:
+      - ./auth.env
+      - ./.env
+    volumes:
+      - fallback-music:/music
+      - replay:/replay
+
+  music-filebrowser:
+    image: filebrowser/filebrowser:s6
+    ports:
+      - "8080:80"
+    volumes:
+      - fallback-music:/srv:rw
+      - filebrowser-db:/database:rw
+      - filebrowser-config:/config:rw
+
+volumes:
+  fallback-music:
+    # name: "fallback-music"
+  replay:
+  filebrowser-db:
+  filebrowser-config:
