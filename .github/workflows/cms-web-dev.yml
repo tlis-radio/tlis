@@ -16,7 +16,7 @@ on:
   #   branches: [dev]
   #   paths:
   #     - 'projects/cms-web/**'
-  #     - 'tools/deploy/**'
+  #     - 'scripts/deploy/**'
   #     - '.github/workflows/cms-web-dev.yml'
 
 permissions:
@@ -60,7 +60,7 @@ jobs:
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
       - name: Build, publish, and request development deployment
-        run: node tools/deploy/deploy.ts cms-web-dev
+        run: node scripts/deploy/deploy.ts cms-web-dev
         env:
           DEPLOY_DRY_RUN: ${{ inputs.dry_run && 'true' || 'false' }}
           DEPLOY_NOTIFY_DISCORD: ${{ inputs.notify_discord && 'true' || 'false' }}

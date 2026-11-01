@@ -1,0 +1,1 @@
+Define the intended shared-contract change against the actual CMS and video consumers. Record behavior-preserving boundaries, compatibility examples, and version impact. Write the handoff to output/<run-id>/contract.md.

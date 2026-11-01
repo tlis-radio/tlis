@@ -1,5 +1,9 @@
 # Tlis StreamServer: Docker Edition
 
+## Project references
+
+[Documentation index](docs/README.md) routes to architecture, API/service contracts, configuration, and development. Agent task routing is in [CONTEXT.md](CONTEXT.md); deterministic maintenance programs live in `scripts/`, while workflow/stage `tools/` directories describe external capabilities.
+
 This repository contains the TLIS streamserver in the form of Docker microservices. It is composed of the following containers:
 
 1. Icecast (audio stream server)

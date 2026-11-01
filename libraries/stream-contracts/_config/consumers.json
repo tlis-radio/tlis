@@ -1,0 +1,6 @@
+{
+  "consumers": [
+    { "name": "cms-web", "path": "projects/cms-web", "installFlags": ["--legacy-peer-deps"] },
+    { "name": "videostream", "path": "projects/videostream", "installFlags": [] }
+  ]
+}

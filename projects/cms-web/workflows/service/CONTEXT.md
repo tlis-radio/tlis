@@ -11,9 +11,13 @@ Use the stages relevant to the requested validation or operation. A feature's sc
 Initialize a local service run from the repository root:
 
 ```sh
-node tools/src/cli.ts workflow init --workflow service --project cms-web --run <run-id>
+npm run repo -- workflow init --workflow service --project cms-web --run <run-id>
 ```
 
 Paths in stage contracts are repository-relative. Use one run ID through handoffs. Create its output directory when first writing evidence; saved output may be edited before the next stage.
 
 Project boundary: Directus and website build arguments. Use the website development workflow on dev, or production workflow on main. Preserve the tlis-web-dev / tlis-web image names and environment-specific deployment IDs. Discord build notifications are an optional manual input.
+
+## Tools
+
+Read this workflow or stage's local `tools/` capability directory. A tracked `.gitkeep` means no external/MCP capability is declared at that scope. Definitions do not connect providers or grant task authorization. Deterministic checks and maintenance run from `scripts/`.

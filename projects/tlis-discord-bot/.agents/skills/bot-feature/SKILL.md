@@ -7,4 +7,4 @@ Use [the project feature workflow](../../../workflows/add-feature/CONTEXT.md) fo
 
 Keep request validation, handler, and registration in one feature folder. Put Discord and calendar provider transport behind an adapter interface. `src/app.ts` is the composition root; inject services into handlers rather than accessing a provider SDK directly.
 
-Run `node tools/check.ts` from `projects/tlis-discord-bot`. When command definitions change, inspect `npm run commands`, which previews the manifest. Live command registration, Discord messages, and calendar writes are separate external actions and are not part of offline verification.
+Run `node scripts/check.ts` from `projects/tlis-discord-bot`. When command definitions change, inspect `npm run commands`, which previews the manifest. Live command registration, Discord messages, and calendar writes are separate external actions and are not part of offline verification.

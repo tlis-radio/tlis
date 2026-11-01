@@ -1,17 +1,13 @@
-export type StreamStatus = "scheduled" | "idle" | "live" | "ended" | "disabled";
+import type { StreamRecord } from "@tlis/stream-contracts";
+
+export type { StreamStatus } from "@tlis/stream-contracts";
 
 export interface DirectusEpisode {
   id: string | number;
   Title?: string;
 }
 
-export interface DirectusStream {
-  id: string | number;
+export interface DirectusStream extends StreamRecord<DirectusEpisode | string | number | null> {
   stream_key: string;
-  status: StreamStatus;
-  episode: DirectusEpisode | string | number | null;
-  archive_url?: string | null;
-  started_at?: string | null;
-  ended_at?: string | null;
   last_error?: string | null;
 }

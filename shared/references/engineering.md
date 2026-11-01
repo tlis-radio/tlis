@@ -1,11 +1,13 @@
 # Shared engineering conventions
 
-All deployable services live under `projects/`. A project owns its source, dependency lock, Docker context, local context, service workflow, prompts, and check entrypoint. Keep cross-project mechanics in root TypeScript tools; keep service decisions in the project.
+Deployable services belong in `projects/`; reusable runtime code belongs in `libraries/`. Each component owns its source, docs, configuration, workflow/stage contracts, prompts, external-capability declarations, and deterministic scripts.
 
-Use the existing runtime and lockfile for each imported project. Do not introduce a root npm workspace that silently changes installation or dependency resolution for all projects.
+`tools/` means external tools: MCP/API capability definitions, adapters, and scoped usage contracts. `scripts/` means predictable execution: checks, transforms, file operations, packaging, process launching, and validated provider calls. Keep both when useful; do not rename ordinary checks into external capabilities.
 
-New deterministic tooling uses TypeScript with erasable syntax supported by Node 24. Validate structured inputs, return structured results, and pass process arguments as arrays with `shell: false`. Keep operation policy separate from service adapters so tests can inject a fake implementation. Prefer small operations that can be rerun intentionally.
+Each agent workflow and numbered stage has `CONTEXT.md`, `prompt.md`, and `tools/`. Define only the capabilities needed at that scope. Use `.gitkeep` when no external tool applies. A capability's presence never configures a provider or grants permission.
 
-Keep behavior changes and unrelated dependency upgrades separate. For a cross-service interface change, update the producer, consumer, and relevant reference contract together, then validate both sides.
+Use the component's existing runtime and lockfile. Shared libraries have a versioned package and explicit registered consumers. Preserve independent Docker contexts and locks; validate canonical packaging and all declared direct consumers when a library changes.
 
-Project services require environment-specific credentials. Shared defaults must not contain live credentials. Public archive identifiers must never expose a private OBS stream key.
+New deterministic scripts use TypeScript supported by Node 24. Validate structured inputs and pass process arguments as arrays with `shell: false`. Keep network/time/storage dependencies injectable for meaningful tests. An agent chooses the action; a script carries out its mechanical part.
+
+Keep unrelated dependency upgrades separate. Update a producer, consumer, and their documented contract together when changing a shared interface. Keep private keys out of public DTOs, logs, artifacts, and images.

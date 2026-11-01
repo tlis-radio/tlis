@@ -16,3 +16,7 @@ Keep validation, handler, and mapping together in the feature folder. Put provid
 ## Outputs
 
 Commit-ready code and tests plus `output/<run-id>/implementation.md` recording changed files, contract decisions, and any new configuration. Use `prompt.md` for the implementation task.
+
+## Tools
+
+Read this workflow or stage's local `tools/` capability directory. A tracked `.gitkeep` means no external/MCP capability is declared at that scope. Definitions do not connect providers or grant task authorization. Deterministic checks and maintenance run from `scripts/`.

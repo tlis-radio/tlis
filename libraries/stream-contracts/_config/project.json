@@ -1,0 +1,7 @@
+{
+  "kind": "library",
+  "name": "stream-contracts",
+  "checks": [
+    { "command": "npm", "args": ["run", "check"] }
+  ]
+}

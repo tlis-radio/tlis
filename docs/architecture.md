@@ -6,8 +6,8 @@ This repository adapts the paper *Interpretable Context Methodology: Folder Stru
 
 | Layer | TLIS location | Purpose |
 | --- | --- | --- |
-| 0: identity and durable rules | Root and project `AGENTS.md` | Project boundaries, branch policy, persistent constraints |
-| 1: routing | Root/project/workflow `CONTEXT.md` | Select a project, workflow, and stage |
+| 0: identity and durable rules | Root and component `AGENTS.md` | Project boundaries, branch policy, persistent constraints |
+| 1: routing | Root/component/workflow `CONTEXT.md` | Select a project, workflow, and stage |
 | 2: stage contract | Numbered `stages/01_*/CONTEXT.md` | Explicit inputs, process, outputs, and verification |
 | 3: stable references | `shared/references/`, project configuration, skills | Conventions and operating knowledge reused between runs |
 | 4: working artifacts | Stage `output/<run-id>/`, scoped source inputs | Task-specific evidence and editable handoffs |
@@ -18,11 +18,29 @@ A stage loads the referenced sections needed for its task. It does not preload o
 
 ## Shared and project-specific ownership
 
-Shared workflows, task prompts, engineering conventions, and TypeScript mechanics live at the root. Each project keeps its code, runtime configuration, local guidance, service workflow, prompts, and deterministic checks. `_config/projects.json` discovers projects; the per-project `_config/project.json` declares their own check behavior.
+Shared workflows, task prompts, engineering conventions, and TypeScript mechanics live at the root. Each component keeps its code, docs, runtime configuration, local guidance, workflows, prompts, capability definitions, and deterministic scripts. `_config/projects.json` registers projects, libraries, and declared dependencies; component-local configuration declares checks.
 
 Avoid copying the same prompt into every project. The shared change stages consume the relevant project context. Local service stages carry details that differ: build arguments for the website, media paths for video, or shared-volume constraints for audio.
 
-`tools/src/cli.ts` exposes repeatable operations with validated inputs and explicit project selection. It handles project discovery, changed-project selection, workflow run initialization, branch creation, architecture checks, and history verification. Project tools use the same runner where appropriate. The agent writes and evaluates a plan; the tool performs the specified mechanical step. Tool invocation does not automatically authorize external side effects.
+`scripts/src/cli.ts`, invoked as `npm run repo -- ...`, exposes repeatable operations with validated inputs and component selection. It handles discovery, changed components and declared direct/transitive consumers, workflow initialization, branching, architecture checks, and history verification. Component scripts use the shared runner where appropriate. The agent chooses the action; a script performs its mechanical part.
+
+## Workflow capabilities and deterministic scripts
+
+Every agent workflow and numbered stage has three entry surfaces: `CONTEXT.md` defines its scoped inputs/process/outputs, `prompt.md` is reusable task wording, and `tools/` lists external capabilities available to that scope. A `tools/.gitkeep` marks a deliberately empty capability set. Read the local definitions when selecting external/MCP operations; do not load every provider definition from a global catalog.
+
+Root `tools/` contains capability guidance and a thin TypeScript MCP client wrapper. `tools/servers/` has no configured real providers. A client library makes programmatic calls possible, but credentials, provider installation, connection, permissions, and task authorization remain separate. Listing a server or method is not evidence that it is reachable.
+
+`scripts/` is the predictable execution layer: checks, packaging, change selection, process launching, transformations, and validated calls that a workflow requests. Project-specific scripts stay in the component. Capability definitions may point to an existing script or adapter; avoid copying its implementation into a prompt.
+
+Workflow selection defaults to the selected component's local definition, with a shared fallback. Use `--scope shared` for an explicitly shared workflow or `--scope component` for an explicitly local one. Run manifests record the selected contexts and outputs so a human can inspect the handoff.
+
+## Libraries and local orchestration
+
+`libraries/stream-contracts` contains shared stream lifecycle/record types consumed by the website and video service. Their local DTOs keep differences such as private-key requirements. Versioned local package archives preserve independently installable locks and Docker contexts. A library change must check its canonical package and every registered direct consumer; dependency metadata covers declared direct consumers, not undisclosed runtime coupling.
+
+`projects/tlis-devhost` hosts local Aspire orchestration. Its own docs describe selected resources, endpoints, environment values, and prerequisites. It connects local processes/containers for development and does not replace production image/deployment workflows.
+
+Every project and library keeps a docs index plus architecture, API/service-contract, configuration, and development references. A component without custom HTTP endpoints documents the actual protocol, configuration, or orchestration interface.
 
 ## Codex and Claude Code
 

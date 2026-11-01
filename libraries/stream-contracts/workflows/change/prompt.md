@@ -1,0 +1,1 @@
+Change the shared stream contract for this task. Route through the numbered stage contracts, load only their listed inputs, and preserve the existing website/video DTO distinctions. Keep working evidence in each stage's output/<run-id>/ folder. Finish with actual compatibility results and an explicit release/distribution decision.

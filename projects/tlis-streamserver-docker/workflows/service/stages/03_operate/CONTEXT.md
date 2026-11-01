@@ -5,7 +5,7 @@
 | Kind | Input | Scope |
 | --- | --- | --- |
 | Stable | `projects/tlis-streamserver-docker/AGENTS.md`, `projects/tlis-streamserver-docker/README.md` | Constraints and runtime setup |
-| Stable | `projects/tlis-streamserver-docker/_config/project.json`, `projects/tlis-streamserver-docker/tools/check.ts` | Deterministic check declaration |
+| Stable | `projects/tlis-streamserver-docker/_config/project.json`, `projects/tlis-streamserver-docker/scripts/check.ts` | Deterministic check declaration |
 | Stable | `shared/references/validation.md` | Evidence and check limits |
 | Stable | `docs/deployment.md` | Project environment and cutover |
 | Working | `projects/tlis-streamserver-docker/workflows/service/stages/02_validate/output/<run-id>/validation.md` | Current run only |
@@ -21,3 +21,7 @@ Write `output/<run-id>/operation.md` relative to this stage. Use the saved hando
 ## Verify
 
 Record the selected ref/environment, actual action and result, and recovery path. Distinguish prepared operations from executed ones.
+
+## Tools
+
+Read this workflow or stage's local `tools/` capability directory. A tracked `.gitkeep` means no external/MCP capability is declared at that scope. Definitions do not connect providers or grant task authorization. Deterministic checks and maintenance run from `scripts/`.

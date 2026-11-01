@@ -1,12 +1,12 @@
 ---
 name: tlis-operations
-description: Validate or operate a TLIS service using its project-specific service workflow, runtime configuration, and manual deployment entrypoints.
+description: Validate or operate TLIS services through their scoped capability definitions, scripts, and manual deployment workflows.
 ---
 
-Identify the requested project and operation. Read that project's `CONTEXT.md` and `workflows/service/CONTEXT.md` where present. For the Discord bot, use its own operation workflow named in its context.
+Identify the requested component and operation. Read its `CONTEXT.md`, relevant docs, and named local operation workflow. Load the current workflow/stage `tools/` capability definitions separately from deterministic `scripts/` mechanics.
 
-Use [deployment guidance](../../../docs/deployment.md) for branch, environment, image, volume, and secret configuration. A check operation does not grant deployment or external-message authorization. Follow the user's requested scope and existing approval; do not dispatch a workflow merely because it exists.
+Use [deployment guidance](../../../docs/deployment.md) for branch, environment, images, volumes, and secrets. Capability definitions do not prove a provider is connected or grant deployment/message permission. Follow the user's requested scope and existing authorization; do not dispatch a workflow merely because it exists.
 
-For local validation, use `node tools/src/cli.ts project check --project <name>` after the project prerequisites are installed. Keep service-specific commands and evidence in that project's workflow, and secrets out of artifacts and logs.
+For local validation, use `npm run repo -- component check --component <name>` after prerequisites are installed. Keep component-specific evidence in its workflow and secret values out of logs and handoffs. Use fake adapters for routine provider checks.
 
-For a requested rollout, select the manual workflow and correct ref. Preserve the deployed Compose project name and data volumes. Record the ref, environment, actual outcome, and recovery path; report an unconfigured environment rather than claiming deployment succeeded.
+For a requested rollout, select the correct manual entrypoint/ref and preserve deployed data volumes. Record the actual result and recovery path. Report an unconfigured service rather than claiming it ran. For local orchestration, use the `tlis-devhost` project's own references; the devhost does not configure production deployments.

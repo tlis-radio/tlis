@@ -5,7 +5,7 @@ Use this workflow for work that benefits from a clear scope, a plan, and reviewa
 Initialize a run from the repository root:
 
 ```sh
-node tools/src/cli.ts workflow init --workflow change --project <project> --run <run-id>
+node scripts/src/cli.ts workflow init --workflow change --component <project> --run <run-id> --scope shared
 ```
 
 | Stage | Job | Handoff |
@@ -18,4 +18,8 @@ node tools/src/cli.ts workflow init --workflow change --project <project> --run 
 
 Each stage has a `CONTEXT.md` contract and reusable `prompt.md`. Paths in contracts are repository-relative unless explicitly marked stage-relative. Load the selected project's context, not every project. Outputs belong to the current run and remain editable. Use the latest saved artifact after any human edit.
 
-Stages provide review points. Honor review gates agreed for the run and existing authorization; completing a stage does not imply permission to deploy or send messages. The tools prepare and verify files; they do not run an autonomous orchestration framework.
+Stages provide review points. Honor review gates agreed for the run and existing authorization; completing a stage does not imply permission to deploy or send messages. Maintenance scripts prepare and verify files. Capability APIs are selected from each workflow/stage tools/ directory; neither directory launches an autonomous agent.
+
+## Tools
+
+Read this scope's tools/ entries before selecting an external capability. A tools/.gitkeep placeholder means no external/MCP capability is assigned. Read only an imported wrapper's input/output contract, then compose calls as TypeScript when useful. Repository checks and file operations use scripts/ and are separate from external tool authorization.

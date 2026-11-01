@@ -1,82 +1,78 @@
 # TLIS
 
-One repository for TLIS services, with project-owned code and a shared, file-based workflow for coding agents.
+A monorepo for TLIS services and shared libraries, with component-owned documentation and inspectable workflows for humans, Codex, and Claude Code.
 
-| Project | Purpose |
+| Component | Purpose |
 | --- | --- |
-| [cms-web](projects/cms-web/) | Next.js website and dashboard |
-| [tlis-streamserver-docker](projects/tlis-streamserver-docker/) | Icecast, Liquidsoap, and Filebrowser |
-| [videostream](projects/videostream/) | OBS ingest, live output, and video archive |
-| [tlis-discord-bot](projects/tlis-discord-bot/) | TypeScript Discord bot with vertical slices and calendar integration |
+| [cms-web](projects/cms-web/) | Next.js website/dashboard |
+| [tlis-streamserver-docker](projects/tlis-streamserver-docker/) | Icecast, Liquidsoap, Filebrowser |
+| [videostream](projects/videostream/) | OBS ingest, public video relay, archive |
+| [tlis-discord-bot](projects/tlis-discord-bot/) | TypeScript vertical slices and calendar integration |
+| [tlis-devhost](projects/tlis-devhost/) | Local Aspire application orchestration |
+| [stream-contracts](libraries/stream-contracts/) | Shared lifecycle and generic stream-record types |
 
-## Layout
+## Repository map
 
 ```text
-AGENTS.md                 shared instructions
-CLAUDE.md                 only @AGENTS.md
+AGENTS.md / CLAUDE.md      shared policy / reference-only Claude adapter
 CONTEXT.md                task routing
+projects/<name>/          deployable code, docs, workflows, prompts, scripts
+libraries/<name>/         reusable code, docs, workflows, scripts
+workflows/                shared numbered agent workflows
+  <workflow>/
+    CONTEXT.md            workflow routing
+    prompt.md             reusable entry prompt
+    tools/                external/MCP capability definitions or .gitkeep
+    stages/01_<job>/      CONTEXT.md, prompt.md, tools/, output/<run-id>/
+tools/                    capability catalog and programmatic MCP adapters
+scripts/                  deterministic TypeScript maintenance/verification
+shared/references/        stable cross-component conventions
 .agents/skills/           canonical reusable skills
-.claude/skills/           links to those same skills
-_config/                  project registry
-shared/references/        stable cross-project conventions
-prompts/                  reusable task entry prompts
-workflows/change/         numbered stages and context contracts
-tools/                    deterministic TypeScript tools
-projects/<project>/       code plus local context, workflows, prompts, tools
-.github/workflows/        manual GitHub Actions entrypoints
-docs/                     architecture, branching, deployment, migration
+.claude/skills/           links to the canonical skills
+_config/projects.json    components and declared dependencies
+.github/workflows/        manually triggered GitHub Actions
+docs/                     shared architecture and operating references
 ```
 
-The layout adapts Interpretable Context Methodology (ICM): load a small routing file, then a stage's explicit inputs, and write a reviewable handoff file. Stable references stay separate from each run's working artifacts. See [architecture](docs/architecture.md) for the mapping and limits.
+`tools/` describes external capabilities; `scripts/` performs predictable repository work. A definition is not a configured connection or permission grant. Empty workflow/stage capability directories contain `.gitkeep`.
 
 ## Start working
 
-Use Node 24 for shared tooling. Install root tooling dependencies separately from project dependencies:
+Use Node 24 and install root script dependencies separately from component dependencies:
 
 ```sh
 npm ci
-node tools/src/cli.ts projects list
-node tools/src/cli.ts architecture check
-```
-
-For new work, update and check out `dev`, then create a feature branch from it:
-
-```sh
+npm run repo -- components list
+npm run repo -- architecture check
 git switch dev
 git pull --ff-only
-node tools/src/cli.ts branch feature --name calendar-events
+npm run repo -- branch feature --name calendar-events
 ```
 
-Feature PRs target `dev`. A release PR promotes `dev` to `main`. The branch tool requires a clean working tree and does not switch branches behind your back. See [development](docs/development.md).
+Feature PRs target `dev`; a release PR promotes `dev` to `main`. The branch script requires a clean worktree and does not silently switch to `dev`.
 
-For a multi-stage change:
+A component-local workflow is selected when present. Force the shared change workflow explicitly for cross-component work:
 
 ```sh
-node tools/src/cli.ts workflow init --workflow change --project cms-web --run dashboard-fix
+npm run repo -- workflow init --workflow change --scope shared --component cms-web --run dashboard-fix
 ```
 
-Read [the change workflow](workflows/change/CONTEXT.md), then the selected project's instructions. You can use [the reusable change prompt](prompts/change.md) with either agent. Run outputs are local by default; commit only deliberate, sanitized handoffs.
+Read the selected workflow's inputs, prompt, and scoped capability definitions. Working artifacts live in per-run output folders. See [architecture](docs/architecture.md) and [development](docs/development.md).
 
-## Project checks
+## Local development and checks
 
-Each project retains its own dependency installation, lockfile, and Docker context. Follow its README, then run its declared check from the root:
-
-```sh
-node tools/src/cli.ts project check --project videostream
-```
-
-The shared tool dispatches the project's TypeScript check entrypoint; it does not install dependencies, launch services, or deploy. Root checks are:
+Follow the [Aspire devhost](projects/tlis-devhost/README.md) for local service orchestration and its prerequisites. Individual project development remains supported from each project's folder; the devhost does not replace production deployment.
 
 ```sh
+npm run repo -- component check --component stream-contracts
+npm run repo -- project check --project videostream
 npm run check
 npm test
 npm run verify:history
 ```
 
-The audio and video stacks both use host port `8000` by default. Choose a port override before running both locally. Existing streamserver environment files were tracked in its source history; review credentials before running it.
+A changed shared library must also be checked against its registered direct consumers. `stream-contracts` is consumed by cms-web and videostream using local versioned archives so each application retains its own lockfile and Docker context.
 
-## Automation and history
+[Documentation index](docs/README.md) routes to architecture, APIs/service contracts, configuration, and development for every component. Audio and video both default to host port 8000 outside the devhost; choose distinct local mappings.
 
-All active GitHub workflows use **Run workflow** (`workflow_dispatch`). Their commented examples show how to enable branch and folder filters later. Existing website and video builds retain their project Docker contexts and image names. [Deployment setup](docs/deployment.md) covers secrets, environments, and the operational cutover.
-
-The three imported repositories retain their rewritten Git histories under `projects/<name>/`, with migration maps in [docs/migration](docs/migration/). The source repositories remain unchanged. Git history does not copy GitHub secrets, settings, issues, or deployment configuration.
+All active GitHub workflows are manual-only, with commented branch/folder trigger examples. [Deployment setup](docs/deployment.md) covers secrets, environments, images, and cutover. Original Git histories and mappings remain under [migration records](docs/migration/); importing history does not copy GitHub settings or credentials.

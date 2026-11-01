@@ -25,3 +25,7 @@ Write `output/<run-id>/verification.md` relative to this stage. Keep evidence co
 ## Verify
 
 Record exact commands, outcomes, acceptance coverage, and missing runtimes or services. A history, architecture, or typecheck pass does not imply a deployed service works.
+
+## Tools
+
+Read this scope's tools/ entries before selecting an external capability. A tools/.gitkeep placeholder means no external/MCP capability is assigned. Read only an imported wrapper's input/output contract, then compose calls as TypeScript when useful. Repository checks and file operations use scripts/ and are separate from external tool authorization.

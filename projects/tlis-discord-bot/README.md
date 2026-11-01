@@ -1,5 +1,9 @@
 # TLIS Discord bot
 
+## Project references
+
+[Documentation index](docs/README.md) routes to architecture, API/service contracts, configuration, and development. Agent task routing is in [CONTEXT.md](CONTEXT.md); deterministic maintenance programs live in `scripts/`, while workflow/stage `tools/` directories describe external capabilities.
+
 A TypeScript starter arranged like a C# Minimal API application with Vertical Slice Architecture. The composition root maps small HTTP endpoints and Discord commands. Feature handlers depend on explicit service interfaces; external SDKs stay in adapters.
 
 ## Included behavior

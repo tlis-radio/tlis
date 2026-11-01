@@ -25,3 +25,7 @@ Write `output/<run-id>/release.md` relative to this stage. Keep evidence concise
 ## Verify
 
 Distinguish completed work from unperformed rollout. For an executed operation, record its ref, environment, outcome, and recovery path.
+
+## Tools
+
+Read this scope's tools/ entries before selecting an external capability. A tools/.gitkeep placeholder means no external/MCP capability is assigned. Read only an imported wrapper's input/output contract, then compose calls as TypeScript when useful. Repository checks and file operations use scripts/ and are separate from external tool authorization.

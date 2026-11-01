@@ -13,6 +13,8 @@ on:
   #     - '.claude/**'
   #     - '_config/**'
   #     - 'tools/**'
+  #     - 'scripts/**'
+  #     - 'libraries/**'
   #     - 'workflows/**'
   #     - 'prompts/**'
   #     - 'shared/**'

@@ -7,15 +7,19 @@
     "node": ">=24.12 <25"
   },
   "scripts": {
-    "tool": "node tools/src/cli.ts",
+    "tool": "node scripts/src/cli.ts",
     "check": "tsc --noEmit",
-    "test": "node --test tools/tests/*.test.ts tools/deploy/*.test.ts",
-    "verify:architecture": "node tools/src/cli.ts architecture check",
-    "verify:history": "node tools/src/cli.ts history verify"
+    "test": "node --test scripts/tests/*.test.ts scripts/deploy/*.test.ts tools/tests/*.test.ts",
+    "verify:architecture": "node scripts/src/cli.ts architecture check",
+    "verify:history": "node scripts/src/cli.ts history verify",
+    "repo": "node scripts/src/cli.ts"
   },
   "devDependencies": {
+    "@modelcontextprotocol/client": "2.4.0",
+    "@modelcontextprotocol/server": "2.4.0",
     "@types/node": "24.19.2",
     "typescript": "7.0.2",
-    "yaml": "2.9.1"
+    "yaml": "2.9.1",
+    "zod": "4.6.7"
   }
 }

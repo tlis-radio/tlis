@@ -1,0 +1,30 @@
+{
+  "name": "@tlis/stream-contracts",
+  "version": "0.1.0",
+  "description": "Shared TLIS stream lifecycle contracts for the website and video service",
+  "private": true,
+  "license": "UNLICENSED",
+  "type": "commonjs",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "require": "./dist/index.js",
+      "default": "./dist/index.js"
+    }
+  },
+  "files": ["dist", "docs", "README.md"],
+  "scripts": {
+    "typecheck": "tsc --noEmit && tsc -p tsconfig.scripts.json",
+    "build": "tsc",
+    "test": "node --test tests/*.test.mjs",
+    "check": "node scripts/check.ts",
+    "vendor:check": "node scripts/sync-consumers.ts --check",
+    "vendor:sync": "node scripts/sync-consumers.ts --write"
+  },
+  "devDependencies": {
+    "@types/node": "24.19.2",
+    "typescript": "5.9.3"
+  }
+}

@@ -1,0 +1,78 @@
+name: Components - validate changed components and consumers (manual)
+
+on:
+  workflow_dispatch:
+    inputs:
+      base:
+        description: Base Git ref for the comparison
+        required: true
+        default: origin/dev
+        type: string
+      head:
+        description: Head Git ref to validate (HEAD uses the selected branch)
+        required: true
+        default: HEAD
+        type: string
+  # Optional automatic validation; intentionally disabled.
+  # push:
+  #   branches: [dev, 'feature/**']
+  #   paths:
+  #     - 'projects/**'
+  #     - 'libraries/**'
+  #     - 'scripts/**'
+  #     - 'tools/**'
+  #     - '_config/**'
+  #     - '.github/workflows/validate-affected.yml'
+
+permissions:
+  contents: read
+
+jobs:
+  plan:
+    runs-on: ubuntu-latest
+    outputs:
+      components: ${{ steps.impact.outputs.components }}
+      any: ${{ steps.impact.outputs.any }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ inputs.head == 'HEAD' && github.ref || inputs.head || github.ref }}
+          fetch-depth: 0
+          persist-credentials: false
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '24'
+      - name: Compute component and transitive consumer impact
+        id: impact
+        env:
+          BASE_REF: ${{ inputs.base || 'origin/dev' }}
+          HEAD_REF: ${{ inputs.head || 'HEAD' }}
+        run: node scripts/ci/plan-affected.ts
+  validate:
+    needs: plan
+    if: ${{ needs.plan.outputs.any == 'true' }}
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    strategy:
+      fail-fast: false
+      matrix:
+        component: ${{ fromJSON(needs.plan.outputs.components) }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ inputs.head == 'HEAD' && github.ref || inputs.head || github.ref }}
+          fetch-depth: 0
+          persist-credentials: false
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '24'
+      - name: Install pinned Aspire CLI for devhost validation
+        if: ${{ matrix.component == 'tlis-devhost' }}
+        run: |
+          curl --fail --silent --show-error --location https://aspire.dev/install.sh --output "$RUNNER_TEMP/install-aspire.sh"
+          bash "$RUNNER_TEMP/install-aspire.sh" --version 13.6.0 --install-path "$RUNNER_TEMP/tlis-aspire" --skip-path
+          echo "ASPIRE_CLI_PATH=$RUNNER_TEMP/tlis-aspire/aspire" >> "$GITHUB_ENV"
+      - name: Install dependencies and validate only this component
+        env:
+          COMPONENT: ${{ matrix.component }}
+        run: node scripts/ci/validate-component.ts

@@ -10,7 +10,15 @@
     "allowImportingTsExtensions": true,
     "forceConsistentCasingInFileNames": true,
     "skipLibCheck": true,
-    "types": ["node"]
+    "types": [
+      "node"
+    ]
   },
-  "include": ["tools/**/*.ts", "projects/cms-web/tools/*.ts", "projects/videostream/tools/*.ts", "projects/tlis-streamserver-docker/tools/*.ts"]
+  "include": [
+    "scripts/**/*.ts",
+    "tools/**/*.ts",
+    "projects/cms-web/scripts/*.ts",
+    "projects/videostream/scripts/*.ts",
+    "projects/tlis-streamserver-docker/scripts/*.ts"
+  ]
 }
