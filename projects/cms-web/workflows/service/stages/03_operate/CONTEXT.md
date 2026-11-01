@@ -5,7 +5,7 @@
 | Kind | Input | Scope |
 | --- | --- | --- |
 | Stable | `projects/cms-web/AGENTS.md`, `projects/cms-web/README.md` | Constraints and runtime setup |
-| Stable | `projects/cms-web/_config/project.json`, `projects/cms-web/tools/check.ts` | Deterministic check declaration |
+| Stable | `projects/cms-web/_config/project.json`, `projects/cms-web/scripts/check.ts` | Deterministic check declaration |
 | Stable | `shared/references/validation.md` | Evidence and check limits |
 | Stable | `docs/deployment.md` | Project environment and cutover |
 | Working | `projects/cms-web/workflows/service/stages/02_validate/output/<run-id>/validation.md` | Current run only |
@@ -21,3 +21,7 @@ Write `output/<run-id>/operation.md` relative to this stage. Use the saved hando
 ## Verify
 
 Record the selected ref/environment, actual action and result, and recovery path. Distinguish prepared operations from executed ones.
+
+## Tools
+
+Use harness file/search/edit tools and Git. Run `node scripts/check.ts` from this project after `npm ci --legacy-peer-deps`; use `npm run build` or focused browser/HTTP checks when relevant.

@@ -1,14 +1,16 @@
 # TLIS shared agent guide
 
-TLIS contains independently deployable projects under `projects/`. Keep project code, runtime configuration, and project-specific prompts, workflows, and tools inside the project. Shared context and tools belong at the repository root.
+Applications and the development host live in `projects/`. Reserve `libraries/` for meaningful shared code; small project-specific types can stay local.
 
-- Read `CONTEXT.md` to route the task, then the relevant project's `AGENTS.md` and `CONTEXT.md`. Load only the workflow stage and references needed for the current work.
-- `CLAUDE.md` files contain only `@AGENTS.md`. Edit the shared instructions in `AGENTS.md`; do not maintain a second Claude instruction set.
-- Use `dev` for integration. Start `feature/<name>` from `dev`, open feature PRs against `dev`, and promote a reviewed release from `dev` to `main`. Historical `archive/*` branches are reference snapshots.
-- Keep project lockfiles and Docker contexts independent. Use `_config/projects.json` for project discovery and `projects/<name>/_config/project.json` for its deterministic check command.
-- Prefer existing TypeScript tools for repeatable selection, validation, file operations, and service calls. Run them with Node 24; keep credentials in environment variables.
-- For multi-stage work, follow `workflows/change/CONTEXT.md`. Stage contracts distinguish stable references from per-run inputs. Write handoffs under that stage's `output/<run-id>/`; respect review points agreed for the run. Small edits may use only the relevant stages.
-- GitHub workflows are manual-only. Keep optional branch/path triggers commented until the team chooses to enable them. Only root `.github/workflows/` files are active GitHub workflows.
-- Validate changed behavior using the affected project's commands and root tooling checks where relevant. Record actual results and missing services; history verification does not prove runtime behavior.
-- Do not rewrite imported history or edit migration maps during feature work. The original streamserver tracked environment files; credential cleanup is a separate change.
-- Preserve private OBS keys and Discord/calendar credentials. Public responses and logs must not contain them. Deployments and external messages require task authorization; a workflow file or prompt alone does not grant it.
+- The user describes the desired outcome in normal chat. Do not require prompt templates, run IDs, or workflow ceremony.
+- Read `CONTEXT.md`, then the selected project's guidance and relevant reference docs. Load only what the task needs.
+- Stage `CONTEXT.md` files instruct the AI through inputs, useful tools, process, and outputs. They are not forms for the user.
+- Codex or Claude Code already provides the harness. Use its file, search, terminal, and configured MCP tools, plus existing scripts. Do not build a second agent runtime, generic MCP client, or capability registry without a concrete need.
+- If delegation helps, the AI writes a specific subtask prompt with scope, inputs, constraints, and expected output. Save it with run artifacts only when useful; do not keep generic human-entry prompt files.
+- Every `CLAUDE.md` contains only `@AGENTS.md`.
+- Branch `feature/<name>` from `dev`, target feature PRs at `dev`, and promote reviewed releases to `main`. Leave `archive/*` history intact.
+- Preserve independent project locks and Docker contexts. Extract a library for substantial reuse, not merely a matching interface or enum.
+- Use workflow stages for substantial work; small edits may go directly to implementation and verification. Separate stable references from working outputs.
+- GitHub workflows remain manual-only, with optional branch/path triggers commented.
+- Validate affected behavior and real consumers. Report actual results and missing services; layout/history checks do not prove runtime behavior.
+- Do not alter immutable migration maps or expose credentials in logs, handoffs, public DTOs, or images. External actions follow the current task's authorization.

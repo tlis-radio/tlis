@@ -1,1 +1,0 @@
-Implement the accepted contract as one feature slice and, when needed, an external adapter behind an interface. Keep provider SDK objects out of the handler. Add offline tests for successful, invalid, and unavailable-service behavior. Record the result in `output/<run-id>/implementation.md`.

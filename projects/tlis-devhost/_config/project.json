@@ -1,0 +1,5 @@
+{
+  "name": "tlis-devhost",
+  "kind": "project",
+  "checks": [{ "command": "node", "args": ["scripts/check.ts"] }]
+}

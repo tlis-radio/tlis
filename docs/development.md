@@ -15,7 +15,7 @@ The active branch model is `main`, `dev`, and `feature/<name>`.
 git fetch origin
 git switch dev
 git pull --ff-only
-node tools/src/cli.ts branch feature --name calendar-events
+npm run repo -- branch feature --name calendar-events
 ```
 
 The feature tool requires the current branch to be `dev` and the worktree to be clean. It creates a branch; it does not pull, reset, delete work, or silently switch to `dev`. Use a separate worktree when another task is already active.
@@ -34,10 +34,10 @@ Historical import branches are independent snapshots of their source projects. N
 
 ## Context and outputs
 
-Initialize a substantial change with:
+Describe the desired result in ordinary chat. The AI selects relevant context and stages. If saved handoffs help a substantial change, it can optionally initialize a run with:
 
 ```sh
-node tools/src/cli.ts workflow init --workflow change --project cms-web --run dashboard-fix
+npm run repo -- workflow init --workflow change --scope shared --component cms-web --run dashboard-fix
 ```
 
 Run IDs are unique slugs for a work item. Stage handoffs live in that stage's `output/<run-id>/`; do not overwrite another contributor's run. A handoff records decisions and evidence, not secrets or unrestricted transcripts. Commit durable, sanitized decisions when they help future contributors.
@@ -45,7 +45,23 @@ Run IDs are unique slugs for a work item. Stage handoffs live in that stage's `o
 For a project service operation, the same initializer finds that project's local workflow:
 
 ```sh
-node tools/src/cli.ts workflow init --workflow service --project videostream --run archive-check
+npm run repo -- workflow init --workflow service --project videostream --run archive-check
 ```
 
 The Discord bot uses its local `add-feature` workflow for a vertical slice or integration. The generated `run.json` records the selected project, branch, stage contexts, and output paths. It is a working artifact, not a new instruction source.
+
+## Components and compatibility
+
+`_config/projects.json` registers projects and libraries and their declared `dependsOn` relationships. Use `npm run repo -- components list` for discovery. A component-local workflow wins by default; add `--scope shared` or `--scope component` to select that layer explicitly.
+
+The `libraries/` area is currently empty. Keep small types local; extract shared behavior only when its reuse warrants the packaging and maintenance. For a future shared library, declare consumers and validate them together. Use `changes --base <ref> --head <ref>` to select affected components, then inspect runtime coupling not captured by dependency metadata.
+
+Use the `tlis-devhost` project for coordinated local development. Its own README lists Aspire/runtime/Docker requirements and resource selection. Individual project development remains available.
+
+The manual `validate-project.yml` workflow can validate one project or library. `validate-affected.yml` compares its explicit base/head refs, selects changed components plus their transitive consumers, and validates each in a separate job. The selected head is also the code checked out for validation. These workflows remain manual-only; no push or PR automatically starts them.
+
+## Tool and script definitions
+
+Stage `CONTEXT.md` files give the AI instructions, useful tools, references, and expected outputs. There are no generic prompt templates for people to fill out. When delegating, the AI writes a prompt tailored to that subtask; it may save it with the run evidence when useful.
+
+Use TypeScript maintenance programs under `scripts/` for repeatable work. The canonical root command is `npm run repo -- ...`; the older `npm run tool -- ...` alias remains for compatibility. Codex or Claude Code supplies file, terminal, and configured MCP tools. Workflow `tools/` folders can hold real helpers and otherwise contain `.gitkeep`; no custom MCP client, provider registry, or additional agent runtime is needed.

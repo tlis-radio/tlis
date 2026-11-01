@@ -20,14 +20,14 @@ on:
   #   paths:
   #     - 'projects/cms-web/**'
   #     - '.github/workflows/cms-web-dev.yml'
-  #     - 'tools/deploy/**'
+  #     - 'scripts/deploy/**'
 ```
 
 The workflow definition must exist on the repository's default branch for the manual button to be available. A manual run can select another branch with the appropriate workflow definition. No manual build or deployment has to be triggered just because files were pushed.
 
 ## Existing deployments
 
-The website and video workflows retain their existing image names and deployment HTTP methods. Docker build contexts are now `projects/cms-web` and `projects/videostream`. The predictable URL validation and notification payload construction live in `tools/deploy/`, executed as TypeScript with Node 24. Website Discord notification is an explicit manual option and is off by default.
+The website and video workflows retain their existing image names and deployment HTTP methods. Docker build contexts remain `projects/cms-web` and `projects/videostream`, with independent package locks and local stream types. Predictable URL validation and notification payload construction live in `scripts/deploy/`, executed as TypeScript with Node 24. Website Discord notification is an explicit manual option and is off by default.
 
 Original workflow snapshots are retained in the migration documentation; active copies no longer depend on `develop` or `master` triggers. Streamserver had no GitHub deployment workflow. Its Compose operation remains project-specific. The Discord bot is a new project and requires its own credentials and deployment choice.
 

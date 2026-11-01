@@ -1,9 +1,36 @@
 {
-  "schemaVersion": 1,
+  "schemaVersion": 2,
   "projects": [
-    { "name": "cms-web", "path": "projects/cms-web" },
-    { "name": "tlis-streamserver-docker", "path": "projects/tlis-streamserver-docker" },
-    { "name": "videostream", "path": "projects/videostream" },
-    { "name": "tlis-discord-bot", "path": "projects/tlis-discord-bot" }
-  ]
+    {
+      "name": "cms-web",
+      "path": "projects/cms-web",
+      "dependsOn": []
+    },
+    {
+      "name": "tlis-streamserver-docker",
+      "path": "projects/tlis-streamserver-docker",
+      "dependsOn": []
+    },
+    {
+      "name": "videostream",
+      "path": "projects/videostream",
+      "dependsOn": []
+    },
+    {
+      "name": "tlis-discord-bot",
+      "path": "projects/tlis-discord-bot",
+      "dependsOn": []
+    },
+    {
+      "name": "tlis-devhost",
+      "path": "projects/tlis-devhost",
+      "dependsOn": [
+        "cms-web",
+        "tlis-streamserver-docker",
+        "videostream",
+        "tlis-discord-bot"
+      ]
+    }
+  ],
+  "libraries": []
 }

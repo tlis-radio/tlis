@@ -23,3 +23,7 @@ Write `output/<run-id>/change.md` relative to this stage. Keep evidence concise 
 ## Verify
 
 Record what changed, why, and any plan deviation. Point to the diff instead of duplicating large source files.
+
+## Tools
+
+Use harness edit and terminal tools, Git, and the affected project's existing scripts. Use a configured MCP connection directly when it supplies context or an action needed by this task.

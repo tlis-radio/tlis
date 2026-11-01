@@ -25,3 +25,7 @@ Write `output/<run-id>/verification.md` relative to this stage. Keep evidence co
 ## Verify
 
 Record exact commands, outcomes, acceptance coverage, and missing runtimes or services. A history, architecture, or typecheck pass does not imply a deployed service works.
+
+## Tools
+
+Use the affected project's declared check/build commands and focused runtime checks. Run root `npm run check`, `npm test`, and architecture verification when shared repository code changes. Use Git diff to review acceptance coverage.

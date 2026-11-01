@@ -1,4 +1,4 @@
-name: Project - validate selected project (manual)
+name: Component - validate selected project or library (manual)
 
 on:
   workflow_dispatch:
@@ -13,12 +13,13 @@ on:
           - videostream
           - tlis-streamserver-docker
           - tlis-discord-bot
+          - tlis-devhost
       build_images:
         description: Also build the streamserver Docker images (does not start services)
         type: boolean
         default: false
   # Optional bot-only automatic validation; intentionally disabled.
-  # To use this for another project, update both paths and PROJECT's fallback below.
+  # To use this for another component, update both paths and COMPONENT's fallback below.
   # push:
   #   branches: [main, dev, 'feature/**']
   #   paths:
@@ -43,35 +44,15 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: '24'
+      - name: Install pinned Aspire CLI for devhost validation
+        if: ${{ inputs.project == 'tlis-devhost' }}
+        run: |
+          curl --fail --silent --show-error --location https://aspire.dev/install.sh --output "$RUNNER_TEMP/install-aspire.sh"
+          bash "$RUNNER_TEMP/install-aspire.sh" --version 13.6.0 --install-path "$RUNNER_TEMP/tlis-aspire" --skip-path
+          echo "ASPIRE_CLI_PATH=$RUNNER_TEMP/tlis-aspire/aspire" >> "$GITHUB_ENV"
       - name: Run the selected project's checks
         env:
-          PROJECT: ${{ inputs.project || 'tlis-discord-bot' }}
+          COMPONENT: ${{ inputs.project || 'tlis-discord-bot' }}
           BUILD_IMAGES: ${{ inputs.build_images && 'true' || 'false' }}
         run: |
-          set -euo pipefail
-          case "$PROJECT" in
-            cms-web)
-              cd projects/cms-web
-              npm ci --legacy-peer-deps
-              npm run build
-              ;;
-            videostream)
-              cd projects/videostream
-              npm ci
-              npm run build
-              ;;
-            tlis-streamserver-docker)
-              cd projects/tlis-streamserver-docker
-              docker compose config --quiet
-              if [ "$BUILD_IMAGES" = 'true' ]; then docker compose build; fi
-              ;;
-            tlis-discord-bot)
-              cd projects/tlis-discord-bot
-              npm ci
-              npm run check
-              ;;
-            *)
-              echo '::error::Unknown project.'
-              exit 1
-              ;;
-          esac
+          node scripts/ci/validate-component.ts

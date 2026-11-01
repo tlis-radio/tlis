@@ -1,82 +1,51 @@
 # TLIS
 
-One repository for TLIS services, with project-owned code and a shared, file-based workflow for coding agents.
+TLIS services with project-owned documentation and readable AI workflow context.
 
 | Project | Purpose |
 | --- | --- |
-| [cms-web](projects/cms-web/) | Next.js website and dashboard |
-| [tlis-streamserver-docker](projects/tlis-streamserver-docker/) | Icecast, Liquidsoap, and Filebrowser |
-| [videostream](projects/videostream/) | OBS ingest, live output, and video archive |
-| [tlis-discord-bot](projects/tlis-discord-bot/) | TypeScript Discord bot with vertical slices and calendar integration |
+| [cms-web](projects/cms-web/) | Website and dashboard |
+| [tlis-streamserver-docker](projects/tlis-streamserver-docker/) | Icecast, Liquidsoap, Filebrowser |
+| [videostream](projects/videostream/) | OBS ingest, relay, archive |
+| [tlis-discord-bot](projects/tlis-discord-bot/) | TypeScript bot with calendar integration |
+| [tlis-devhost](projects/tlis-devhost/) | Aspire local development orchestration |
+
+## Working with an AI
+
+Describe what you want normally, for example: “Fix the video archive filenames and check that existing playback still works.”
+
+Codex or Claude Code reads `AGENTS.md`, routes through `CONTEXT.md`, loads the relevant reference docs, and uses its tools plus existing scripts. Stage contexts help with larger tasks. You do not need to fill templates or select stages yourself. If the AI delegates, it writes that subtask's prompt.
 
 ## Layout
 
 ```text
-AGENTS.md                 shared instructions
-CLAUDE.md                 only @AGENTS.md
-CONTEXT.md                task routing
-.agents/skills/           canonical reusable skills
-.claude/skills/           links to those same skills
-_config/                  project registry
-shared/references/        stable cross-project conventions
-prompts/                  reusable task entry prompts
-workflows/change/         numbered stages and context contracts
-tools/                    deterministic TypeScript tools
-projects/<project>/       code plus local context, workflows, prompts, tools
-.github/workflows/        manual GitHub Actions entrypoints
-docs/                     architecture, branching, deployment, migration
+AGENTS.md / CLAUDE.md   instructions / import of those instructions
+CONTEXT.md             routing
+projects/<name>/       source, docs, configuration, scripts, local workflows
+libraries/             reserved for meaningful shared code
+workflows/             shared stages instructed by CONTEXT.md
+scripts/               actual checks, Git helpers, and deployment programs
+shared/references/     stable conventions
+.agents/skills/        reusable guidance
+.claude/skills/        links to the same skills
+.github/workflows/     manual GitHub Actions
+docs/                  shared guides and reference index
 ```
 
-The layout adapts Interpretable Context Methodology (ICM): load a small routing file, then a stage's explicit inputs, and write a reviewable handoff file. Stable references stay separate from each run's working artifacts. See [architecture](docs/architecture.md) for the mapping and limits.
+Workflow-local `tools/` locations can hold real helpers; empty ones contain `.gitkeep`. There is no custom MCP client, provider catalog, or extra agent framework. There is currently no extracted shared application library.
 
-## Start working
+## Development
 
-Use Node 24 for shared tooling. Install root tooling dependencies separately from project dependencies:
+Use Node 24 and install dependencies separately in the root and each project:
 
 ```sh
 npm ci
-node tools/src/cli.ts projects list
-node tools/src/cli.ts architecture check
-```
-
-For new work, update and check out `dev`, then create a feature branch from it:
-
-```sh
-git switch dev
-git pull --ff-only
-node tools/src/cli.ts branch feature --name calendar-events
-```
-
-Feature PRs target `dev`. A release PR promotes `dev` to `main`. The branch tool requires a clean working tree and does not switch branches behind your back. See [development](docs/development.md).
-
-For a multi-stage change:
-
-```sh
-node tools/src/cli.ts workflow init --workflow change --project cms-web --run dashboard-fix
-```
-
-Read [the change workflow](workflows/change/CONTEXT.md), then the selected project's instructions. You can use [the reusable change prompt](prompts/change.md) with either agent. Run outputs are local by default; commit only deliberate, sanitized handoffs.
-
-## Project checks
-
-Each project retains its own dependency installation, lockfile, and Docker context. Follow its README, then run its declared check from the root:
-
-```sh
-node tools/src/cli.ts project check --project videostream
-```
-
-The shared tool dispatches the project's TypeScript check entrypoint; it does not install dependencies, launch services, or deploy. Root checks are:
-
-```sh
 npm run check
 npm test
+npm run verify:architecture
 npm run verify:history
 ```
 
-The audio and video stacks both use host port `8000` by default. Choose a port override before running both locally. Existing streamserver environment files were tracked in its source history; review credentials before running it.
+New work follows `feature/<name> → dev → main`. See [development](docs/development.md), the [Aspire devhost](projects/tlis-devhost/README.md), and the [documentation index](docs/README.md).
 
-## Automation and history
-
-All active GitHub workflows use **Run workflow** (`workflow_dispatch`). Their commented examples show how to enable branch and folder filters later. Existing website and video builds retain their project Docker contexts and image names. [Deployment setup](docs/deployment.md) covers secrets, environments, and the operational cutover.
-
-The three imported repositories retain their rewritten Git histories under `projects/<name>/`, with migration maps in [docs/migration](docs/migration/). The source repositories remain unchanged. Git history does not copy GitHub secrets, settings, issues, or deployment configuration.
+GitHub workflows are manual-only. [Deployment guidance](docs/deployment.md) covers environments, secrets, and cutover. Original histories and mappings remain in [migration records](docs/migration/).

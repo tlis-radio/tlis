@@ -1,5 +1,9 @@
 # Tlis StreamServer: Docker Edition
 
+## Project references
+
+[Documentation index](docs/README.md) covers architecture, API/service contracts, configuration, and development. [CONTEXT.md](CONTEXT.md) routes agent work; stage context instructs the AI using harness tools and existing scripts.
+
 This repository contains the TLIS streamserver in the form of Docker microservices. It is composed of the following containers:
 
 1. Icecast (audio stream server)
@@ -59,4 +63,3 @@ You can schedule the **same audio file multiple times** by including multiple da
     - current icecast mountpoint order: tlis > studio > fallback
     - proposed mountpoint order: tlis > mix > live > studio
         - liquidsoap takes live and studio as inputs, generates fallback and outputs to mix. If liquidsoap (mix) fails, icecast will automatically switch to live or studio, if they're up.
- 

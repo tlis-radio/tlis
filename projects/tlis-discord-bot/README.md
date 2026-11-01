@@ -1,5 +1,9 @@
 # TLIS Discord bot
 
+## Project references
+
+[Documentation index](docs/README.md) covers architecture, API/service contracts, configuration, and development. [CONTEXT.md](CONTEXT.md) routes agent work; stage context instructs the AI using harness tools and existing scripts.
+
 A TypeScript starter arranged like a C# Minimal API application with Vertical Slice Architecture. The composition root maps small HTTP endpoints and Discord commands. Feature handlers depend on explicit service interfaces; external SDKs stay in adapters.
 
 ## Included behavior

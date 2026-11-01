@@ -23,3 +23,7 @@ Write `output/<run-id>/plan.md` relative to this stage. Keep evidence concise an
 ## Verify
 
 Each acceptance criterion has an implementation and meaningful check. Explain material tradeoffs without inventing a framework for a local change.
+
+## Tools
+
+Use harness read/search tools, relevant project references, and Git history. `npm run repo -- changes --base <ref> --head <ref>` can identify declared consumers; inspect runtime coupling in source too.

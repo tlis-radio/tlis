@@ -5,7 +5,7 @@
 | Kind | Input | Scope |
 | --- | --- | --- |
 | Stable | `projects/cms-web/AGENTS.md`, `projects/cms-web/README.md` | Constraints and runtime setup |
-| Stable | `projects/cms-web/_config/project.json`, `projects/cms-web/tools/check.ts` | Deterministic check declaration |
+| Stable | `projects/cms-web/_config/project.json`, `projects/cms-web/scripts/check.ts` | Deterministic check declaration |
 | Stable | `shared/references/validation.md` | Evidence and check limits |
 | Working | Current request and selected revision | Current run only |
 
@@ -20,3 +20,7 @@ Write `output/<run-id>/inspection.md` relative to this stage. Use the saved hand
 ## Verify
 
 Name the exact project/revision, affected configuration, and requested checks or operation.
+
+## Tools
+
+Use harness file/search/edit tools and Git. Run `node scripts/check.ts` from this project after `npm ci --legacy-peer-deps`; use `npm run build` or focused browser/HTTP checks when relevant.

@@ -25,3 +25,7 @@ Write `output/<run-id>/release.md` relative to this stage. Keep evidence concise
 ## Verify
 
 Distinguish completed work from unperformed rollout. For an executed operation, record its ref, environment, outcome, and recovery path.
+
+## Tools
+
+Use Git and the host's GitHub integration or installed CLI to prepare a reviewable commit/PR. Use manual GitHub Actions for requested validation; deployment uses the documented manual entrypoint and current task authorization.

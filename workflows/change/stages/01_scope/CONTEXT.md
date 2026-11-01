@@ -23,3 +23,7 @@ Write `output/<run-id>/scope.md` relative to this stage. Keep evidence concise a
 ## Verify
 
 The scope names the project, intended behavior, acceptance checks, and material unknowns.
+
+## Tools
+
+Use harness read/search tools and `git diff` to locate affected behavior. The repository component registry and `npm run repo -- components list` help route the request.
