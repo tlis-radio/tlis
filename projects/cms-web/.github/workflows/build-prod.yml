@@ -1,0 +1,74 @@
+name: Build Prod Website
+
+on:
+  push:
+    branches: [ "main" ]
+
+jobs:
+  build:
+    if: ${{ github.event_name == 'push' && github.ref == 'refs/heads/main' }}
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      packages: write
+
+    steps:
+    - uses: actions/checkout@v4
+
+    - name: Log in to GitHub Container Registry
+      run: echo "${{ secrets.GITHUB_TOKEN }}" | docker login ghcr.io -u ${{ github.actor }} --password-stdin
+
+
+    - name: Build and Push Docker Image
+      run: |
+        IMAGE_NAME=ghcr.io/${{ github.repository_owner }}/tlis-web:latest
+        docker build . \
+        --file Dockerfile \
+        --tag $IMAGE_NAME \
+        --build-arg NEXT_PUBLIC_DIRECTUS_URL=${{ secrets.DIRECTUS_URL }} \
+        --build-arg NEXT_PUBLIC_ANALYTICS_ID=${{ secrets.ANALYTICS_ID }} \
+        --build-arg NEXT_PUBLIC_ANALYTICS_URL=${{ secrets.ANALYTICS_URL }} \
+        --build-arg NEXT_PUBLIC_SITE_URL=${{ secrets.SITE_URL }} 
+        docker push $IMAGE_NAME
+        
+    - name: Deploy to production
+      run: |
+        curl -X POST "${{ secrets.DEPLOY_URL }}?uuid=${{ secrets.PROD_DEPLOY_ID }}&force=false" \
+          -H "Authorization: Bearer ${{ secrets.DEPLOY_SECRET }}"
+    
+    - name: Get last successful commit SHA
+      id: last_commit
+      run: |
+        WORKFLOW_FILE="build-prod.yml"
+        LAST_RUN_JSON=$(gh api "repos/${{ github.repository }}/actions/workflows/${WORKFLOW_FILE}/runs?status=success&per_page=15")
+        LAST_SHA=$(echo "$LAST_RUN_JSON" | jq -r '.workflow_runs[0].head_sha // ""')
+
+        echo "LAST_SHA=$LAST_SHA" >> $GITHUB_ENV
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+    - name: Get commit list since last build
+      run: |
+        git fetch --unshallow
+        if [ -n "$LAST_SHA" ]; then
+          CHANGES=$(git log --pretty=format:"- %h - %s (%an)" ${LAST_SHA}..HEAD)
+        else
+          CHANGES=$(git log -5 --pretty=format:"-%h - %s (%an)")
+        fi
+        echo "CHANGES<<EOF" >> $GITHUB_ENV
+        echo "$CHANGES" >> $GITHUB_ENV
+        echo "EOF" >> $GITHUB_ENV
+
+    - name: Post prod build to Discord thread
+      run: |
+        WEBHOOK_URL="${{ secrets.DISCORD_FORUM_WEBHOOK_URL }}"
+        THREAD_ID="${{ secrets.THREAD_ID }}"
+
+        SAFE_CHANGES=$(echo "$CHANGES" | sed ':a;N;$!ba;s/\n/\\n/g; s/"/\\"/g')
+
+        MESSAGE="🚀 Nový prod build webstránky!\\n**Build Date:** $(date -u +"%Y-%m-%d %H:%M UTC")\\n**Latest commits:**\\n$SAFE_CHANGES\\n\\n📝 Píšte feedback do tohto threadu."
+
+        curl -H "Content-Type: application/json" \
+          -X POST \
+          -d "{\"content\":\"$MESSAGE\"}" \
+          "${WEBHOOK_URL}?thread_id=${THREAD_ID}"
