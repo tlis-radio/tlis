@@ -1,0 +1,9 @@
+{
+  "schemaVersion": 1,
+  "projects": [
+    { "name": "cms-web", "path": "projects/cms-web" },
+    { "name": "tlis-streamserver-docker", "path": "projects/tlis-streamserver-docker" },
+    { "name": "videostream", "path": "projects/videostream" },
+    { "name": "tlis-discord-bot", "path": "projects/tlis-discord-bot" }
+  ]
+}

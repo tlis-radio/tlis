@@ -1,0 +1,1 @@
+Define the contract for the requested TLIS bot feature. Use the listed reference inputs and user request. Record one successful example, invalid-input behavior, upstream failure behavior, required configuration, and offline test boundaries in `output/<run-id>/contract.md`.

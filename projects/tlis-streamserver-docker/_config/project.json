@@ -1,0 +1,13 @@
+{
+  "name": "tlis-streamserver-docker",
+  "checks": [
+    {
+      "command": "docker",
+      "args": [
+        "compose",
+        "config",
+        "--quiet"
+      ]
+    }
+  ]
+}

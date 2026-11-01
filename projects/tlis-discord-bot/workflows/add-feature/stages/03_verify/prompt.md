@@ -1,0 +1,1 @@
+Verify the feature against the contract. Run the project's deterministic checks and command preview as applicable. Record pass/fail evidence and missing live-service setup in `output/<run-id>/verification.md`. Do not register commands or send live messages as part of this offline check.
