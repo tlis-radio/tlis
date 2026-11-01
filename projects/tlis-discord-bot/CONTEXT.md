@@ -11,4 +11,4 @@
 
 Stable context is committed configuration, contracts, source, tests, and prompts. Per-task artifacts go in the selected workflow stage's `output/<run-id>/` folder and are not instructions. Read only the current stage's listed inputs.
 
-Documentation: `docs/README.md` routes to the architecture, API/service-contract, configuration, and development references. Use local `scripts/` for maintenance mechanics. Read the selected workflow/stage `tools/` only for its external capability definitions; no definition itself connects or authorizes a provider.
+Documentation: `docs/README.md` routes to architecture, API/service-contract, configuration, and development references. Follow the selected stage's context and use harness tools plus existing scripts.

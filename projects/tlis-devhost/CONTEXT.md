@@ -8,4 +8,4 @@
 | Diagnose restore or runtime prerequisites | `docs/development.md`, `scripts/aspire.ts` |
 | Staged change or test run | `workflows/local-development/CONTEXT.md` |
 
-Load only the selected stage, its prompt, its `tools/` capability entries, and the relevant references. Working outputs stay under that stage's `output/<run-id>/`.
+Load the selected stage's CONTEXT.md and the relevant references. The user's ordinary request supplies the task; no prompt template is required. Working outputs stay under that stage's `output/<run-id>/`.

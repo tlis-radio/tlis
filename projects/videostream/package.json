@@ -14,7 +14,6 @@
   },
   "dependencies": {
     "@directus/sdk": "^21.2.1",
-    "@tlis/stream-contracts": "file:vendor/tlis-stream-contracts-0.1.0.tgz",
     "dotenv": "^16.4.7",
     "node-media-server": "^4.1.0"
   },

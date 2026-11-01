@@ -20,4 +20,4 @@ Project boundary: Icecast mounts, Liquidsoap scheduling, and shared audio volume
 
 ## Tools
 
-Read this workflow or stage's local `tools/` capability directory. A tracked `.gitkeep` means no external/MCP capability is declared at that scope. Definitions do not connect providers or grant task authorization. Deterministic checks and maintenance run from `scripts/`.
+Use harness file/search/edit tools and Git. Run `node scripts/check.ts` or `docker compose config --quiet` from this project. Use Compose status and scoped logs for local service checks without printing resolved credentials. The workflow's `tools/` is an optional location for real helper files; `.gitkeep` means no local helper is shipped.

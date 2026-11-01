@@ -15,8 +15,8 @@ Define the feature request, validation rules, reply, expected failures, and prov
 
 ## Outputs
 
-Write `output/<run-id>/contract.md` with behavior examples, the service interface, accepted user decisions, and unresolved choices. Use `prompt.md` as the task template.
+Write `output/<run-id>/contract.md` with behavior examples, the service interface, accepted user decisions, and unresolved choices.
 
 ## Tools
 
-Read this workflow or stage's local `tools/` capability directory. A tracked `.gitkeep` means no external/MCP capability is declared at that scope. Definitions do not connect providers or grant task authorization. Deterministic checks and maintenance run from `scripts/`.
+Use harness file/search/edit tools and Git. Run `npm run check` from this project. Use command preview for changed command definitions and offline adapter tests for integrations; live Discord/calendar calls follow the current task authorization.

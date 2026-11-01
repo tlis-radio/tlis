@@ -26,4 +26,4 @@ Each acceptance criterion has an implementation and meaningful check. Explain ma
 
 ## Tools
 
-Read this scope's tools/ entries before selecting an external capability. A tools/.gitkeep placeholder means no external/MCP capability is assigned. Read only an imported wrapper's input/output contract, then compose calls as TypeScript when useful. Repository checks and file operations use scripts/ and are separate from external tool authorization.
+Use harness read/search tools, relevant project references, and Git history. `npm run repo -- changes --base <ref> --head <ref>` can identify declared consumers; inspect runtime coupling in source too.

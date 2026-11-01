@@ -8,8 +8,8 @@ Use this workflow to prepare, start, and verify the Aspire dev-time topology. Se
 | 02_run | Start the selected local resources through Aspire | output/<run-id>/run.md |
 | 03_verify | Check readiness, application contracts, and shutdown | output/<run-id>/verification.md |
 
-Each stage has a prompt, explicit context, and its own tools/ capability directory. Preserve per-run outputs and avoid loading unrelated projects.
+Each stage's CONTEXT.md gives the AI its inputs, process, tools, and expected result. Preserve per-run outputs and avoid loading unrelated projects.
 
 ## Tools
 
-Read tools/ for capabilities shared by this workflow and the selected stage's tools/ for scoped additions. A .gitkeep means no external/MCP capability is assigned. Aspire and npm commands are maintenance/runtime scripts, not implicit external tool authority.
+Use harness file/search/edit tools and Git, plus this project's `npm run restore`, `npm run plan`, `npm run check`, and `npm run dev` commands. Use the Aspire dashboard, scoped resource logs, and local HTTP health checks to verify running services. The workflow's `tools/` is an optional location for real helper files; `.gitkeep` means no local helper is shipped.

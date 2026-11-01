@@ -1,1 +1,0 @@
-Verify canonical contracts against the accepted examples and both compiler modes. Record actual evidence and any pending versioned distribution step. Write the handoff to output/<run-id>/verification.md.

@@ -1,14 +1,12 @@
 ---
 name: tlis-change
-description: Plan and implement TLIS component changes with scoped workflow context and consumer compatibility checks.
+description: Implement TLIS changes using relevant project context and real verification.
 ---
 
-Discover the target project or library through `_config/projects.json`, then read its `AGENTS.md` and `CONTEXT.md`. Use a component-local workflow when it fits; use the [shared change workflow](../../../workflows/change/CONTEXT.md) for cross-component scope, implementation choices, and evidence.
+Start with the user's normal request. Read the relevant project instructions and reference docs. Use local workflow stages when useful, or the [shared workflow](../../../workflows/change/CONTEXT.md) for cross-project work. Do not require prompt templates or stage selection from the user.
 
-Initialize a shared run with `npm run repo -- workflow init --workflow change --scope shared --component <name> --run <slug>`. Component-local definitions are selected by default when present. Load only the relevant stages and declared inputs.
+Stage CONTEXT.md files instruct the AI. Use harness tools, configured MCP connections, and existing scripts. Do not add a generic MCP client or another agent framework.
 
-Each workflow and stage has a context, prompt, and `tools/` capability directory. Read the local definitions for external/MCP operations; `.gitkeep` means none are declared. A definition does not install a provider, supply credentials, or authorize an operation. Deterministic mechanics remain TypeScript programs in `scripts/`.
+If delegation helps, write a specific subtask prompt from the current scope, inputs, constraints, and expected result. Save it with run artifacts only when useful. Small changes need no run scaffold.
 
-Keep working handoffs in `output/<run-id>/`, separate from stable references. Use saved human edits and the run's agreed review points. Small changes can skip stages that add no useful information.
-
-When changing a shared library, check its package and every registered direct consumer. Preserve independently installable lockfiles and Docker contexts. Use [validation guidance](../../../shared/references/validation.md), record actual results and missing services, and avoid treating architecture/history checks as runtime validation.
+Preserve independent builds and locks. Keep small types local; extract a library only for a real reuse benefit. Validate affected behavior and consumers, then record actual results and missing services.

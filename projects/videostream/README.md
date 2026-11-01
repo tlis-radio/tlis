@@ -2,7 +2,7 @@
 
 ## Project references
 
-[Documentation index](docs/README.md) routes to architecture, API/service contracts, configuration, and development. Agent task routing is in [CONTEXT.md](CONTEXT.md); deterministic maintenance programs live in `scripts/`, while workflow/stage `tools/` directories describe external capabilities.
+[Documentation index](docs/README.md) covers architecture, API/service contracts, configuration, and development. [CONTEXT.md](CONTEXT.md) routes agent work; stage context instructs the AI using harness tools and existing scripts.
 
 Minimal TypeScript streaming service with Directus auth.
 

@@ -1,7 +1,7 @@
-import { existsSync, readFileSync, readdirSync, realpathSync, statSync } from 'node:fs';
+import { existsSync, readFileSync, readdirSync, realpathSync } from 'node:fs';
 import path from 'node:path';
 import { parseDocument } from 'yaml';
-import { ROOT, existingWithin, requireThat, readJson } from './common.ts';
+import { ROOT, existingWithin, requireThat } from './common.ts';
 import { components } from './projects.ts';
 
 export function assertManualWorkflow(content: string, filename: string): void {
@@ -15,23 +15,15 @@ export function assertManualWorkflow(content: string, filename: string): void {
   requireThat(workflow.jobs && typeof workflow.jobs === 'object', `${filename}: no jobs`);
 }
 
-export function assertCapabilityDirectory(directory: string): void {
-  requireThat(existsSync(directory) && statSync(directory).isDirectory(), `Missing capability directory: ${directory}`);
-  const content = readdirSync(directory).filter(name => name !== '.gitkeep');
-  requireThat(content.length > 0 || existsSync(path.join(directory, '.gitkeep')), `Empty tools/ must contain .gitkeep: ${directory}`);
-}
-
 export function assertAgentWorkflow(directory: string): void {
-  for (const file of ['CONTEXT.md', 'prompt.md']) requireThat(existsSync(path.join(directory, file)), `Workflow missing ${file}: ${directory}`);
-  assertCapabilityDirectory(path.join(directory, 'tools'));
+  requireThat(existsSync(path.join(directory, 'CONTEXT.md')), `Workflow missing CONTEXT.md: ${directory}`);
   const stages = readdirSync(path.join(directory, 'stages'), { withFileTypes: true })
     .filter(entry => entry.isDirectory() && /^\d{2}_[a-z0-9_]+$/.test(entry.name));
   requireThat(stages.length > 0, `No numbered stages: ${directory}`);
   for (const stage of stages) {
     const folder = path.join(directory, 'stages', stage.name);
-    for (const file of ['CONTEXT.md', 'prompt.md']) requireThat(existsSync(path.join(folder, file)), `Stage missing ${file}: ${folder}`);
-    assertCapabilityDirectory(path.join(folder, 'tools'));
-    requireThat(/^## Tools\s*$/m.test(readFileSync(path.join(folder, 'CONTEXT.md'), 'utf8')), `Stage must scope its tools: ${folder}`);
+    requireThat(existsSync(path.join(folder, 'CONTEXT.md')), `Stage missing CONTEXT.md: ${folder}`);
+    requireThat(/^## Tools\s*$/m.test(readFileSync(path.join(folder, 'CONTEXT.md'), 'utf8')), `Stage must identify useful tools: ${folder}`);
   }
 }
 
@@ -55,7 +47,6 @@ export function verifyArchitecture(root = ROOT): void {
     requireThat(readFileSync(path.join(folder, 'CLAUDE.md'), 'utf8').trim() === '@AGENTS.md', `${base}: CLAUDE.md must only import AGENTS.md`);
     requireThat(existsSync(path.join(folder, 'CONTEXT.md')), `${base}: missing routing CONTEXT.md`);
     existingWithin(folder, 'scripts/check.ts');
-    assertCapabilityDirectory(path.join(folder, 'tools'));
     if (base) for (const file of ['README.md', 'architecture.md', 'api.md', 'configuration.md', 'development.md']) {
       requireThat(existsSync(path.join(folder, 'docs', file)), `${base}: missing reference docs/${file}`);
     }
@@ -69,14 +60,6 @@ export function verifyArchitecture(root = ROOT): void {
     const directories = readdirSync(path.join(root, group), { withFileTypes: true }).filter(d => d.isDirectory());
     requireThat(directories.every(d => registry.some(p => p.path === `${group}/${d.name}`)), `Unregistered component in ${group}/`);
   }
-  for (const library of registry.filter(item => item.kind === 'library')) {
-    const distribution = path.join(root, library.path, '_config/consumers.json');
-    if (!existsSync(distribution)) continue;
-    const declared = readJson<{ consumers: { name: string; path: string }[] }>(distribution).consumers;
-    const expected = registry.filter(item => item.dependsOn.includes(library.name));
-    requireThat(declared.length === expected.length && expected.every(item => declared.some(c => c.name === item.name && c.path === item.path)),
-      `${library.name}: distribution consumers differ from the component dependency graph`);
-  }
   const workflowDirectory = path.join(root, '.github/workflows');
   const files = readdirSync(workflowDirectory).filter(file => /\.ya?ml$/.test(file));
   requireThat(files.length > 0, 'No manually triggered GitHub workflows');
@@ -86,5 +69,5 @@ export function verifyArchitecture(root = ROOT): void {
     requireThat(!existsSync(nested) || readdirSync(nested).every(file => !/\.ya?ml$/.test(file)),
       `${item.name}: keep executable GitHub workflows at the repository root`);
   }
-  console.log(`PASS architecture: ${registry.length} components, ${workflowCount} scoped agent workflows, ${files.length} manual Actions workflows, references and tool slots`);
+  console.log(`PASS architecture: ${registry.length} components, ${workflowCount} context-driven workflows, ${files.length} manual Actions workflows, reference docs`);
 }

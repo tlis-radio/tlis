@@ -20,5 +20,3 @@ Tracking POST routes return 403 unless `TRACKER_ENABLED=true`. Session identity 
 The service layer reads Directus content and builds public video entries containing status, linked episode, archive URL, and timestamps. The configured video collection must align with the video server; the website default is `video_streams` while that server's default is `streams`. Do not expose `stream_key` in public DTOs.
 
 Dashboard authentication and write operations call Directus rather than additional Next.js route handlers. Preserve both the Directus collection schema and its access policies when changing dashboard behavior. Source contracts are in `src/types/`, `src/models/`, and `src/lib/dashboard/`.
-
-Shared stream lifecycle and generic record fields are owned by [stream-contracts](../../../libraries/stream-contracts/docs/README.md). See its [type API](../../../libraries/stream-contracts/docs/api.md) and [consumer release process](../../../libraries/stream-contracts/docs/release.md). Local DTOs retain private-key and episode-shape differences.

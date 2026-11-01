@@ -15,7 +15,6 @@
     "@fortawesome/free-regular-svg-icons": "^6.5.2",
     "@fortawesome/free-solid-svg-icons": "^6.5.2",
     "@fortawesome/react-fontawesome": "^0.2.2",
-    "@tlis/stream-contracts": "file:vendor/tlis-stream-contracts-0.1.0.tgz",
     "@types/leaflet": "^1.9.12",
     "classnames": "^2.5.1",
     "flag-icons": "^7.5.0",

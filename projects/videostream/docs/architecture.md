@@ -11,5 +11,3 @@ On `donePublish`, the server stops the public relay, selects candidate FLV recor
 Media files must persist outside container replacement. Relay processes and finalization guards are process-local; the implementation is a single-instance starter, not a distributed recording coordinator.
 
 The website consumes stream records and public URLs. Its default collection name differs from this service's; configure both to use the same real Directus collection. Shared contract changes must be validated against all registered direct consumers.
-
-Shared stream lifecycle and generic record fields are owned by [stream-contracts](../../../libraries/stream-contracts/docs/README.md). See its [type API](../../../libraries/stream-contracts/docs/api.md) and [consumer release process](../../../libraries/stream-contracts/docs/release.md). Local DTOs retain private-key and episode-shape differences.

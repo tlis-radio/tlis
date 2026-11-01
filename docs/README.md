@@ -2,7 +2,7 @@
 
 ## Shared references
 
-- [Agent/workflow architecture](architecture.md): context layers, prompts, external tools, deterministic scripts, and adapters.
+- [Agent/workflow architecture](architecture.md): context layers, workflow instructions, harness tools, and repository scripts.
 - [Development](development.md): branches, workflow selection, libraries, and consumer checks.
 - [Deployment](deployment.md): manual Actions, environments, and cutover.
 - [Migration](migration/README.md): immutable source-history records.
@@ -21,6 +21,6 @@ Every existing service has local architecture, API/service-contract, configurati
 
 ## Libraries
 
-- [Stream contracts](../libraries/stream-contracts/docs/README.md): [type API](../libraries/stream-contracts/docs/api.md), packaging, and [consumer release compatibility](../libraries/stream-contracts/docs/release.md).
+[The shared library area](../libraries/README.md) is reserved for meaningful reuse. No shared application library is currently extracted; the small stream types remain in their projects.
 
 Project-specific docs stay with code. Root docs describe cross-component conventions. A component without a custom HTTP API documents its actual protocol or configuration contracts rather than inventing endpoints.

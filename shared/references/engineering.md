@@ -1,13 +1,11 @@
-# Shared engineering conventions
+# Engineering conventions
 
-Deployable services belong in `projects/`; reusable runtime code belongs in `libraries/`. Each component owns its source, docs, configuration, workflow/stage contracts, prompts, external-capability declarations, and deterministic scripts.
+Keep applications in `projects/` and reference material close to the source. Reserve `libraries/` for meaningful reuse; small local types do not need a package.
 
-`tools/` means external tools: MCP/API capability definitions, adapters, and scoped usage contracts. `scripts/` means predictable execution: checks, transforms, file operations, packaging, process launching, and validated provider calls. Keep both when useful; do not rename ordinary checks into external capabilities.
+The human supplies a normal request. The AI selects context, plans when useful, and writes task-specific prompts only when delegating. Stage CONTEXT.md files contain its instructions.
 
-Each agent workflow and numbered stage has `CONTEXT.md`, `prompt.md`, and `tools/`. Define only the capabilities needed at that scope. Use `.gitkeep` when no external tool applies. A capability's presence never configures a provider or grants permission.
+Use actual tools: harness facilities, configured MCP connections, and existing scripts. Do not duplicate the harness with a custom agent or generic tool framework.
 
-Use the component's existing runtime and lockfile. Shared libraries have a versioned package and explicit registered consumers. Preserve independent Docker contexts and locks; validate canonical packaging and all declared direct consumers when a library changes.
+Keep locks and Docker contexts independent. Validate changed producers and real consumers. Keep unrelated dependency upgrades separate.
 
-New deterministic scripts use TypeScript supported by Node 24. Validate structured inputs and pass process arguments as arrays with `shell: false`. Keep network/time/storage dependencies injectable for meaningful tests. An agent chooses the action; a script carries out its mechanical part.
-
-Keep unrelated dependency upgrades separate. Update a producer, consumer, and their documented contract together when changing a shared interface. Keep private keys out of public DTOs, logs, artifacts, and images.
+Scripts should perform concrete work with explicit inputs and process argument arrays. Use meaningful tests for changed behavior. Keep private keys out of public DTOs, logs, artifacts, and images.

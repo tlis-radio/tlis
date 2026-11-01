@@ -20,5 +20,3 @@ From the root, `npm run repo -- project check --project videostream` runs the de
 For an end-to-end development check, create a stream record linked to a development episode, ingest a short OBS stream with its private key, view the public ID-based FLV URL, stop ingest, then verify the MP4 archive and Directus ended state. Do not paste the private key into shared artifacts. Use disposable media or preserve existing recordings intentionally.
 
 Use the project's local change/service workflow for scope and evidence. Changes to a shared stream contract require checks of the website and any other registered consumers. Production deployment remains a manual workflow on `main`; it does not run on a feature push.
-
-Shared stream lifecycle and generic record fields are owned by [stream-contracts](../../../libraries/stream-contracts/docs/README.md). See its [type API](../../../libraries/stream-contracts/docs/api.md) and [consumer release process](../../../libraries/stream-contracts/docs/release.md). Local DTOs retain private-key and episode-shape differences.

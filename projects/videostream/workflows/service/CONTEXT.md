@@ -20,4 +20,4 @@ Project boundary: Directus stream records, public IDs, and media storage. Use th
 
 ## Tools
 
-Read this workflow or stage's local `tools/` capability directory. A tracked `.gitkeep` means no external/MCP capability is declared at that scope. Definitions do not connect providers or grant task authorization. Deterministic checks and maintenance run from `scripts/`.
+Use harness file/search/edit tools and Git. Run `node scripts/check.ts` from this project after `npm ci`. Runtime checks use FFmpeg and the configured local Directus service; inspect only the endpoints and logs needed for the task. The workflow's `tools/` is an optional location for real helper files; `.gitkeep` means no local helper is shipped.

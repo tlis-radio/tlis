@@ -7,4 +7,4 @@ This project owns local development orchestration, not production deployment. Re
 - Default resources are the website and a Discord-disabled bot. Audio and video are explicit opt-ins. Directus is an existing loopback development service; this host does not provision its schema or users.
 - Use only local development credentials. Bot/calendar connections and website analytics are disabled by this topology. Keep video tokens out of plans and logs.
 - Run `npm run restore`, then `npm run check`. Topology tests do not prove that Docker, FFmpeg, Directus, or application services are running. Record any runtime prerequisites that prevent a live check.
-- Workflow `tools/` folders contain external capabilities; `scripts/` contains maintenance and Aspire CLI wrappers. An empty capability directory has `.gitkeep`.
+- Use harness tools and existing scripts, including the Aspire CLI wrappers. Workflow `tools/` folders are optional locations for real helpers, with `.gitkeep` until one is needed.

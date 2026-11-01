@@ -1,13 +1,36 @@
 {
   "schemaVersion": 2,
   "projects": [
-    { "name": "cms-web", "path": "projects/cms-web", "dependsOn": ["stream-contracts"] },
-    { "name": "tlis-streamserver-docker", "path": "projects/tlis-streamserver-docker", "dependsOn": [] },
-    { "name": "videostream", "path": "projects/videostream", "dependsOn": ["stream-contracts"] },
-    { "name": "tlis-discord-bot", "path": "projects/tlis-discord-bot", "dependsOn": [] },
-    { "name": "tlis-devhost", "path": "projects/tlis-devhost", "dependsOn": ["cms-web", "tlis-streamserver-docker", "videostream", "tlis-discord-bot"] }
+    {
+      "name": "cms-web",
+      "path": "projects/cms-web",
+      "dependsOn": []
+    },
+    {
+      "name": "tlis-streamserver-docker",
+      "path": "projects/tlis-streamserver-docker",
+      "dependsOn": []
+    },
+    {
+      "name": "videostream",
+      "path": "projects/videostream",
+      "dependsOn": []
+    },
+    {
+      "name": "tlis-discord-bot",
+      "path": "projects/tlis-discord-bot",
+      "dependsOn": []
+    },
+    {
+      "name": "tlis-devhost",
+      "path": "projects/tlis-devhost",
+      "dependsOn": [
+        "cms-web",
+        "tlis-streamserver-docker",
+        "videostream",
+        "tlis-discord-bot"
+      ]
+    }
   ],
-  "libraries": [
-    { "name": "stream-contracts", "path": "libraries/stream-contracts", "dependsOn": [] }
-  ]
+  "libraries": []
 }

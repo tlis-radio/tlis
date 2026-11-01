@@ -19,7 +19,7 @@ The default host starts the website and offline bot. Directus remains an externa
 
 `npm run check` runs the real generated-SDK typecheck plus five offline topology tests. The recorder tests verify actual `configureResources` calls: independent npm contexts, disabled external bot connections, local Directus options, shared audio volumes/dependencies, distinct video ports, and redacted secret output. They do not launch a container or prove runtime readiness.
 
-For a staged run, initialize `local-development` through the root repository CLI and follow its preparation, launch, and verification contracts. The stage's capability directory remains empty until a real external capability is assigned.
+For work that needs saved handoffs, optionally initialize `local-development` through the root repository CLI. Otherwise follow the relevant preparation, launch, and verification context directly from the normal chat request.
 
 ## Environment notes
 

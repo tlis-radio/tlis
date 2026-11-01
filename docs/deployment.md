@@ -27,7 +27,7 @@ The workflow definition must exist on the repository's default branch for the ma
 
 ## Existing deployments
 
-The website and video workflows retain their existing image names and deployment HTTP methods. Docker build contexts remain `projects/cms-web` and `projects/videostream`; each includes its versioned `vendor/` archive for the shared stream contract. Predictable URL validation and notification payload construction live in `scripts/deploy/`, executed as TypeScript with Node 24. Website Discord notification is an explicit manual option and is off by default. Agent-facing MCP APIs live separately under `tools/` and are assigned by workflow scope.
+The website and video workflows retain their existing image names and deployment HTTP methods. Docker build contexts remain `projects/cms-web` and `projects/videostream`, with independent package locks and local stream types. Predictable URL validation and notification payload construction live in `scripts/deploy/`, executed as TypeScript with Node 24. Website Discord notification is an explicit manual option and is off by default.
 
 Original workflow snapshots are retained in the migration documentation; active copies no longer depend on `develop` or `master` triggers. Streamserver had no GitHub deployment workflow. Its Compose operation remains project-specific. The Discord bot is a new project and requires its own credentials and deployment choice.
 

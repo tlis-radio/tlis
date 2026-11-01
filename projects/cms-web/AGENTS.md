@@ -1,6 +1,6 @@
 # Website and dashboard
 
-The root `AGENTS.md` applies. This project owns its Next.js implementation, local context, prompts, service workflow, and deterministic checks.
+The root `AGENTS.md` applies. This project owns its Next.js implementation, local context, service workflow, and deterministic checks.
 
 Install dependencies here with `npm ci --legacy-peer-deps`. The declared project check runs TypeScript checking. `npm run build` is the full build and may require development service settings. The imported `lint` script uses `next lint`; verify it against the installed Next.js version before claiming lint coverage.
 
@@ -10,6 +10,4 @@ Use the website development workflow on dev, or production workflow on main. Pre
 
 Use `CONTEXT.md` to route changes. Shared code-change stages live at `../../workflows/change/`; service-specific operations live at `workflows/service/`. Add repeatable project mechanics under `scripts/` and declare checks in `_config/project.json`.
 
-Use `docs/README.md` for source-grounded architecture/API/configuration/development references. Keep maintenance programs in `scripts/`; each agent workflow and numbered stage owns a `CONTEXT.md`, `prompt.md`, and scoped external-capability `tools/` directory. A `tools/.gitkeep` means no external capability is declared, not a configured MCP connection.
-
-This project consumes `libraries/stream-contracts`. When its public contract changes, check the library and its registered direct consumers, preserve local DTO/private-key differences, and keep versioned archive/lockfile updates together.
+Use `docs/README.md` for architecture, API/service-contract, configuration, and development references. The AI follows workflow stage `CONTEXT.md` instructions using harness tools and existing scripts; the user writes ordinary requests in chat.

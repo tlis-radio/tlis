@@ -26,4 +26,4 @@ Record what changed, why, and any plan deviation. Point to the diff instead of d
 
 ## Tools
 
-Read this scope's tools/ entries before selecting an external capability. A tools/.gitkeep placeholder means no external/MCP capability is assigned. Read only an imported wrapper's input/output contract, then compose calls as TypeScript when useful. Repository checks and file operations use scripts/ and are separate from external tool authorization.
+Use harness edit and terminal tools, Git, and the affected project's existing scripts. Use a configured MCP connection directly when it supplies context or an action needed by this task.

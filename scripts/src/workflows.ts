@@ -25,14 +25,12 @@ export function initWorkflow(workflow: string, projectName: string, run: string,
     if (existsSync(path.join(base, 'output'))) existingWithin(base, 'output');
   }
   const manifest = {
-    schemaVersion: 2, workflow, scope: relative === shared ? 'shared' : 'component',
+    schemaVersion: 3, workflow, scope: relative === shared ? 'shared' : 'component',
     component: project.name, componentPath: project.path, project: project.name, projectPath: project.path,
     affectedComponents: affectedComponents([`${project.path}/`], components(root)).components,
     referenceIndex: `${project.path}/docs/README.md`,
-    tools: `${relative}/tools`,
     branch: git(root, ['branch', '--show-current']).toString().trim(), createdAt: new Date().toISOString(),
     stages: stages.map(stage => ({ name: stage, context: `${relative}/stages/${stage}/CONTEXT.md`,
-      prompt: `${relative}/stages/${stage}/prompt.md`, tools: `${relative}/stages/${stage}/tools`,
       output: `${relative}/stages/${stage}/output/${run}` })),
   };
   mkdirSync(path.dirname(manifestPath), { recursive: true });

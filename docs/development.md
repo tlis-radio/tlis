@@ -34,7 +34,7 @@ Historical import branches are independent snapshots of their source projects. N
 
 ## Context and outputs
 
-Initialize a substantial change with:
+Describe the desired result in ordinary chat. The AI selects relevant context and stages. If saved handoffs help a substantial change, it can optionally initialize a run with:
 
 ```sh
 npm run repo -- workflow init --workflow change --scope shared --component cms-web --run dashboard-fix
@@ -54,7 +54,7 @@ The Discord bot uses its local `add-feature` workflow for a vertical slice or in
 
 `_config/projects.json` registers projects and libraries and their declared `dependsOn` relationships. Use `npm run repo -- components list` for discovery. A component-local workflow wins by default; add `--scope shared` or `--scope component` to select that layer explicitly.
 
-When changing `libraries/stream-contracts`, follow its local packaging/release workflow. Check its source against distributed archives and run the checks for cms-web and videostream, its declared direct consumers. Keep all consumer archive/lockfile updates in the same scoped change. Use `changes --base <ref> --head <ref>` to select affected components, then inspect additional runtime coupling that cannot be inferred from dependency metadata.
+The `libraries/` area is currently empty. Keep small types local; extract shared behavior only when its reuse warrants the packaging and maintenance. For a future shared library, declare consumers and validate them together. Use `changes --base <ref> --head <ref>` to select affected components, then inspect runtime coupling not captured by dependency metadata.
 
 Use the `tlis-devhost` project for coordinated local development. Its own README lists Aspire/runtime/Docker requirements and resource selection. Individual project development remains available.
 
@@ -62,6 +62,6 @@ The manual `validate-project.yml` workflow can validate one project or library. 
 
 ## Tool and script definitions
 
-Every agent workflow and numbered stage has a context, prompt, and scoped `tools/` directory. The tools directory describes external/MCP capabilities; a tracked `.gitkeep` means none are declared there. The repository currently configures no real MCP provider servers. Inspect the selected scope instead of loading the whole catalog.
+Stage `CONTEXT.md` files give the AI instructions, useful tools, references, and expected outputs. There are no generic prompt templates for people to fill out. When delegating, the AI writes a prompt tailored to that subtask; it may save it with the run evidence when useful.
 
-Use TypeScript maintenance programs under `scripts/` for repeatable work. The canonical root command is `npm run repo -- ...`; the older `npm run tool -- ...` alias remains for compatibility. A prompt or capability definition never starts a provider or performs an operation on its own.
+Use TypeScript maintenance programs under `scripts/` for repeatable work. The canonical root command is `npm run repo -- ...`; the older `npm run tool -- ...` alias remains for compatibility. Codex or Claude Code supplies file, terminal, and configured MCP tools. Workflow `tools/` folders can hold real helpers and otherwise contain `.gitkeep`; no custom MCP client, provider registry, or additional agent runtime is needed.

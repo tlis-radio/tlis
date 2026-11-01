@@ -1,1 +1,0 @@
-Synchronize the accepted local version into both consumers, verify canonical-source/archive/lock parity, and run consumer checks. Report results and remaining environment-specific checks. Do not publish or deploy. Write the handoff to output/<run-id>/release-evidence.md.

@@ -1,6 +1,6 @@
 # Audio streaming stack
 
-The root `AGENTS.md` applies. This project owns its Docker Compose, Icecast, and Liquidsoap implementation, local context, prompts, service workflow, and deterministic checks.
+The root `AGENTS.md` applies. This project owns its Docker Compose, Icecast, and Liquidsoap implementation, local context, service workflow, and deterministic checks.
 
 The declared project check runs `docker compose config --quiet` from this folder. It validates configuration without starting containers or printing expanded secret values. A real audio-path test requires Docker, audio files, and the intended stream environment.
 
@@ -10,4 +10,4 @@ This project had no original GitHub deployment workflow. Follow the deployment h
 
 Use `CONTEXT.md` to route changes. Shared code-change stages live at `../../workflows/change/`; service-specific operations live at `workflows/service/`. Add repeatable project mechanics under `scripts/` and declare checks in `_config/project.json`.
 
-Use `docs/README.md` for source-grounded architecture/API/configuration/development references. Keep maintenance programs in `scripts/`; each agent workflow and numbered stage owns a `CONTEXT.md`, `prompt.md`, and scoped external-capability `tools/` directory. A `tools/.gitkeep` means no external capability is declared, not a configured MCP connection.
+Use `docs/README.md` for architecture, API/service-contract, configuration, and development references. The AI follows workflow stage `CONTEXT.md` instructions using harness tools and existing scripts; the user writes ordinary requests in chat.

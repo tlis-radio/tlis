@@ -11,5 +11,3 @@ The audio player consumes Directus episode assets, live metadata from `/api/stre
 Video UI reads the configured Directus stream collection and uses `NEXT_PUBLIC_VIDEO_STREAM_BASE_URL` for playback. The website and video service currently have different default collection names; set `STREAMS_COLLECTION` consistently when integrating them. Public playback uses a stream ID rather than the OBS key.
 
 The Docker image builds this project independently. Keep project-local dependency packaging intact when using a shared library, and validate the website together with every other registered consumer of a changed contract.
-
-Shared stream lifecycle and generic record fields are owned by [stream-contracts](../../../libraries/stream-contracts/docs/README.md). See its [type API](../../../libraries/stream-contracts/docs/api.md) and [consumer release process](../../../libraries/stream-contracts/docs/release.md). Local DTOs retain private-key and episode-shape differences.

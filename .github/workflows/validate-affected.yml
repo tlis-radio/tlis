@@ -20,7 +20,6 @@ on:
   #     - 'projects/**'
   #     - 'libraries/**'
   #     - 'scripts/**'
-  #     - 'tools/**'
   #     - '_config/**'
   #     - '.github/workflows/validate-affected.yml'
 

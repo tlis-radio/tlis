@@ -28,4 +28,4 @@ Distinguish completed work from unperformed rollout. For an executed operation, 
 
 ## Tools
 
-Read this scope's tools/ entries before selecting an external capability. A tools/.gitkeep placeholder means no external/MCP capability is assigned. Read only an imported wrapper's input/output contract, then compose calls as TypeScript when useful. Repository checks and file operations use scripts/ and are separate from external tool authorization.
+Use Git and the host's GitHub integration or installed CLI to prepare a reviewable commit/PR. Use manual GitHub Actions for requested validation; deployment uses the documented manual entrypoint and current task authorization.

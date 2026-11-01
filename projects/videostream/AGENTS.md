@@ -1,6 +1,6 @@
 # Video streaming and archive
 
-The root `AGENTS.md` applies. This project owns its TypeScript, FFmpeg, and Node Media Server implementation, local context, prompts, service workflow, and deterministic checks.
+The root `AGENTS.md` applies. This project owns its TypeScript, FFmpeg, and Node Media Server implementation, local context, service workflow, and deterministic checks.
 
 Install dependencies here with `npm ci`; the declared project check runs `npm run build`. Runtime checks need FFmpeg and configured Directus access. A successful TypeScript build does not exercise OBS ingest, recording, or archive finalization.
 
@@ -10,6 +10,4 @@ Use the video production workflow on main, preserving the video-stream image nam
 
 Use `CONTEXT.md` to route changes. Shared code-change stages live at `../../workflows/change/`; service-specific operations live at `workflows/service/`. Add repeatable project mechanics under `scripts/` and declare checks in `_config/project.json`.
 
-Use `docs/README.md` for source-grounded architecture/API/configuration/development references. Keep maintenance programs in `scripts/`; each agent workflow and numbered stage owns a `CONTEXT.md`, `prompt.md`, and scoped external-capability `tools/` directory. A `tools/.gitkeep` means no external capability is declared, not a configured MCP connection.
-
-This project consumes `libraries/stream-contracts`. When its public contract changes, check the library and its registered direct consumers, preserve local DTO/private-key differences, and keep versioned archive/lockfile updates together.
+Use `docs/README.md` for architecture, API/service-contract, configuration, and development references. The AI follows workflow stage `CONTEXT.md` instructions using harness tools and existing scripts; the user writes ordinary requests in chat.

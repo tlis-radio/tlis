@@ -1,1 +1,0 @@
-Implement the accepted shared contract in canonical source and tests. Keep application fields local and record exact files changed and any compatibility decision. Write the handoff to output/<run-id>/implementation.md.

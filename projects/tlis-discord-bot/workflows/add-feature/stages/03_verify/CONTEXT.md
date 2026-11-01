@@ -15,8 +15,8 @@ Run `node scripts/check.ts` from the project and inspect failures against the co
 
 ## Outputs
 
-Write `output/<run-id>/verification.md` with exact checks and results, configuration still needed, and any remaining risk. Use `prompt.md` for the review task.
+Write `output/<run-id>/verification.md` with exact checks and results, configuration still needed, and any remaining risk.
 
 ## Tools
 
-Read this workflow or stage's local `tools/` capability directory. A tracked `.gitkeep` means no external/MCP capability is declared at that scope. Definitions do not connect providers or grant task authorization. Deterministic checks and maintenance run from `scripts/`.
+Use harness file/search/edit tools and Git. Run `npm run check` from this project. Use command preview for changed command definitions and offline adapter tests for integrations; live Discord/calendar calls follow the current task authorization.

@@ -134,27 +134,23 @@ test('component-local workflows take precedence and shared scope stays explicit'
     }
     const local = initWorkflow('change', 'radio', 'local-run', f.root);
     assert.equal(local.scope, 'component');
-    assert.equal(local.stages[0].tools, 'projects/radio/workflows/change/stages/01_scope/tools');
+    assert.equal(local.stages[0].context, 'projects/radio/workflows/change/stages/01_scope/CONTEXT.md');
     const shared = initWorkflow('change', 'radio', 'shared-run', f.root, 'shared');
     assert.equal(shared.scope, 'shared');
   } finally { f.dispose(); }
 });
 
-test('agent workflow contract requires scoped capabilities even when they are empty placeholders', () => {
+test('workflow context is sufficient without prompt templates or a custom tool catalog', () => {
   const f = fixture();
   try {
     const folder = path.join(f.root, 'workflows/change');
     const stage = path.join(folder, 'stages/01_scope');
     mkdirSync(stage, { recursive: true });
     for (const directory of [folder, stage]) {
-      writeFileSync(path.join(directory, 'CONTEXT.md'), '## Tools\nRead tools/. No capabilities assigned.\n');
-      writeFileSync(path.join(directory, 'prompt.md'), 'Read the contract.');
-      mkdirSync(path.join(directory, 'tools'));
+      writeFileSync(path.join(directory, 'CONTEXT.md'), '## Tools\nUse file search and the existing project check script.\n');
     }
-    assert.throws(() => assertAgentWorkflow(folder), /gitkeep/);
-    for (const directory of [folder, stage]) writeFileSync(path.join(directory, 'tools/.gitkeep'), '');
     assert.doesNotThrow(() => assertAgentWorkflow(folder));
-    rmSync(path.join(stage, 'prompt.md'));
-    assert.throws(() => assertAgentWorkflow(folder), /prompt.md/);
+    rmSync(path.join(stage, 'CONTEXT.md'));
+    assert.throws(() => assertAgentWorkflow(folder), /CONTEXT.md/);
   } finally { f.dispose(); }
 });

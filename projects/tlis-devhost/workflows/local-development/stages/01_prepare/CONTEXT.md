@@ -11,7 +11,7 @@
 
 ## Tools
 
-Read this stage's tools/ and the workflow's tools/ entries. Empty .gitkeep placeholders assign no external capabilities. Use scripts/ for declared local Aspire/npm mechanics; permissions still come from the current task.
+Use harness file/search/edit tools and Git, plus this project's `npm run restore`, `npm run plan`, `npm run check`, and `npm run dev` commands. Use the Aspire dashboard, scoped resource logs, and local HTTP health checks to verify running services.
 
 ## Process
 

@@ -1,1 +1,0 @@
-Prepare and distribute the accepted local stream-contract version. Follow the two stage contracts and docs/release.md. Update canonical metadata and both local archives/locks together, then report parity and actual consumer check results. Do not publish externally or deploy.

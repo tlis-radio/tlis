@@ -14,7 +14,6 @@ on:
           - tlis-streamserver-docker
           - tlis-discord-bot
           - tlis-devhost
-          - stream-contracts
       build_images:
         description: Also build the streamserver Docker images (does not start services)
         type: boolean

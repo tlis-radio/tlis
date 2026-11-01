@@ -16,7 +16,6 @@
   },
   "include": [
     "scripts/**/*.ts",
-    "tools/**/*.ts",
     "projects/cms-web/scripts/*.ts",
     "projects/videostream/scripts/*.ts",
     "projects/tlis-streamserver-docker/scripts/*.ts"

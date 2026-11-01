@@ -1,1 +1,0 @@
-Prepare an explicit local release plan for the accepted change: version, consumers, compatibility expectations, and validation commands. No registry publish or deployment is included. Write the handoff to output/<run-id>/release-plan.md.

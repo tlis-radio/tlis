@@ -11,7 +11,6 @@ switch (component.name) {
   case 'cms-web': npm(['ci', '--legacy-peer-deps']); npm(['run', 'build']); break;
   case 'videostream': npm(['ci']); npm(['run', 'build']); break;
   case 'tlis-discord-bot': npm(['ci']); npm(['run', 'check']); break;
-  case 'stream-contracts': npm(['ci']); npm(['run', 'check']); break;
   case 'tlis-devhost': npm(['ci']); npm(['run', 'restore']); npm(['run', 'check']); break;
   case 'tlis-streamserver-docker':
     runCommand(directory, 'docker', ['compose', 'config', '--quiet']);

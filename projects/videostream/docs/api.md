@@ -20,5 +20,3 @@ The typed statuses are `scheduled | idle | live | ended | disabled`. `episode` c
 Do not use the private key in viewer-facing URLs or DTOs. Recorded source folders currently use the key internally, whereas archive filenames use the public stream ID. Protect stored media and avoid exposing broader raw recording paths when configuring a public reverse proxy.
 
 The sample `viewer.html` is a separate browser example; it is not an application control API. Keep consumer behavior aligned with the actual media-server version and configured app/path.
-
-Shared stream lifecycle and generic record fields are owned by [stream-contracts](../../../libraries/stream-contracts/docs/README.md). See its [type API](../../../libraries/stream-contracts/docs/api.md) and [consumer release process](../../../libraries/stream-contracts/docs/release.md). Local DTOs retain private-key and episode-shape differences.

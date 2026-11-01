@@ -12,4 +12,4 @@ Discord is disabled by default. Normal startup must never register commands. `np
 
 Calendar feed URLs can contain access tokens. Do not log them or upstream error objects. Keep calendar replies ephemeral, suppress mentions from external content, exclude private/confidential/cancelled events, and preserve the feed's all-day date semantics. Add an adapter for OAuth calendar APIs rather than embedding provider SDK calls inside a slice.
 
-Use `docs/README.md` for source-grounded architecture/API/configuration/development references. Keep maintenance programs in `scripts/`; each agent workflow and numbered stage owns a `CONTEXT.md`, `prompt.md`, and scoped external-capability `tools/` directory. A `tools/.gitkeep` means no external capability is declared, not a configured MCP connection.
+Use `docs/README.md` for architecture, API/service-contract, configuration, and development references. The AI follows workflow stage `CONTEXT.md` instructions using harness tools and existing scripts; the user writes ordinary requests in chat.

@@ -16,4 +16,4 @@ Stable local references are `docs/architecture.md`, `docs/api.md`, `docs/configu
 
 ## Tools
 
-Read this workflow's `tools/` capability directory. `tools/.gitkeep` means no external/MCP tool is declared at this scope. Provider access is host configuration and task authorization. Predictable check mechanics live in component/root `scripts/`.
+Use harness file/search/edit tools and Git. Run `node scripts/check.ts` from this project after `npm ci`. Runtime checks use FFmpeg and the configured local Directus service; inspect only the endpoints and logs needed for the task. The workflow's `tools/` is an optional location for real helper files; `.gitkeep` means no local helper is shipped.

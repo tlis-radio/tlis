@@ -28,4 +28,4 @@ Record exact commands, outcomes, acceptance coverage, and missing runtimes or se
 
 ## Tools
 
-Read this scope's tools/ entries before selecting an external capability. A tools/.gitkeep placeholder means no external/MCP capability is assigned. Read only an imported wrapper's input/output contract, then compose calls as TypeScript when useful. Repository checks and file operations use scripts/ and are separate from external tool authorization.
+Use the affected project's declared check/build commands and focused runtime checks. Run root `npm run check`, `npm test`, and architecture verification when shared repository code changes. Use Git diff to review acceptance coverage.
