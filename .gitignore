@@ -1,0 +1,19 @@
+node_modules/
+.env
+.env.*
+!.env.example
+auth.env
+.next/
+dist/
+coverage/
+*.tsbuildinfo
+__pycache__/
+*.py[cod]
+.DS_Store
+Thumbs.db
+.idea/
+.vscode/
+# Per-run working artifacts are local. Explicitly add sanitized handoffs when useful.
+**/output/**
+!**/output/.gitkeep
+.tmp/

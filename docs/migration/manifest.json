@@ -1,0 +1,370 @@
+{
+  "schema_version": 2,
+  "migration_date": "2026-11-01",
+  "layout": "projects",
+  "filter_repo_version": "5df1b13a5cfd",
+  "projects": [
+    {
+      "name": "cms-web",
+      "path": "projects/cms-web",
+      "url": "https://github.com/tlis-radio/cms-web.git",
+      "default_ref": "refs/heads/main",
+      "original_head": "4fb7d3fac4f8650b8982fe26293ed4f4b308bc79",
+      "default_tree": "9d1dc2cae337b13d08951a6da9f24483f701d7c9",
+      "imported_default_ref": "refs/heads/archive/cms-web/branches/main",
+      "commit_count": 520,
+      "refs": [
+        {
+          "original": "refs/heads/chore/dashboard-home",
+          "original_object": "fde1c363f16700a2e5e33a26a96e2118caa4aebc",
+          "rewritten": "refs/heads/chore/dashboard-home",
+          "imported": "refs/heads/archive/cms-web/branches/chore/dashboard-home",
+          "imported_object": "eb60e7eb46c39f98faf53d54cad2f50af52a886c"
+        },
+        {
+          "original": "refs/heads/copilot/sub-pr-8",
+          "original_object": "caee84eca1d6eb44b08ff214ece35a762f4a6284",
+          "rewritten": "refs/heads/copilot/sub-pr-8",
+          "imported": "refs/heads/archive/cms-web/branches/copilot/sub-pr-8",
+          "imported_object": "6f93816475bcf597d5a86b01fe32ef8cab4b85d0"
+        },
+        {
+          "original": "refs/heads/develop",
+          "original_object": "4fb7d3fac4f8650b8982fe26293ed4f4b308bc79",
+          "rewritten": "refs/heads/develop",
+          "imported": "refs/heads/archive/cms-web/branches/develop",
+          "imported_object": "c118ba4563a5e89ebbdbce3c1745002734dd61da"
+        },
+        {
+          "original": "refs/heads/easteregg-cockroach",
+          "original_object": "3a803c34a7fa6fcad58a8948e21b8f1af0eb2aa1",
+          "rewritten": "refs/heads/easteregg-cockroach",
+          "imported": "refs/heads/archive/cms-web/branches/easteregg-cockroach",
+          "imported_object": "09328585513df376e6924f039c915c1e49c48ff0"
+        },
+        {
+          "original": "refs/heads/feat/ado-sa-hra",
+          "original_object": "4fb7d3fac4f8650b8982fe26293ed4f4b308bc79",
+          "rewritten": "refs/heads/feat/ado-sa-hra",
+          "imported": "refs/heads/archive/cms-web/branches/feat/ado-sa-hra",
+          "imported_object": "c118ba4563a5e89ebbdbce3c1745002734dd61da"
+        },
+        {
+          "original": "refs/heads/feat/live",
+          "original_object": "43e0b8b92091d0fa2b59f0c6f4d6361cfeaecac6",
+          "rewritten": "refs/heads/feat/live",
+          "imported": "refs/heads/archive/cms-web/branches/feat/live",
+          "imported_object": "60545ad79d820294125101204b387a6db428c390"
+        },
+        {
+          "original": "refs/heads/feat/password",
+          "original_object": "64406131040190c5bd386497a4d9b0fc6d2b590d",
+          "rewritten": "refs/heads/feat/password",
+          "imported": "refs/heads/archive/cms-web/branches/feat/password",
+          "imported_object": "88bbda045c4f27bfaeebda928ed0190bc5894c8e"
+        },
+        {
+          "original": "refs/heads/feat/redesign",
+          "original_object": "e9947ff1fc32cba14fa8f20e42cf539f99899a67",
+          "rewritten": "refs/heads/feat/redesign",
+          "imported": "refs/heads/archive/cms-web/branches/feat/redesign",
+          "imported_object": "b00abfb339dd0d4e7152d9f9dd5d1483e4b58138"
+        },
+        {
+          "original": "refs/heads/main",
+          "original_object": "4fb7d3fac4f8650b8982fe26293ed4f4b308bc79",
+          "rewritten": "refs/heads/main",
+          "imported": "refs/heads/archive/cms-web/branches/main",
+          "imported_object": "c118ba4563a5e89ebbdbce3c1745002734dd61da"
+        },
+        {
+          "original": "refs/pull/1/head",
+          "original_object": "96f74c13d81e4b1123393b04d6fbe9f82b60b55d",
+          "rewritten": "refs/pull/1/head",
+          "imported": "refs/heads/archive/cms-web/pull/1/head",
+          "imported_object": "89ab77179daa8ebc5077b67caddc6609f249e77d"
+        },
+        {
+          "original": "refs/pull/10/head",
+          "original_object": "2374879502f27a098c038b8e99f97a2bf822c263",
+          "rewritten": "refs/pull/10/head",
+          "imported": "refs/heads/archive/cms-web/pull/10/head",
+          "imported_object": "dd94ec62f3707ba671c0d0c57a84162b72dea0a0"
+        },
+        {
+          "original": "refs/pull/11/head",
+          "original_object": "6cc658324ac09076919e5da62c83500275acf7bb",
+          "rewritten": "refs/pull/11/head",
+          "imported": "refs/heads/archive/cms-web/pull/11/head",
+          "imported_object": "73c3d673c281097ea3050e951e22c518b3e7504c"
+        },
+        {
+          "original": "refs/pull/12/head",
+          "original_object": "d1cf372840142117f7b7767b7fc52e39be2329a0",
+          "rewritten": "refs/pull/12/head",
+          "imported": "refs/heads/archive/cms-web/pull/12/head",
+          "imported_object": "408b817af6acae647e540823df09139131543bc2"
+        },
+        {
+          "original": "refs/pull/13/head",
+          "original_object": "5ee8e9a983813346eae8d1d506dab8dd224daf80",
+          "rewritten": "refs/pull/13/head",
+          "imported": "refs/heads/archive/cms-web/pull/13/head",
+          "imported_object": "e5007a217d4247994b26249ff42b1f78decbac2b"
+        },
+        {
+          "original": "refs/pull/14/head",
+          "original_object": "b0d52d7d7d4173ae4f97ba40c682326526282929",
+          "rewritten": "refs/pull/14/head",
+          "imported": "refs/heads/archive/cms-web/pull/14/head",
+          "imported_object": "347b3ad76581aabb694827e845ad56498091610f"
+        },
+        {
+          "original": "refs/pull/15/head",
+          "original_object": "4731199a3b22e951cc9fa68276469444347a4de6",
+          "rewritten": "refs/pull/15/head",
+          "imported": "refs/heads/archive/cms-web/pull/15/head",
+          "imported_object": "82fa9c5f3c7ae09812d26c555afdd16774b02c0e"
+        },
+        {
+          "original": "refs/pull/16/head",
+          "original_object": "4babdcafaf9294157a26dcd796c3af4b6f00b655",
+          "rewritten": "refs/pull/16/head",
+          "imported": "refs/heads/archive/cms-web/pull/16/head",
+          "imported_object": "a4dfe10d60eaea4b343e04cebb743b1f3577bdd0"
+        },
+        {
+          "original": "refs/pull/17/head",
+          "original_object": "0a864e91ed393384c773c1688686f0f7cd8754be",
+          "rewritten": "refs/pull/17/head",
+          "imported": "refs/heads/archive/cms-web/pull/17/head",
+          "imported_object": "f3a114ff69042f568cff7411e92d77d51bc26065"
+        },
+        {
+          "original": "refs/pull/18/head",
+          "original_object": "781a0120a7f0ca8b3148ad2adee0d5f026718ba2",
+          "rewritten": "refs/pull/18/head",
+          "imported": "refs/heads/archive/cms-web/pull/18/head",
+          "imported_object": "94d5e766cb6a03d37d4ad3aef10efc03a5d9e04a"
+        },
+        {
+          "original": "refs/pull/19/head",
+          "original_object": "4a2380799f9dca38b1260ff469cc2387a95ed334",
+          "rewritten": "refs/pull/19/head",
+          "imported": "refs/heads/archive/cms-web/pull/19/head",
+          "imported_object": "b1604d002174921e37987b48ff3009acf229b1bc"
+        },
+        {
+          "original": "refs/pull/2/head",
+          "original_object": "2496d346c1fdcb9dbcf7c21073b86170ba4fa1af",
+          "rewritten": "refs/pull/2/head",
+          "imported": "refs/heads/archive/cms-web/pull/2/head",
+          "imported_object": "c4929f1c4b9e3bc67f3d96aba995bbdeb388d781"
+        },
+        {
+          "original": "refs/pull/20/head",
+          "original_object": "e7c72a53e5df2b77e312961e9ec4464c20c59f5f",
+          "rewritten": "refs/pull/20/head",
+          "imported": "refs/heads/archive/cms-web/pull/20/head",
+          "imported_object": "b360dcc7ef85a0af1181c227b4d6c191c4bb2b31"
+        },
+        {
+          "original": "refs/pull/21/head",
+          "original_object": "e7c72a53e5df2b77e312961e9ec4464c20c59f5f",
+          "rewritten": "refs/pull/21/head",
+          "imported": "refs/heads/archive/cms-web/pull/21/head",
+          "imported_object": "b360dcc7ef85a0af1181c227b4d6c191c4bb2b31"
+        },
+        {
+          "original": "refs/pull/22/head",
+          "original_object": "9a4bc00b664971a7fc170650e7e4acc184450636",
+          "rewritten": "refs/pull/22/head",
+          "imported": "refs/heads/archive/cms-web/pull/22/head",
+          "imported_object": "9ee7bdeebe4c495e0475dafd56aa4e7b38160fec"
+        },
+        {
+          "original": "refs/pull/23/head",
+          "original_object": "c0bd9b98a8e403ac51314a7dd97ef368a2d3da16",
+          "rewritten": "refs/pull/23/head",
+          "imported": "refs/heads/archive/cms-web/pull/23/head",
+          "imported_object": "33c8abb184845d045f4e0c272eae2cb65d303c64"
+        },
+        {
+          "original": "refs/pull/24/head",
+          "original_object": "7e36acbfe041bbd84d832f2db7cd8a57df98453c",
+          "rewritten": "refs/pull/24/head",
+          "imported": "refs/heads/archive/cms-web/pull/24/head",
+          "imported_object": "132b850a5fd4dad442bcb681d563a8b2817f99ce"
+        },
+        {
+          "original": "refs/pull/25/head",
+          "original_object": "82791b783a250a81fb3aa60bd5d95e2e289eebb7",
+          "rewritten": "refs/pull/25/head",
+          "imported": "refs/heads/archive/cms-web/pull/25/head",
+          "imported_object": "00b9dfb770f0baa45743b8c6e4a73971551f7fec"
+        },
+        {
+          "original": "refs/pull/26/head",
+          "original_object": "22393ec59738d32e364759ae2a603db6ee659f43",
+          "rewritten": "refs/pull/26/head",
+          "imported": "refs/heads/archive/cms-web/pull/26/head",
+          "imported_object": "15e51281cb3351af02f05f269ec3b3326d959238"
+        },
+        {
+          "original": "refs/pull/3/head",
+          "original_object": "33f70c4dee190e75b31cfa9e47ec4bdd8563cdef",
+          "rewritten": "refs/pull/3/head",
+          "imported": "refs/heads/archive/cms-web/pull/3/head",
+          "imported_object": "58afe28476d0f82c1782a8c7e43fbfd504fb003c"
+        },
+        {
+          "original": "refs/pull/4/head",
+          "original_object": "4a46fbbedd4ca1ce3bc45a27e8a412f1e431012a",
+          "rewritten": "refs/pull/4/head",
+          "imported": "refs/heads/archive/cms-web/pull/4/head",
+          "imported_object": "c8be84d0756017a8704c17d5cfdb5c5bcffbeae9"
+        },
+        {
+          "original": "refs/pull/5/head",
+          "original_object": "9c52ec83b0b64cfdac2643025c36b6cc1e830f37",
+          "rewritten": "refs/pull/5/head",
+          "imported": "refs/heads/archive/cms-web/pull/5/head",
+          "imported_object": "301d533124d58dc4c3b24c42b033e23d29738b46"
+        },
+        {
+          "original": "refs/pull/6/head",
+          "original_object": "e79a48b5f0d3374267bde8e8f745a1c949b34485",
+          "rewritten": "refs/pull/6/head",
+          "imported": "refs/heads/archive/cms-web/pull/6/head",
+          "imported_object": "7bba2a36102c8963090c3db476312e8cb3b1e9f1"
+        },
+        {
+          "original": "refs/pull/7/head",
+          "original_object": "5769d60d8b56c1aea67267f865a41c4c7e43b0be",
+          "rewritten": "refs/pull/7/head",
+          "imported": "refs/heads/archive/cms-web/pull/7/head",
+          "imported_object": "f96861e2cfc703eb13f3953bd6b6bea9e4fdc90e"
+        },
+        {
+          "original": "refs/pull/8/head",
+          "original_object": "fc4b757178f41d9918a467dd1f5b2f5fd7b7668c",
+          "rewritten": "refs/pull/8/head",
+          "imported": "refs/heads/archive/cms-web/pull/8/head",
+          "imported_object": "a37f49e46e8128bfdad61060ec8590b06ff02ae6"
+        },
+        {
+          "original": "refs/pull/9/head",
+          "original_object": "caee84eca1d6eb44b08ff214ece35a762f4a6284",
+          "rewritten": "refs/pull/9/head",
+          "imported": "refs/heads/archive/cms-web/pull/9/head",
+          "imported_object": "6f93816475bcf597d5a86b01fe32ef8cab4b85d0"
+        }
+      ],
+      "filter_options": [
+        "--to-subdirectory-filter",
+        "projects/cms-web",
+        "--tag-rename",
+        ":cms-web/",
+        "--prune-empty",
+        "never",
+        "--prune-degenerate",
+        "never",
+        "--preserve-commit-hashes",
+        "--preserve-commit-encoding",
+        "--replace-refs",
+        "delete-no-add"
+      ],
+      "integration_commit": "5f43dc578dd34873880a3785b433b7b3738fb6e1"
+    },
+    {
+      "name": "tlis-streamserver-docker",
+      "path": "projects/tlis-streamserver-docker",
+      "url": "https://github.com/tlis-radio/tlis-streamserver-docker.git",
+      "default_ref": "refs/heads/main",
+      "original_head": "46860aacc0925e0ee8acdfef045f6cb2e7e02205",
+      "default_tree": "ad49106ade7ccb570a93203a313d0464894eaefa",
+      "imported_default_ref": "refs/heads/archive/tlis-streamserver-docker/branches/main",
+      "commit_count": 36,
+      "refs": [
+        {
+          "original": "refs/heads/dev",
+          "original_object": "7c1973f751bf65ad0d618f5f5605f4149eef8d21",
+          "rewritten": "refs/heads/dev",
+          "imported": "refs/heads/archive/tlis-streamserver-docker/branches/dev",
+          "imported_object": "d9722f53856134f7dc4bd4aad7f3cd69f2dd7c8e"
+        },
+        {
+          "original": "refs/heads/develop",
+          "original_object": "6cee763dc3b574b507ad187adc2340603294112e",
+          "rewritten": "refs/heads/develop",
+          "imported": "refs/heads/archive/tlis-streamserver-docker/branches/develop",
+          "imported_object": "375c9524537ca0ac96f9e0e6021585d33d4dcdd5"
+        },
+        {
+          "original": "refs/heads/main",
+          "original_object": "46860aacc0925e0ee8acdfef045f6cb2e7e02205",
+          "rewritten": "refs/heads/main",
+          "imported": "refs/heads/archive/tlis-streamserver-docker/branches/main",
+          "imported_object": "539e88a6f979b562c851862e92bcb90d9835c342"
+        },
+        {
+          "original": "refs/heads/update",
+          "original_object": "869505be987bb5b7bab6d251a50070639d2b1413",
+          "rewritten": "refs/heads/update",
+          "imported": "refs/heads/archive/tlis-streamserver-docker/branches/update",
+          "imported_object": "6bbcddeb42e8e32e4a78c3ddeef5c9e906ff1096"
+        }
+      ],
+      "filter_options": [
+        "--to-subdirectory-filter",
+        "projects/tlis-streamserver-docker",
+        "--tag-rename",
+        ":tlis-streamserver-docker/",
+        "--prune-empty",
+        "never",
+        "--prune-degenerate",
+        "never",
+        "--preserve-commit-hashes",
+        "--preserve-commit-encoding",
+        "--replace-refs",
+        "delete-no-add"
+      ],
+      "integration_commit": "20268af23ee8bdb92cbe109e46d2e4d20036d286"
+    },
+    {
+      "name": "videostream",
+      "path": "projects/videostream",
+      "url": "https://github.com/tlis-radio/videostream.git",
+      "default_ref": "refs/heads/master",
+      "original_head": "0f154666381195306d031365dd4f1956f2f1b6fa",
+      "default_tree": "718d735ce10c4a6d9abaadc04c3740175f9fda42",
+      "imported_default_ref": "refs/heads/archive/videostream/branches/master",
+      "commit_count": 7,
+      "refs": [
+        {
+          "original": "refs/heads/master",
+          "original_object": "0f154666381195306d031365dd4f1956f2f1b6fa",
+          "rewritten": "refs/heads/master",
+          "imported": "refs/heads/archive/videostream/branches/master",
+          "imported_object": "9b948e0b952e42e41050ca8622c40038cf81d3b5"
+        }
+      ],
+      "filter_options": [
+        "--to-subdirectory-filter",
+        "projects/videostream",
+        "--tag-rename",
+        ":videostream/",
+        "--prune-empty",
+        "never",
+        "--prune-degenerate",
+        "never",
+        "--preserve-commit-hashes",
+        "--preserve-commit-encoding",
+        "--replace-refs",
+        "delete-no-add"
+      ],
+      "integration_commit": "560deadd227dcce1baef9f662658d4dcdb8d890d"
+    }
+  ],
+  "import_anchor": "560deadd227dcce1baef9f662658d4dcdb8d890d"
+}

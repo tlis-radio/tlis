@@ -1,0 +1,37 @@
+{
+  "date": "2026-11-01",
+  "source_commits": 563,
+  "archived_refs": 40,
+  "history": [
+    "mapped source commits reachable",
+    "identical complete project tree objects under projects/<name>",
+    "identical author and committer headers, timestamps, encoding and complete messages",
+    "identical ordered parent topology after mapping",
+    "retained all source refs",
+    "all original default trees integrated at import anchor",
+    "live source refs match snapshot",
+    "all original backup bundles verified",
+    "git fsck --full --no-reflogs"
+  ],
+  "checks": {
+    "root_typescript": "passed",
+    "root_unit_tests": 16,
+    "architecture": "4 projects, 5 manual-only workflows, canonical agent adapters",
+    "website": "npm ci --legacy-peer-deps and npm run build passed",
+    "video": "npm ci and npm run build passed",
+    "audio": "docker compose config --quiet passed using Windows Docker client",
+    "bot": "typecheck, 12 offline tests, production build and slash-command preview passed",
+    "workflow_syntax": "actionlint 1.7.7 passed",
+    "skills": "3 SKILL.md manifests validated"
+  },
+  "not_executed": [
+    "live deployment",
+    "container runtime startup",
+    "Discord gateway login/command registration/messages",
+    "live external calendar access"
+  ],
+  "notes": [
+    "Source project dependencies retained; npm audit reported 9 website and 5 video issues, no unrelated dependency updates.",
+    "WSL Docker engine integration unavailable; Windows client used for static Compose validation."
+  ]
+}

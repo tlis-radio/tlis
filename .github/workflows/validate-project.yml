@@ -1,0 +1,77 @@
+name: Project - validate selected project (manual)
+
+on:
+  workflow_dispatch:
+    inputs:
+      project:
+        description: Project to validate using its own dependencies and commands
+        required: true
+        default: tlis-discord-bot
+        type: choice
+        options:
+          - cms-web
+          - videostream
+          - tlis-streamserver-docker
+          - tlis-discord-bot
+      build_images:
+        description: Also build the streamserver Docker images (does not start services)
+        type: boolean
+        default: false
+  # Optional bot-only automatic validation; intentionally disabled.
+  # To use this for another project, update both paths and PROJECT's fallback below.
+  # push:
+  #   branches: [main, dev, 'feature/**']
+  #   paths:
+  #     - 'projects/tlis-discord-bot/**'
+  #     - '.github/workflows/validate-project.yml'
+
+permissions:
+  contents: read
+
+concurrency:
+  group: validate-${{ inputs.project || 'tlis-discord-bot' }}-${{ github.ref }}
+  cancel-in-progress: false
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '24'
+      - name: Run the selected project's checks
+        env:
+          PROJECT: ${{ inputs.project || 'tlis-discord-bot' }}
+          BUILD_IMAGES: ${{ inputs.build_images && 'true' || 'false' }}
+        run: |
+          set -euo pipefail
+          case "$PROJECT" in
+            cms-web)
+              cd projects/cms-web
+              npm ci --legacy-peer-deps
+              npm run build
+              ;;
+            videostream)
+              cd projects/videostream
+              npm ci
+              npm run build
+              ;;
+            tlis-streamserver-docker)
+              cd projects/tlis-streamserver-docker
+              docker compose config --quiet
+              if [ "$BUILD_IMAGES" = 'true' ]; then docker compose build; fi
+              ;;
+            tlis-discord-bot)
+              cd projects/tlis-discord-bot
+              npm ci
+              npm run check
+              ;;
+            *)
+              echo '::error::Unknown project.'
+              exit 1
+              ;;
+          esac

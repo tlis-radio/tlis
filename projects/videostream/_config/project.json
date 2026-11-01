@@ -1,0 +1,12 @@
+{
+  "name": "videostream",
+  "checks": [
+    {
+      "command": "npm",
+      "args": [
+        "run",
+        "build"
+      ]
+    }
+  ]
+}
