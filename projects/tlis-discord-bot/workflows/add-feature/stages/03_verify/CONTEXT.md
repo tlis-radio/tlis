@@ -20,3 +20,7 @@ Write `output/<run-id>/verification.md` with exact checks and results, configura
 ## Tools
 
 Use harness file/search/edit tools and Git. Run `npm run check` from this project. Use command preview for changed command definitions and offline adapter tests for integrations; live Discord/calendar calls follow the current task authorization.
+
+## Verify
+
+The project check passes and acceptance examples are covered. Inspect command preview if definitions changed. Record exact checks and missing live-service validation; do not infer Discord/calendar success from offline tests.

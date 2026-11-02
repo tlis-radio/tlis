@@ -20,3 +20,7 @@ Write `output/<run-id>/contract.md` with behavior examples, the service interfac
 ## Tools
 
 Use harness file/search/edit tools and Git. Run `npm run check` from this project. Use command preview for changed command definitions and offline adapter tests for integrations; live Discord/calendar calls follow the current task authorization.
+
+## Verify
+
+The behavior examples, request/response shape, provider boundary, and offline acceptance checks are explicit. Resolve material command/provider ambiguities before implementation.

@@ -1,0 +1,18 @@
+{
+  "schemaVersion": 1,
+  "generatedBy": "tlis-skills-sync",
+  "skills": {
+    "tlis-change": {
+      "files": {
+        "SKILL.md": "179bc8c7df99e123ec1f55983c745d8ec5b2bd686facd2de18bb5827c3a34cbc"
+      },
+      "directories": []
+    },
+    "tlis-operations": {
+      "files": {
+        "SKILL.md": "7db02b1c35cfa798eb6e69c269d4720f211a23a2116d15ceac956c5bc9ee127b"
+      },
+      "directories": []
+    }
+  }
+}

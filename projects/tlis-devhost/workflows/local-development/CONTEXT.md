@@ -13,3 +13,7 @@ Each stage's CONTEXT.md gives the AI its inputs, process, tools, and expected re
 ## Tools
 
 Use harness file/search/edit tools and Git, plus this project's `npm run restore`, `npm run plan`, `npm run check`, and `npm run dev` commands. Use the Aspire dashboard, scoped resource logs, and local HTTP health checks to verify running services. The workflow's `tools/` is an optional location for real helper files; `.gitkeep` means no local helper is shipped.
+
+## Task state and transition
+
+Follow the [shared saved-state and transition convention](../../../../docs/ai-workspace.md#save-and-resume). This workflow's stage Verify sections supply its specific acceptance criteria for advancing.

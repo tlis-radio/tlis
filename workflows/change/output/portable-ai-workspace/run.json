@@ -1,0 +1,44 @@
+{
+  "schemaVersion": 4,
+  "workflow": "change",
+  "run": "portable-ai-workspace",
+  "taskPath": "workflows/change/output/portable-ai-workspace/task.md",
+  "scope": "shared",
+  "component": "tlis-devhost",
+  "componentPath": "projects/tlis-devhost",
+  "project": "tlis-devhost",
+  "projectPath": "projects/tlis-devhost",
+  "affectedComponents": [
+    "tlis-devhost"
+  ],
+  "referenceIndex": "projects/tlis-devhost/docs/README.md",
+  "branch": "feature/portable-ai-workspace",
+  "createdAt": "2026-11-02T00:02:48.618Z",
+  "stages": [
+    {
+      "name": "01_scope",
+      "context": "workflows/change/stages/01_scope/CONTEXT.md",
+      "output": "workflows/change/stages/01_scope/output/portable-ai-workspace"
+    },
+    {
+      "name": "02_plan",
+      "context": "workflows/change/stages/02_plan/CONTEXT.md",
+      "output": "workflows/change/stages/02_plan/output/portable-ai-workspace"
+    },
+    {
+      "name": "03_implement",
+      "context": "workflows/change/stages/03_implement/CONTEXT.md",
+      "output": "workflows/change/stages/03_implement/output/portable-ai-workspace"
+    },
+    {
+      "name": "04_verify",
+      "context": "workflows/change/stages/04_verify/CONTEXT.md",
+      "output": "workflows/change/stages/04_verify/output/portable-ai-workspace"
+    },
+    {
+      "name": "05_release",
+      "context": "workflows/change/stages/05_release/CONTEXT.md",
+      "output": "workflows/change/stages/05_release/output/portable-ai-workspace"
+    }
+  ]
+}

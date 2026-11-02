@@ -21,3 +21,7 @@ Project boundary: Directus stream records, public IDs, and media storage. Use th
 ## Tools
 
 Use harness file/search/edit tools and Git. Run `node scripts/check.ts` from this project after `npm ci`. Runtime checks use FFmpeg and the configured local Directus service; inspect only the endpoints and logs needed for the task. The workflow's `tools/` is an optional location for real helper files; `.gitkeep` means no local helper is shipped.
+
+## Task state and transition
+
+Follow the [shared saved-state and transition convention](../../../../docs/ai-workspace.md#save-and-resume). This workflow's stage Verify sections supply its specific acceptance criteria for advancing.

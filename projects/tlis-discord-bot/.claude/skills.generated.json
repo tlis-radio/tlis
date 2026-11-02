@@ -1,0 +1,12 @@
+{
+  "schemaVersion": 1,
+  "generatedBy": "tlis-skills-sync",
+  "skills": {
+    "bot-feature": {
+      "files": {
+        "SKILL.md": "cc58aaa77a45dba704aeb254ca5443c348c0e3165a7308bee5a555e5eac70553"
+      },
+      "directories": []
+    }
+  }
+}

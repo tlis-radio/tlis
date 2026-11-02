@@ -20,3 +20,7 @@ Commit-ready code and tests plus `output/<run-id>/implementation.md` recording c
 ## Tools
 
 Use harness file/search/edit tools and Git. Run `npm run check` from this project. Use command preview for changed command definitions and offline adapter tests for integrations; live Discord/calendar calls follow the current task authorization.
+
+## Verify
+
+The implemented slice follows the accepted contract, keeps transport behind its adapter, and includes focused offline coverage for changed behavior. Review the source diff and configuration changes before verification.
