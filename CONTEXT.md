@@ -8,7 +8,6 @@ The job table in [AGENTS.md](AGENTS.md) is the routing map. This file locates fa
 | Audio streaming | [Context](projects/tlis-streamserver-docker/CONTEXT.md), [docs](projects/tlis-streamserver-docker/docs/README.md) |
 | OBS/video/archive | [Context](projects/videostream/CONTEXT.md), [docs](projects/videostream/docs/README.md) |
 | Discord/calendar | [Context](projects/tlis-discord-bot/CONTEXT.md), [docs](projects/tlis-discord-bot/docs/README.md) |
-| Local orchestration | [Context](projects/tlis-devhost/CONTEXT.md), [docs](projects/tlis-devhost/docs/README.md) |
 | Workspace implementation | [Scripts](scripts/README.md), [architecture](docs/architecture.md), [handover](docs/ai-workspace.md), [harness setup](docs/harnesses.md) |
 | Branch/release conventions | [Development](docs/development.md), [deployment](docs/deployment.md) |
 | Cross-service boundary | [Integration references](shared/references/integrations.md), actual provider/consumer source |

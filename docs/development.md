@@ -56,7 +56,7 @@ The Discord bot uses its local `add-feature` workflow for a vertical slice or in
 
 The `libraries/` area is currently empty. Keep small types local; extract shared behavior only when its reuse warrants the packaging and maintenance. For a future shared library, declare consumers and validate them together. Use `changes --base <ref> --head <ref>` to select affected components, then inspect runtime coupling not captured by dependency metadata.
 
-Use the `tlis-devhost` project for coordinated local development. Its own README lists Aspire/runtime/Docker requirements and resource selection. Individual project development remains available.
+Start each service through its project-local development commands and prerequisites. When running services together, align their integration settings and choose distinct host ports. Each project's configuration and development references are linked from the [documentation index](README.md#projects).
 
 The manual `validate-project.yml` workflow can validate one project or library. `validate-affected.yml` compares its explicit base/head refs, selects changed components plus their transitive consumers, and validates each in a separate job. The selected head is also the code checked out for validation. These workflows remain manual-only; no push or PR automatically starts them.
 

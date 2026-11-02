@@ -18,4 +18,4 @@ The current Dockerfile exposes build arguments for Directus URL, analytics ID/UR
 
 `next.config.mjs` restricts remote image hosts. Update that configuration when adding an asset origin. `.env.example` is the starting template; it is not an exhaustive list of every source variable.
 
-For integrated video, select one real Directus collection name and set it in both this project and videostream. The code import does not create that collection or migrate its permissions. Development hosting and service selection are documented by the repository's `tlis-devhost` project.
+For integrated video, select one real Directus collection name and set it in both this project and videostream. The code import does not create that collection or migrate its permissions. Start each service using its own development instructions and align the Directus and public video URLs.

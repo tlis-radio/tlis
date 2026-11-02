@@ -1,5 +1,5 @@
 import assert from 'node:assert/strict';
-import { mkdtempSync, mkdirSync, readFileSync, rmSync, symlinkSync, writeFileSync, existsSync } from 'node:fs';
+import { mkdtempSync, mkdirSync, readFileSync, rmSync, writeFileSync, existsSync } from 'node:fs';
 import { tmpdir } from 'node:os';
 import path from 'node:path';
 import { test } from 'node:test';
@@ -8,6 +8,7 @@ import { createFeature } from '../src/branches.ts';
 import { assertManualWorkflow, assertAgentWorkflow } from '../src/architecture.ts';
 import { git, slug, within } from '../src/common.ts';
 import { initWorkflow } from '../src/workflows.ts';
+import { linkDirectory } from './directory-link.ts';
 
 const registry = [{ name: 'radio', path: 'projects/radio' }, { name: 'video', path: 'projects/video' }];
 function fixture() {
@@ -41,7 +42,7 @@ test('real cross-project rename selects both projects including filenames with s
     const result = changes(before, 'HEAD', f.root);
     assert.deepEqual(result.projects, ['radio', 'video']);
     assert.deepEqual(result.files.sort(), ['projects/radio/old file.txt', 'projects/video/new file.txt']);
-    assert.throws(() => changes('--output=/tmp/unexpected', 'HEAD', f.root));
+    assert.throws(() => changes(`--output=${path.join(f.root, 'unexpected')}`, 'HEAD', f.root));
   } finally { f.dispose(); }
 });
 
@@ -86,7 +87,7 @@ test('workflow initialization creates isolated stage outputs and preserves an ex
   } finally { f.dispose(); }
 });
 
-test('workflow initialization rejects output symlinks outside its stage', () => {
+test('workflow initialization rejects linked output directories outside its stage', () => {
   const f = fixture();
   const external = mkdtempSync(path.join(tmpdir(), 'tlis-external-'));
   try {
@@ -95,7 +96,7 @@ test('workflow initialization rejects output symlinks outside its stage', () => 
     mkdirSync(stage, { recursive: true });
     writeFileSync(path.join(workflow, 'CONTEXT.md'), 'routing');
     writeFileSync(path.join(stage, 'CONTEXT.md'), 'contract');
-    symlinkSync(external, path.join(stage, 'output'), 'dir');
+    linkDirectory(external, path.join(stage, 'output'));
     assert.throws(() => initWorkflow('change', 'radio', 'escape', f.root), /outside/);
     assert.ok(!existsSync(path.join(external, 'escape')));
   } finally { f.dispose(); rmSync(external, { recursive: true, force: true }); }

@@ -2,13 +2,14 @@ import assert from 'node:assert/strict';
 import { createHash } from 'node:crypto';
 import {
   chmodSync, existsSync, lstatSync, mkdirSync, mkdtempSync, readFileSync,
-  rmSync, symlinkSync, unlinkSync, writeFileSync,
+  rmSync, unlinkSync, writeFileSync,
 } from 'node:fs';
 import { tmpdir } from 'node:os';
 import path from 'node:path';
 import { test } from 'node:test';
 import { git } from '../src/common.ts';
 import { syncSkills } from '../src/skills.ts';
+import { linkDirectory } from './directory-link.ts';
 
 function write(root: string, relative: string, contents: string | Buffer): void {
   const file = path.join(root, relative);
@@ -194,31 +195,38 @@ test('malformed manifests reject unsafe paths, bad hashes, duplicate keys, and u
   }
 });
 
-test('source links outside the bundle fail while internal assets are copied as portable files', { skip: process.platform === 'win32' }, () => {
+test('source links outside the bundle fail while internal assets are copied as portable files', () => {
   const f = fixture();
   try {
     const canonical = source(f.root);
-    write(f.root, canonical + '/assets/original.txt', 'asset');
-    symlinkSync('original.txt', path.join(f.root, canonical, 'assets/alias.txt'));
+    write(f.root, canonical + '/assets/original/asset.txt', 'asset');
+    linkDirectory('original', path.join(f.root, canonical, 'assets/alias'));
     syncSkills(f.root);
-    const copied = path.join(f.root, '.claude/skills/radio-kit/assets/alias.txt');
+    const copied = path.join(f.root, '.claude/skills/radio-kit/assets/alias');
     assert.equal(lstatSync(copied).isSymbolicLink(), false);
-    assert.equal(readFileSync(copied, 'utf8'), 'asset');
-    write(f.root, 'private.txt', 'outside input');
-    symlinkSync(path.join(f.root, 'private.txt'), path.join(f.root, canonical, 'outside.txt'));
+    assert.equal(readFileSync(path.join(copied, 'asset.txt'), 'utf8'), 'asset');
+    write(f.root, 'private/input.txt', 'outside input');
+    linkDirectory(path.join(f.root, 'private'), path.join(f.root, canonical, 'outside'));
     assert.throws(() => syncSkills(f.root), /escapes/);
-    assert.equal(existsSync(path.join(f.root, '.claude/skills/radio-kit/outside.txt')), false);
+    assert.equal(existsSync(path.join(f.root, '.claude/skills/radio-kit/outside')), false);
   } finally { f.dispose(); }
 });
 
-test('source directory cycles and nonportable case-colliding assets fail before export', { skip: process.platform === 'win32' }, () => {
+test('source directory cycles fail before export', () => {
   const f = fixture();
   try {
     const canonical = source(f.root);
     mkdirSync(path.join(f.root, canonical, 'assets'));
-    symlinkSync('.', path.join(f.root, canonical, 'assets/loop'));
+    linkDirectory('.', path.join(f.root, canonical, 'assets/loop'));
     assert.throws(() => syncSkills(f.root), /Cyclic/);
-    unlinkSync(path.join(f.root, canonical, 'assets/loop'));
+    assert.equal(existsSync(path.join(f.root, '.claude')), false);
+  } finally { f.dispose(); }
+});
+
+test('nonportable case-colliding source assets fail before export', { skip: process.platform === 'win32' && 'Requires a case-sensitive filesystem' }, () => {
+  const f = fixture();
+  try {
+    const canonical = source(f.root);
     write(f.root, canonical + '/assets/a.txt', 'one');
     write(f.root, canonical + '/assets/A.txt', 'two');
     assert.throws(() => syncSkills(f.root), /collide/);
@@ -226,7 +234,7 @@ test('source directory cycles and nonportable case-colliding assets fail before 
   } finally { f.dispose(); }
 });
 
-test('recognized old canonical links migrate without writing through to the source', { skip: process.platform === 'win32' }, () => {
+test('recognized old canonical links migrate without writing through to the source', () => {
   for (const form of ['bundle', 'directory', 'absolute']) {
     const f = fixture();
     try {
@@ -234,8 +242,8 @@ test('recognized old canonical links migrate without writing through to the sour
       const entireDirectory = form === 'directory';
       const target = path.join(f.root, entireDirectory ? '.claude/skills' : '.claude/skills/radio-kit');
       mkdirSync(path.dirname(target), { recursive: true });
-      symlinkSync(form === 'absolute' ? path.join(f.root, canonical)
-        : entireDirectory ? '../.agents/skills' : '../../.agents/skills/radio-kit', target, 'dir');
+      linkDirectory(form === 'absolute' ? path.join(f.root, canonical)
+        : entireDirectory ? '../.agents/skills' : '../../.agents/skills/radio-kit', target);
       const before = readFileSync(path.join(f.root, canonical, 'SKILL.md'));
       assert.throws(() => syncSkills(f.root, true), /out of date/);
       assert.ok(lstatSync(target).isSymbolicLink());
@@ -275,18 +283,18 @@ test('Windows symlink-text migration requires index mode 120000 and the exact ca
   }
 });
 
-test('noncanonical destination links and modified generated links are not followed', { skip: process.platform === 'win32' }, () => {
+test('noncanonical destination links and modified generated links are not followed', () => {
   const f = fixture();
   try {
     source(f.root);
     write(f.root, 'independent/SKILL.md', 'independent');
     mkdirSync(path.join(f.root, '.claude/skills'), { recursive: true });
-    symlinkSync('../../independent', path.join(f.root, '.claude/skills/radio-kit'), 'dir');
+    linkDirectory('../../independent', path.join(f.root, '.claude/skills/radio-kit'));
     assert.throws(() => syncSkills(f.root), /independently authored/);
     assert.equal(readFileSync(path.join(f.root, 'independent/SKILL.md'), 'utf8'), 'independent');
     unlinkSync(path.join(f.root, '.claude/skills/radio-kit'));
     syncSkills(f.root);
-    symlinkSync('../../../independent/SKILL.md', path.join(f.root, '.claude/skills/radio-kit/local-link'));
+    linkDirectory('../../../independent', path.join(f.root, '.claude/skills/radio-kit/local-link'));
     assert.throws(() => syncSkills(f.root), /local symlink/);
     assert.equal(readFileSync(path.join(f.root, 'independent/SKILL.md'), 'utf8'), 'independent');
   } finally { f.dispose(); }

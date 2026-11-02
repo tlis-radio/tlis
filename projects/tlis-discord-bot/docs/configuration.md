@@ -15,4 +15,4 @@ Calendar subscription URLs can contain access tokens. Keep them private even if 
 
 The calendar timezone controls timed-event display; all-day dates retain the feed/runtime calendar-date semantics described in the adapter. Use a feed intended for this guild. No OAuth provider credentials, calendar writes, or scheduled announcements are configured by this draft.
 
-Compose loads the local `.env` and binds host port 3002 to localhost; the container listens on 0.0.0.0. The image excludes local environments and runs as the node user. The local devhost can start the HTTP service with Discord disabled.
+Compose loads the local `.env` and binds host port 3002 to localhost; the container listens on 0.0.0.0. The image excludes local environments and runs as the node user. Local `npm run dev` starts the HTTP service with Discord disabled by default.

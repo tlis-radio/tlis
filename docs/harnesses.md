@@ -2,11 +2,15 @@
 
 These are references, not executable configuration. Codex and Claude Code supply the runtime; project knowledge, procedures, and task state remain portable across models/harnesses.
 
-## Observed environment
+## Native setup
 
-On 2 November 2026 available Windows commands reported Codex CLI **0.146.0** and Claude Code **2.1.220**. This task uses Codex desktop against a WSL Ubuntu 26.04 checkout, with PowerShell as terminal entrypoint and Node 24 in Linux. Version inspection alone does not prove fresh-session discovery. No personal settings, hooks, service permissions, or installed models were changed.
+Use Node 24 from `.nvmrc` and Git in a local checkout. The repository's setup, checks, skill exports, and workflow commands run natively in Windows PowerShell or Command Prompt. Linux, WSL, and elevated symbolic-link permissions are not prerequisites.
 
-Use a consistent OS toolchain: Linux Node/npm/Git and project commands in WSL, or corresponding Windows tools/paths. Default WSL PATH lacked Node here; validation used an isolated Node 24.22.2 runtime. Install/select the pinned Node version before using the setup commands. Windows npm's command shim failed on the WSL UNC working directory during the resume exercise; use the WSL toolchain there or a local Windows-drive checkout. Direct Windows `node scripts/src/cli.ts` checks worked on UNC. Project working directories matter, especially Compose. Docker/FFmpeg/Directus requirements stay in project references.
+Generated skill adapters are regular files and directories. Directory-redirection tests use unprivileged Windows junctions; a case-sensitive-filesystem test is skipped on Windows. Project working directories matter, especially Compose. Docker/FFmpeg/Directus requirements stay in project references.
+
+## Observed harness versions
+
+On 2 November 2026 available Windows commands reported Codex CLI **0.146.0** and Claude Code **2.1.220**. Version inspection alone does not prove fresh-session discovery. No personal settings, hooks, service permissions, or installed models were changed. Earlier environment-specific trials are recorded in the [implementation evidence](changes/portable-ai-workspace.md).
 
 ## Codex
 
@@ -18,7 +22,7 @@ Test in a fresh root session with a bot-only request: observe reads of its guide
 
 Keep `CLAUDE.md` importing `@AGENTS.md`: installed 2.1.220 predates native AGENTS support, documented from 2.1.277. Ancestor CLAUDE files load at launch; descendants on demand. Imports resolve relative to their file. Skills use `.claude/skills/`, including nested project discovery during work. Sources: [memory/imports](https://code.claude.com/docs/en/memory), [skills](https://code.claude.com/docs/en/skills).
 
-Generated copies replace skill symlinks for Windows/WSL checkout portability. Each scope's `.claude/skills.generated.json` records ownership/hashes of complete bundles. Git attributes keep bundle text LF across checkouts while preserving binary assets, so automatic line-ending conversion does not invalidate the hashes. Edit canonical sources, run `npm run skills:sync`, then `skills:check`. Unrelated independent skills remain untouched.
+Generated copies replace skill symlinks for checkout portability across operating systems. Each scope's `.claude/skills.generated.json` records ownership/hashes of complete bundles. Git attributes keep bundle text LF across checkouts while preserving binary assets, so automatic line-ending conversion does not invalidate the hashes. Edit canonical sources, run `npm run skills:sync`, then `skills:check`. Unrelated independent skills remain untouched.
 
 In a fresh normal session inspect `/context` or `/memory`, read a bot source file, and confirm its nested import/skill; invoke `/bot-feature` from the project. Repeat root-started. Installed help reports `--bare` disables CLAUDE discovery and `--safe-mode` disables customizations; these modes cannot validate setup. Do not alter personal settings to force discovery.
 

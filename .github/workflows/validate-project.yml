@@ -13,7 +13,6 @@ on:
           - videostream
           - tlis-streamserver-docker
           - tlis-discord-bot
-          - tlis-devhost
       build_images:
         description: Also build the streamserver Docker images (does not start services)
         type: boolean
@@ -44,12 +43,6 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: '24'
-      - name: Install pinned Aspire CLI for devhost validation
-        if: ${{ inputs.project == 'tlis-devhost' }}
-        run: |
-          curl --fail --silent --show-error --location https://aspire.dev/install.sh --output "$RUNNER_TEMP/install-aspire.sh"
-          bash "$RUNNER_TEMP/install-aspire.sh" --version 13.6.0 --install-path "$RUNNER_TEMP/tlis-aspire" --skip-path
-          echo "ASPIRE_CLI_PATH=$RUNNER_TEMP/tlis-aspire/aspire" >> "$GITHUB_ENV"
       - name: Run the selected project's checks
         env:
           COMPONENT: ${{ inputs.project || 'tlis-discord-bot' }}

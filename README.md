@@ -8,7 +8,6 @@ TLIS services with project-owned documentation and readable AI workflow context.
 | [tlis-streamserver-docker](projects/tlis-streamserver-docker/) | Icecast, Liquidsoap, Filebrowser |
 | [videostream](projects/videostream/) | OBS ingest, relay, archive |
 | [tlis-discord-bot](projects/tlis-discord-bot/) | TypeScript bot with calendar integration |
-| [tlis-devhost](projects/tlis-devhost/) | Aspire local development orchestration |
 
 ## Working with an AI
 
@@ -38,7 +37,7 @@ Workflow-local `tools/` locations can hold real helpers; empty ones contain `.gi
 
 ## Development
 
-Use Node 24 and install dependencies separately in the root and each project:
+Use Node 24 and Git in a local checkout. Repository tooling runs directly in Windows PowerShell or Command Prompt; Linux, WSL, and symbolic-link privileges are not required. Install dependencies separately in the root and each project:
 
 ```sh
 npm ci
@@ -49,6 +48,6 @@ npm run verify:architecture
 npm run verify:history
 ```
 
-Edit canonical skills in `.agents/skills/`, run `npm run skills:sync`, and review generated copies/manifests together. New work follows `feature/<name> → dev → main`. See [development](docs/development.md), the [Aspire devhost](projects/tlis-devhost/README.md), and the [documentation index](docs/README.md).
+Edit canonical skills in `.agents/skills/`, run `npm run skills:sync`, and review generated copies/manifests together. New work follows `feature/<name> → dev → main`. Start services with their project-local development commands. See [development](docs/development.md) and the [documentation index](docs/README.md).
 
 GitHub workflows are manual-only. [Deployment guidance](docs/deployment.md) covers environments, secrets, and cutover. Original histories and mappings remain in [migration records](docs/migration/).

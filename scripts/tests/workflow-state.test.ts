@@ -1,11 +1,12 @@
 import assert from 'node:assert/strict';
-import { existsSync, mkdirSync, mkdtempSync, readFileSync, rmSync, symlinkSync, writeFileSync } from 'node:fs';
+import { existsSync, mkdirSync, mkdtempSync, readFileSync, rmSync, writeFileSync } from 'node:fs';
 import { tmpdir } from 'node:os';
 import path from 'node:path';
 import { test } from 'node:test';
 import { parseDocument, stringify } from 'yaml';
 import { git } from '../src/common.ts';
 import { initWorkflow, listWorkflowRuns } from '../src/workflows.ts';
+import { linkDirectory } from './directory-link.ts';
 
 function fixture() {
   const root = mkdtempSync(path.join(tmpdir(), 'tlis-task-state-'));
@@ -205,17 +206,17 @@ test('discovery rejects manifests claiming another component, run, or stage path
   } finally { f.dispose(); }
 });
 
-test('initialization rejects output symlinks before writing any state outside the workspace', () => {
+test('initialization rejects linked output directories before writing outside the workspace', () => {
   const f = fixture();
   const outside = mkdtempSync(path.join(tmpdir(), 'tlis-task-external-'));
   try {
-    symlinkSync(outside, path.join(f.root, 'workflows/change/output'), 'dir');
+    linkDirectory(outside, path.join(f.root, 'workflows/change/output'));
     assert.throws(() => initWorkflow('change', 'radio', 'escape', f.root), /Symlink.*outside/);
     assert.ok(!existsSync(path.join(outside, 'escape')));
   } finally { f.dispose(); rmSync(outside, { recursive: true, force: true }); }
 });
 
-test('discovery rejects task-file and workflow symlinks without following their content', () => {
+test('discovery rejects linked task directories without following their content', () => {
   const f = fixture();
   const outside = mkdtempSync(path.join(tmpdir(), 'tlis-task-external-'));
   try {
@@ -224,11 +225,22 @@ test('discovery rejects task-file and workflow symlinks without following their 
     const filename = path.join(f.root, run.taskPath);
     const task = readFileSync(filename, 'utf8');
     writeFileSync(externalTask, task);
-    rmSync(filename); symlinkSync(externalTask, filename, 'file');
+    const taskDirectory = path.dirname(filename);
+    rmSync(taskDirectory, { recursive: true });
+    linkDirectory(outside, taskDirectory);
     assert.throws(() => listWorkflowRuns(f.root), /Symlink.*outside/);
     assert.equal(readFileSync(externalTask, 'utf8'), task);
-    rmSync(filename); writeFileSync(filename, task);
-    symlinkSync(outside, path.join(f.root, 'workflows/linked'), 'dir');
+  } finally { f.dispose(); rmSync(outside, { recursive: true, force: true }); }
+});
+
+test('discovery rejects linked workflow directories without following their content', () => {
+  const f = fixture();
+  const outside = mkdtempSync(path.join(tmpdir(), 'tlis-task-external-'));
+  try {
+    const externalTask = path.join(outside, 'task.md');
+    writeFileSync(externalTask, 'outside task');
+    linkDirectory(outside, path.join(f.root, 'workflows/linked'));
     assert.throws(() => listWorkflowRuns(f.root), /Symlink workflow.*outside/);
+    assert.equal(readFileSync(externalTask, 'utf8'), 'outside task');
   } finally { f.dispose(); rmSync(outside, { recursive: true, force: true }); }
 });

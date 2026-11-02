@@ -2,6 +2,8 @@
 
 Use Node 24.12 or newer in the 24.x line (`.nvmrc` pins the tested version), then run `npm ci` at the repository root. Root dependencies belong to tooling; each application keeps its own package and lockfile.
 
+Repository npm commands run natively in Windows PowerShell or Command Prompt without Linux, WSL, or elevated symbolic-link permissions. Generated skills use ordinary file copies. Directory-link tests use Windows junctions; only the case-sensitive-filesystem test is skipped on Windows. The manual repository verification workflow exercises both Windows and Ubuntu.
+
 ```sh
 npm run repo -- projects list
 npm run repo -- changes --base dev --head HEAD
@@ -47,9 +49,10 @@ TypeScript runs directly through Node's type stripping. `npm run check` performs
 
 The root manual workflows call `scripts/deploy/deploy.ts`. An offline plan needs only a branch and repository owner:
 
-```sh
-GITHUB_REF=refs/heads/dev GITHUB_REPOSITORY_OWNER=tlis-radio \
-  node scripts/deploy/deploy.ts cms-web-dev --dry-run
+```powershell
+$env:GITHUB_REF = 'refs/heads/dev'
+$env:GITHUB_REPOSITORY_OWNER = 'tlis-radio'
+node scripts/deploy/deploy.ts cms-web-dev --dry-run
 ```
 
 Real execution uses environment secrets, builds and pushes the existing image, then calls the configured deployment endpoint once. It does not retry deployments automatically. Website Discord notifications are separate opt-in behavior. See [deployment setup](../docs/deployment.md) before invoking a real deployment.
