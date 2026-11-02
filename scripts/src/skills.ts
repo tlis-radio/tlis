@@ -51,7 +51,7 @@ function plainDirectory(directory: string): void {
 /** Snapshot a complete bundle. Internal source links are materialized; escaping/cyclic links fail. */
 function snapshot(directory: string, source: boolean): Snapshot {
   const root = realpathSync(directory);
-  const files: Record<string, string> = {};
+  const files: Record<string, string> = Object.create(null);
   const directories: string[] = [];
   const contents = new Map<string, { bytes: Buffer; mode: number }>();
   const seen = new Set<string>();
@@ -95,12 +95,12 @@ function readManifest(file: string): Manifest | undefined {
   requireThat(object(value) && Object.keys(value).sort().join(',') === 'generatedBy,schemaVersion,skills'
     && value.schemaVersion === 1 && value.generatedBy === GENERATOR && object(value.skills),
   `Invalid generated skill manifest: ${file}`);
-  const skills: Record<string, Bundle> = {};
+  const skills: Record<string, Bundle> = Object.create(null);
   for (const [name, record] of Object.entries(value.skills)) {
     skillName(name);
     requireThat(object(record) && Object.keys(record).sort().join(',') === 'directories,files'
       && object(record.files) && Array.isArray(record.directories), `Invalid skill manifest bundle: ${name}`);
-    const files: Record<string, string> = {};
+    const files: Record<string, string> = Object.create(null);
     const directories: string[] = [];
     const seen = new Set<string>();
     for (const rel of record.directories) {
@@ -176,7 +176,7 @@ function planScope(root: string, scope: string): Plan | undefined {
   if (migrateRoot) changes.push(`${path.relative(root, destination)}: migrate canonical directory link`);
   for (const name of [...names].sort()) {
     const next = sources.get(name);
-    const prior = previous?.skills[name];
+    const prior = previous && Object.hasOwn(previous.skills, name) ? previous.skills[name] : undefined;
     const file = path.join(destination, name);
     const stat = migrateRoot ? undefined : entry(file);
     const legacy = !!stat && legacyLink(root, file, path.join(canonical, name));

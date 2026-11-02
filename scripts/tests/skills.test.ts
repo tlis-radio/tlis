@@ -155,6 +155,23 @@ test('a wholly absent generated bundle is reported and can be recreated without 
   } finally { f.dispose(); }
 });
 
+test('valid names and asset filenames cannot collide with JavaScript object properties', () => {
+  const f = fixture();
+  try {
+    source(f.root);
+    syncSkills(f.root);
+    write(f.root, '.agents/skills/constructor/SKILL.md', '---\nname: constructor\ndescription: Build a concrete artifact.\n---\nBuild it.\n');
+    write(f.root, '.agents/skills/constructor/__proto__', 'asset bytes');
+    syncSkills(f.root);
+    assert.equal(readFileSync(path.join(f.root, '.claude/skills/constructor/__proto__'), 'utf8'), 'asset bytes');
+    assert.ok(Object.hasOwn(manifest(f.root).skills.constructor.files, '__proto__'));
+    assert.deepEqual(syncSkills(f.root, true).changes, []);
+    write(f.root, '.claude/skills/constructor/__proto__', 'a local edit');
+    assert.throws(() => syncSkills(f.root), /locally changed/);
+    assert.equal(readFileSync(path.join(f.root, '.claude/skills/constructor/__proto__'), 'utf8'), 'a local edit');
+  } finally { f.dispose(); }
+});
+
 test('malformed manifests reject unsafe paths, bad hashes, duplicate keys, and unknown schemas before writing', () => {
   const validHash = '0'.repeat(64);
   const bad = [

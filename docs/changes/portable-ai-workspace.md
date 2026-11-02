@@ -25,7 +25,7 @@ npm run verify:architecture
 npm run verify:history
 ```
 
-Root typechecking and **40 tests passed**. Coverage includes complete bundle export with binary/nested assets and relative references, source updates, local-edit/independent-skill conflicts without writes, cross-scope preflight, legacy adapter migration, malformed manifests, escaping/cyclic paths, task discovery/isolation, missing/malformed state, legacy run schemas, and existing deployment/branch/impact behavior. These are script-entrypoint checks, not global access controls.
+Root typechecking and **41 tests passed**. Coverage includes complete bundle export with binary/nested assets and relative references, source updates, local-edit/independent-skill conflicts without writes, cross-scope preflight, legacy adapter migration, malformed manifests, ordinary filenames that match JavaScript object properties, escaping/cyclic paths, task discovery/isolation, missing/malformed state, legacy run schemas, and existing deployment/branch/impact behavior. These are script-entrypoint checks, not global access controls.
 
 Architecture checks passed for five projects, nine agent workflows, six manual Actions definitions, reference files, canonical Claude imports, and generated adapters. History verification confirmed 563 source commits and 40 historical refs with preserved metadata, trees, and parent graphs. Migration maps were not edited. All six Actions definitions passed actionlint 1.7.7; the root manual workflow now explicitly checks skill export drift.
 
