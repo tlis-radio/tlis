@@ -33,6 +33,7 @@ Make the existing TLIS workspace portable across Codex/Claude Code and resumable
 
 - Implemented root routing, path classification, setup/manual bootstrap, stage transitions, and skills with required inputs/validation/stop criteria.
 - Generated three Claude skill copies in two scopes; exporter check and architecture check passed through Windows Node 24.14.1 on the WSL UNC workspace.
+- A fresh Windows-drive checkout of implementation commit `eb14e7f` with symlinks disabled and automatic line endings enabled passed clean root installation, adapter/architecture checks, and task discovery. Git status remained clean.
 - Root WSL TypeScript check and all 40 tests passed. Architecture/adapters and actionlint passed for all six manual workflows. History verification preserved 563 commits/40 refs; migration maps have no diff.
 - The initial `workflow list` failed on an actual schema-v1 `agentic-rebuild` record. Added schema 1–3 compatibility, preserved both existing legacy runs unchanged, and confirmed list now succeeds. V4 task metadata remains validated.
 - Independent bot routing exercise followed the bot guide/context/skill and current source, rejected a conflicting old external note, and identified missing deployment target/ref. It did not run Node because the default WSL PATH lacked it; this is reported accurately.

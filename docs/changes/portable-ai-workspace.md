@@ -29,9 +29,9 @@ Root typechecking and **40 tests passed**. Coverage includes complete bundle exp
 
 Architecture checks passed for five projects, nine agent workflows, six manual Actions definitions, reference files, canonical Claude imports, and generated adapters. History verification confirmed 563 source commits and 40 historical refs with preserved metadata, trees, and parent graphs. Migration maps were not edited. All six Actions definitions passed actionlint 1.7.7; the root manual workflow now explicitly checks skill export drift.
 
-Windows Node 24.14.1 successfully ran `node scripts/src/cli.ts skills check` and `architecture check` against the same UNC checkout. This verifies the generated-copy commands without symlink privileges; it does not claim every project/runtime works under native Windows. A separate Windows checkout exercise is recorded in the PR validation when executed.
+Windows Node 24.14.1 successfully ran `node scripts/src/cli.ts skills check` and `architecture check` against the same UNC checkout. A fresh local Windows-drive checkout of implementation commit `eb14e7f`, with `core.symlinks=false` and `core.autocrlf=true`, also passed clean `npm ci`, skill/architecture checks, and task discovery with a clean Git status. All three generated bundles matched their manifests and the saved task was recoverable. This verifies checkout/command portability without symlink privileges; it does not claim every application/runtime works under native Windows.
 
-New documentation links and all six canonical/generated skill frontmatters are checked before handover. Nine pre-existing broken links in the imported website dashboard implementation note remain outside this change. Application source, dependencies, locks, and Docker contexts are unchanged, so application builds were not repeated for this method-only revision.
+New documentation links and all six canonical/generated skill frontmatters passed checking. Nine pre-existing broken links in the imported website dashboard implementation note remain outside this change. Application source, dependencies, locks, and Docker contexts are unchanged, so application builds were not repeated for this method-only revision.
 
 ## Real job, contrasting route, failure, and resume
 
