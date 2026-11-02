@@ -23,7 +23,7 @@ Use focused context with the existing harness. When an independent subtask benef
 
 ## Tools
 
-Tools perform real work: harness file/search/terminal facilities, configured MCP connections, and programs such as Git, npm, Docker, Aspire, or repository scripts. Stage Tools sections identify the relevant ones.
+Tools perform real work: harness file/search/terminal facilities, configured MCP connections, and programs such as Git, npm, Docker, or repository scripts. Stage Tools sections identify the relevant ones.
 
 `scripts/` contains actual checks, deployment helpers, output-folder initialization, and Git queries. An optional workflow-local `tools/` folder can hold a real helper; `.gitkeep` preserves an empty place for one. The folder does not implement availability or permissions.
 
@@ -35,11 +35,11 @@ Projects keep independent locks, Docker contexts, configuration, and reference d
 
 `libraries/` is reserved, with no package extracted today. The website and video service keep their small local stream types. Add a library only when substantial reuse warrants its maintenance.
 
-The registry supports declared dependencies for impact selection; it cannot infer every runtime coupling. Aspire manages dev-time processes and containers, not AI reasoning or production deployment.
+The registry supports declared dependencies for impact selection; it cannot infer every runtime coupling. Each project owns its development commands and runtime prerequisites.
 
 ## Codex and Claude Code
 
-`AGENTS.md` is canonical. Each `CLAUDE.md` contains only `@AGENTS.md`. Skills live in `.agents/skills/`; a checked export produces complete `.claude/skills/` bundles and an ownership/hash manifest for Windows/WSL portability. Root-started sessions explicitly read the selected project's guide. See [actual loading behavior and enforcement limits](harnesses.md).
+`AGENTS.md` is canonical. Each `CLAUDE.md` contains only `@AGENTS.md`. Skills live in `.agents/skills/`; a checked export produces complete `.claude/skills/` bundles and an ownership/hash manifest for portability across operating systems. Root-started sessions explicitly read the selected project's guide. See [actual loading behavior and enforcement limits](harnesses.md).
 
 The [handover guide](ai-workspace.md) labels instructions versus state/data, explains saved task state and stage transitions, and gives a manual bootstrap for ordinary chat. Reuse existing paths: no parallel `.ai/`, `context/`, or `work/` tree is necessary. Historical records remain available for explicit recovery but stay outside routine context selection.
 

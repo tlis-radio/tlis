@@ -31,6 +31,7 @@ Make the existing TLIS workspace portable across Codex/Claude Code and resumable
 
 ## Progress, checks, and artifact links
 
+- Following removal of Aspire, this shared run's routing manifest uses the surviving `cms-web` registration and the shared documentation index. Its original routing anchor was `tlis-devhost`; review status, acceptance evidence, and next action are retained.
 - Implemented root routing, path classification, setup/manual bootstrap, stage transitions, and skills with required inputs/validation/stop criteria.
 - Generated three Claude skill copies in two scopes; exporter check and architecture check passed through Windows Node 24.14.1 on the WSL UNC workspace.
 - A fresh Windows-drive checkout of implementation commit `eb14e7f` with symlinks disabled and automatic line endings enabled passed clean root installation, adapter/architecture checks, and task discovery. Git status remained clean.

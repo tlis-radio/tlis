@@ -1,5 +1,7 @@
 # Agent context and local development orchestration
 
+This report records the original implementation and its validation. The Aspire host has since been removed; use the current [development guide](../development.md) and each service's local commands for setup.
+
 The existing Codex or Claude Code harness reads the relevant workflow and project files for each ordinary chat request. Stage `CONTEXT.md` files provide instructions, references, useful tools, and expected results. Generic prompt templates have been removed; when delegation helps, the AI writes a prompt for that specific subtask. Saved run handoffs are optional.
 
 Repository maintenance and deployment helpers live in `scripts/`. Workflows identify actual harness tools and project commands, and retain a workflow-local `tools/.gitkeep` for a future concrete helper. There is no custom MCP client, provider registry, or second agent runtime.

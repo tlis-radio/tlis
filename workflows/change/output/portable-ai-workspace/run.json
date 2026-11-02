@@ -4,14 +4,17 @@
   "run": "portable-ai-workspace",
   "taskPath": "workflows/change/output/portable-ai-workspace/task.md",
   "scope": "shared",
-  "component": "tlis-devhost",
-  "componentPath": "projects/tlis-devhost",
-  "project": "tlis-devhost",
-  "projectPath": "projects/tlis-devhost",
+  "component": "cms-web",
+  "componentPath": "projects/cms-web",
+  "project": "cms-web",
+  "projectPath": "projects/cms-web",
   "affectedComponents": [
-    "tlis-devhost"
+    "cms-web",
+    "tlis-streamserver-docker",
+    "videostream",
+    "tlis-discord-bot"
   ],
-  "referenceIndex": "projects/tlis-devhost/docs/README.md",
+  "referenceIndex": "docs/README.md",
   "branch": "feature/portable-ai-workspace",
   "createdAt": "2026-11-02T00:02:48.618Z",
   "stages": [

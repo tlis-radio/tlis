@@ -20,16 +20,6 @@
       "name": "tlis-discord-bot",
       "path": "projects/tlis-discord-bot",
       "dependsOn": []
-    },
-    {
-      "name": "tlis-devhost",
-      "path": "projects/tlis-devhost",
-      "dependsOn": [
-        "cms-web",
-        "tlis-streamserver-docker",
-        "videostream",
-        "tlis-discord-bot"
-      ]
     }
   ],
   "libraries": []

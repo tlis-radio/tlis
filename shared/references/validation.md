@@ -11,7 +11,6 @@ Run checks appropriate to the changed behavior.
 | Video | Project build | Does not run OBS, FFmpeg, or Directus |
 | Audio | `docker compose config --quiet` | Does not start audio; do not print secrets |
 | Bot | Project `npm run check` | Offline tests, no live registration/messages |
-| Aspire | SDK restore, typecheck, tests, selected live checks | Audio/video need documented prerequisites |
 
 Use `component check --component <name>` through the repository CLI after installing that project's prerequisites. Use `changes` to inspect committed impact and examine runtime interfaces too.
 

@@ -64,7 +64,7 @@ export function runProjectChecks(directory: string): void {
   slug(config.name);
   requireThat(Array.isArray(config.checks) && config.checks.length > 0, 'No component checks declared');
   for (const check of config.checks) {
-    requireThat(['node', 'npm', 'docker', 'dotnet', 'aspire'].includes(check.command), 'Unsupported check executable');
+    requireThat(['node', 'npm', 'docker'].includes(check.command), 'Unsupported check executable');
     requireThat(Array.isArray(check.args) && check.args.every(arg => typeof arg === 'string'), 'Invalid check arguments');
     console.log(`[${config.name}] ${check.command} ${check.args.join(' ')}`);
     runCommand(directory, check.command, check.args);

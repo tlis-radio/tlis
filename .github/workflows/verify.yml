@@ -34,7 +34,11 @@ concurrency:
 
 jobs:
   verify:
-    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [windows-latest, ubuntu-latest]
+    runs-on: ${{ matrix.os }}
     timeout-minutes: 15
     steps:
       - uses: actions/checkout@v4
@@ -52,6 +56,7 @@ jobs:
       - run: npm run verify:architecture
       - run: npm run verify:history
       - name: Lint GitHub Actions workflow syntax
+        if: runner.os == 'Linux'
         env:
           ACTIONLINT_SHA256: 023070a287cd8cccd71515fedc843f1985bf96c436b7effaecce67290e7e0757
         run: |

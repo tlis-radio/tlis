@@ -1,9 +1,0 @@
-.aspire/
-.env
-.env.*
-!.env.example
-.dev-data/
-node_modules/
-dist/
-core
-core.*

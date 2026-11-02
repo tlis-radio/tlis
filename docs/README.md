@@ -17,9 +17,8 @@
 | [Audio stack](../projects/tlis-streamserver-docker/) | [Docs index](../projects/tlis-streamserver-docker/docs/README.md) | [Streams, ingest, and schedule contracts](../projects/tlis-streamserver-docker/docs/api.md) |
 | [Video service](../projects/videostream/) | [Docs index](../projects/videostream/docs/README.md) | [RTMP, media, and Directus contracts](../projects/videostream/docs/api.md) |
 | [Discord bot](../projects/tlis-discord-bot/) | [Docs index](../projects/tlis-discord-bot/docs/README.md) | [Health and slash-command contracts](../projects/tlis-discord-bot/docs/api.md) |
-| [Aspire devhost](../projects/tlis-devhost/) | [Docs index](../projects/tlis-devhost/docs/README.md) | [Local orchestration contracts](../projects/tlis-devhost/docs/api.md) |
 
-Every existing service has local architecture, API/service-contract, configuration, and development references. The devhost documents its local orchestration interface; it is not a public application API.
+Every existing service has local architecture, API/service-contract, configuration, and development references.
 
 ## Libraries
 

@@ -23,4 +23,4 @@ The website defaults `STREAMS_COLLECTION` to `video_streams`, so explicitly choo
 
 The Docker image installs FFmpeg and builds TypeScript. Compose loads `.env`, binds media storage at `./media:/app/media`, and publishes 1935, 8000, and 3001. The current source configures RTMP and HTTP media ports; it does not define a separate custom API on 3001.
 
-`MEDIA_SERVER_PUBLIC_URL` should be reachable by browsers and match the public proxy origin, not necessarily the internal container address. Preserve media storage through deployment. Audio Icecast also defaults to host port 8000, so override host mappings or use the local devhost's separated ports.
+`MEDIA_SERVER_PUBLIC_URL` should be reachable by browsers and match the public proxy origin, not necessarily the internal container address. Preserve media storage through deployment. Audio Icecast also defaults to host port 8000, so override host mappings when running both stacks. For a local video process, set a distinct `HTTP_MEDIA_PORT` and update `MEDIA_SERVER_PUBLIC_URL` to match.

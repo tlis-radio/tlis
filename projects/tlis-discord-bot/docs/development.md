@@ -21,4 +21,4 @@ To add a slice, follow `workflows/add-feature/CONTEXT.md`, create a feature fold
 
 Preview slash-command definitions with `npm run commands`. When the task explicitly includes registration, use `npm run commands -- --apply` after configuring the development application/guild/token. Then enable the gateway. Applying replaces the application's command set for that guild, so use a separate development application from production.
 
-Container checks use `docker compose config --quiet`; launching the stack is a separate operation. The local devhost also supports the disabled-gateway HTTP process for development.
+Container checks use `docker compose config --quiet`; launching the stack is a separate operation.

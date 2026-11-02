@@ -4,7 +4,7 @@ TLIS supports a small team changing independent services, adding bot slices, tes
 
 ## Setup
 
-Use Node 24 from `.nvmrc`, Git, and the selected project's prerequisites. Install root dependencies with `npm ci`, then run:
+Use Node 24 from `.nvmrc`, Git, and the selected project's prerequisites. Repository tooling runs natively on Windows without Linux, WSL, or symbolic-link privileges. Install root dependencies with `npm ci`, then run:
 
 ```sh
 npm run skills:check
@@ -34,7 +34,7 @@ Projects deliberately mix code/data and local instructions, identified by filena
 For substantial work, the AI chooses a run ID and optionally initializes a record:
 
 ```sh
-npm run repo -- workflow init --workflow change --scope shared --component tlis-devhost --run workspace-update --goal "Improve workspace portability" --recipient "TLIS contributors"
+npm run repo -- workflow init --workflow change --scope shared --component cms-web --run workspace-update --goal "Improve workspace portability" --recipient "TLIS contributors"
 npm run repo -- workflow list
 npm run repo -- workflow list --all
 ```
