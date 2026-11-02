@@ -12,7 +12,8 @@ The user asks an ordinary question or describes a change in chat. The AI reads t
 | Routing | `CONTEXT.md` | Find a project or stage |
 | Stage instruction | Numbered `stages/*/CONTEXT.md` | Inputs, tools, process, outputs |
 | Stable references | Project `docs/`, `shared/references/` | Architecture, APIs, configuration |
-| Working data | Stage `output/<run-id>/` | Task evidence and handoffs |
+| Working data | Workflow `output/<run-id>/task.md` and stage outputs | Resumable state, drafts, and handoffs |
+| Finished results | Normal source/deliverable paths and linked verification evidence | Acceptance-checked result, distinct from drafts |
 
 The stage contract itself instructs the AI. Separate `prompt.md` files repeating it add no value; there are no root prompts for people to fill out.
 
@@ -38,7 +39,9 @@ The registry supports declared dependencies for impact selection; it cannot infe
 
 ## Codex and Claude Code
 
-`AGENTS.md` is canonical. Each `CLAUDE.md` contains only `@AGENTS.md`. Skills live in `.agents/skills/` with Claude links to the same files. Start inside a project when its nested guidance is needed immediately.
+`AGENTS.md` is canonical. Each `CLAUDE.md` contains only `@AGENTS.md`. Skills live in `.agents/skills/`; a checked export produces complete `.claude/skills/` bundles and an ownership/hash manifest for Windows/WSL portability. Root-started sessions explicitly read the selected project's guide. See [actual loading behavior and enforcement limits](harnesses.md).
+
+The [handover guide](ai-workspace.md) labels instructions versus state/data, explains saved task state and stage transitions, and gives a manual bootstrap for ordinary chat. Reuse existing paths: no parallel `.ai/`, `context/`, or `work/` tree is necessary. Historical records remain available for explicit recovery but stay outside routine context selection.
 
 ## References
 

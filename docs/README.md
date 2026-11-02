@@ -2,6 +2,8 @@
 
 ## Shared references
 
+- [AI workspace handover](ai-workspace.md): setup, path meanings, task state, resume, and adding a procedure.
+- [Harness compatibility](harnesses.md): verified versions, loading rules, skill export, and enforcement limits.
 - [Agent/workflow architecture](architecture.md): context layers, workflow instructions, harness tools, and repository scripts.
 - [Development](development.md): branches, workflow selection, libraries, and consumer checks.
 - [Deployment](deployment.md): manual Actions, environments, and cutover.

@@ -14,7 +14,9 @@ TLIS services with project-owned documentation and readable AI workflow context.
 
 Describe what you want normally, for example: “Fix the video archive filenames and check that existing playback still works.”
 
-Codex or Claude Code reads `AGENTS.md`, routes through `CONTEXT.md`, loads the relevant reference docs, and uses its tools plus existing scripts. Stage contexts help with larger tasks. You do not need to fill templates or select stages yourself. If the AI delegates, it writes that subtask's prompt.
+The [workspace map](AGENTS.md) selects the procedure and references. A root-started session explicitly reads the selected project's local guide; nested loading differs by harness. Stage contexts help with larger tasks. You do not need to fill templates or select stages yourself. If the AI delegates, it writes that subtask's prompt.
+
+Use [workspace setup and handover](docs/ai-workspace.md) to find saved task state, completion evidence, and the manual bootstrap for chat without filesystem access. [Harness compatibility](docs/harnesses.md) records actual loading rules and verification limits.
 
 ## Layout
 
@@ -27,7 +29,7 @@ workflows/             shared stages instructed by CONTEXT.md
 scripts/               actual checks, Git helpers, and deployment programs
 shared/references/     stable conventions
 .agents/skills/        reusable guidance
-.claude/skills/        links to the same skills
+.claude/skills/        generated full copies of canonical skills
 .github/workflows/     manual GitHub Actions
 docs/                  shared guides and reference index
 ```
@@ -40,12 +42,13 @@ Use Node 24 and install dependencies separately in the root and each project:
 
 ```sh
 npm ci
+npm run skills:check
 npm run check
 npm test
 npm run verify:architecture
 npm run verify:history
 ```
 
-New work follows `feature/<name> → dev → main`. See [development](docs/development.md), the [Aspire devhost](projects/tlis-devhost/README.md), and the [documentation index](docs/README.md).
+Edit canonical skills in `.agents/skills/`, run `npm run skills:sync`, and review generated copies/manifests together. New work follows `feature/<name> → dev → main`. See [development](docs/development.md), the [Aspire devhost](projects/tlis-devhost/README.md), and the [documentation index](docs/README.md).
 
 GitHub workflows are manual-only. [Deployment guidance](docs/deployment.md) covers environments, secrets, and cutover. Original histories and mappings remain in [migration records](docs/migration/).

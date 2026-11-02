@@ -1,8 +1,9 @@
-import { existsSync, readFileSync, readdirSync, realpathSync } from 'node:fs';
+import { existsSync, readFileSync, readdirSync } from 'node:fs';
 import path from 'node:path';
 import { parseDocument } from 'yaml';
 import { ROOT, existingWithin, requireThat } from './common.ts';
 import { components } from './projects.ts';
+import { syncSkills } from './skills.ts';
 
 export function assertManualWorkflow(content: string, filename: string): void {
   const document = parseDocument(content, { uniqueKeys: true });
@@ -27,19 +28,9 @@ export function assertAgentWorkflow(directory: string): void {
   }
 }
 
-function agentAdapters(folder: string): void {
-  const canonical = path.join(folder, '.agents/skills');
-  if (!existsSync(canonical)) return;
-  for (const skill of readdirSync(canonical, { withFileTypes: true }).filter(d => d.isDirectory())) {
-    const target = path.join(canonical, skill.name);
-    requireThat(existsSync(path.join(target, 'SKILL.md')), `${skill.name}: missing SKILL.md`);
-    const adapter = path.join(folder, '.claude/skills', skill.name);
-    requireThat(realpathSync(adapter) === realpathSync(target), `${skill.name}: Claude skill is not linked to canonical source`);
-  }
-}
-
 export function verifyArchitecture(root = ROOT): void {
   const registry = components(root);
+  syncSkills(root, true);
   let workflowCount = 0;
   for (const base of ['', ...registry.map(p => p.path)]) {
     const folder = path.join(root, base);
@@ -54,7 +45,6 @@ export function verifyArchitecture(root = ROOT): void {
     const workflows = readdirSync(directory, { withFileTypes: true }).filter(entry => entry.isDirectory());
     requireThat(workflows.length > 0, `${base}: no component-local workflows`);
     for (const workflow of workflows) { assertAgentWorkflow(path.join(directory, workflow.name)); workflowCount++; }
-    agentAdapters(folder);
   }
   for (const group of ['projects', 'libraries']) {
     const directories = readdirSync(path.join(root, group), { withFileTypes: true }).filter(d => d.isDirectory());

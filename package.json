@@ -12,6 +12,8 @@
     "test": "node --test scripts/tests/*.test.ts scripts/deploy/*.test.ts",
     "verify:architecture": "node scripts/src/cli.ts architecture check",
     "verify:history": "node scripts/src/cli.ts history verify",
+    "skills:sync": "node scripts/src/cli.ts skills sync",
+    "skills:check": "node scripts/src/cli.ts skills check",
     "repo": "node scripts/src/cli.ts"
   },
   "devDependencies": {

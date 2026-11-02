@@ -14,7 +14,7 @@ Paths below are repository-relative. Read only the needed sections and selected 
 
 ## Process
 
-Make the scoped source, configuration, and documentation edits. Keep project-specific behavior in its project and shared mechanics in root tools. Preserve lockfiles and Docker contexts unless the task changes them.
+Make the scoped source, configuration, and documentation edits. Keep project-specific behavior in its project and shared mechanics in root scripts. Preserve lockfiles and Docker contexts unless the task changes them.
 
 ## Outputs
 

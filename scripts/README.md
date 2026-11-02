@@ -7,6 +7,8 @@ npm run repo -- projects list
 npm run repo -- changes --base dev --head HEAD
 npm run repo -- project check --project videostream
 npm run repo -- workflow init --workflow change --project cms-web --run article-fix
+npm run repo -- workflow list
+npm run skills:check
 npm run repo -- architecture check
 npm run repo -- history verify
 ```
@@ -15,7 +17,11 @@ npm run repo -- history verify
 
 `changes` resolves the two Git refs to commit IDs, then returns JSON listing changed files and affected components. A cross-component rename selects both components. Changes outside registered components conservatively select all components. This command reports impact and does not execute checks or workflows.
 
-`workflow init` selects the component-local workflow first, then falls back to the shared workflow. Use `--scope shared` to select the root contract explicitly, or `--scope component` to require a local one. It discovers numbered stages, writes a per-run manifest under the workflow's `output/<run>/`, and creates each stage's own output folder. The manifest records stage context and output paths. It does not call a model, discover credentials, or execute stage tools. Existing runs are never overwritten.
+`workflow init` selects the component-local workflow first, then falls back to the shared workflow. Use `--scope shared` to select the root contract explicitly, or `--scope component` to require a local one. It discovers numbered stages, writes a per-run manifest and human-editable `task.md` under the workflow's `output/<run>/`, and creates each stage's own output folder. Optional `--goal` and `--recipient` seed the record from the request; the AI fills acceptance/input versions and updates status, current stage, evidence, next action, and approvals. The manifest records task, stage context, and output paths. It does not call a model, discover credentials, or execute stages. Existing runs are never overwritten.
+
+`workflow list` finds active saved runs in registered workflow output folders; `--all` includes completed runs. It reads only routing manifests and task metadata, reports legacy runs without rewriting them, and rejects malformed state or escaping paths with a clear error. Output-folder names must be safe slugs. These are state/data readers, not a task scheduler. See [resume steps](../docs/ai-workspace.md#save-and-resume).
+
+`npm run skills:sync` exports complete root/project canonical `.agents/skills/` bundles to matching `.claude/skills/` locations and writes `.claude/skills.generated.json` ownership/hashes. `npm run skills:check` is read-only and fails for drift. Sync preflights conflicts before writing, preserves unrelated skills, and refuses modified generated copies. Recognized historical canonical links can migrate to copies, including Git-proven materialized symlinks. Bundle assets/scripts keep their relative paths; no symlink privileges are required after export. Review changes before committing. This does not install personal skills or configure a harness.
 
 Use `components list` and `component check --component <name>` for either projects or libraries. The older `projects list` and `project check --project <name>` forms remain available. `npm run tool` remains an alias for repository maintenance; `npm run repo` is the clearer entrypoint. The existing harness supplies native and configured MCP tools. Workflow `tools/` folders can hold real helpers if a concrete task needs them; no custom MCP client is included.
 
@@ -53,6 +59,7 @@ Real execution uses environment secrets, builds and pushes the existing image, t
 ```sh
 npm run check
 npm test
+npm run skills:check
 npm run verify:architecture
 npm run verify:history
 ```

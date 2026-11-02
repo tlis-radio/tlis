@@ -1,0 +1,5 @@
+# Bundle hashes must remain stable across Windows and WSL checkouts.
+# Auto detection keeps binary skill assets binary.
+**/.agents/skills/** text=auto eol=lf
+**/.claude/skills/** text=auto eol=lf
+**/.claude/skills.generated.json text eol=lf

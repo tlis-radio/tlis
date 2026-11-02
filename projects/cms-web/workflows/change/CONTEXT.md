@@ -17,3 +17,7 @@ Stable local references are `docs/architecture.md`, `docs/api.md`, `docs/configu
 ## Tools
 
 Use harness file/search/edit tools and Git. Run `node scripts/check.ts` from this project after `npm ci --legacy-peer-deps`; use `npm run build` or focused browser/HTTP checks when relevant. The workflow's `tools/` is an optional location for real helper files; `.gitkeep` means no local helper is shipped.
+
+## Task state and transition
+
+Follow the [shared saved-state and transition convention](../../../../docs/ai-workspace.md#save-and-resume). This workflow's stage Verify sections supply its specific acceptance criteria for advancing.

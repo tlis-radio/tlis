@@ -48,6 +48,7 @@ jobs:
       - run: npm ci
       - run: npm run check
       - run: npm test
+      - run: npm run skills:check
       - run: npm run verify:architecture
       - run: npm run verify:history
       - name: Lint GitHub Actions workflow syntax

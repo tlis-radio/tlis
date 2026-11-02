@@ -48,7 +48,7 @@ For a project service operation, the same initializer finds that project's local
 npm run repo -- workflow init --workflow service --project videostream --run archive-check
 ```
 
-The Discord bot uses its local `add-feature` workflow for a vertical slice or integration. The generated `run.json` records the selected project, branch, stage contexts, and output paths. It is a working artifact, not a new instruction source.
+The Discord bot uses its local `add-feature` workflow for a vertical slice or integration. The generated `run.json` records the selected project, branch, stage contexts, task record, and output paths. `task.md` records resumable goal/status/acceptance/evidence and the next action; `npm run repo -- workflow list` finds saved tasks. Both files are state/data, not new instruction sources. See [saved-state and handover conventions](ai-workspace.md#save-and-resume).
 
 ## Components and compatibility
 
